@@ -16,10 +16,15 @@ const fetchInsumos = async () => {
   return data;
 };
 
-export const useInsumos = () => {
+type InsumoReturn = {
+  insumos: any[];
+  setInsumos: React.Dispatch<React.SetStateAction<any[]>>;
+}
+
+export const useInsumos = (): InsumoReturn => {
   const [insumos, setInsumos] = useState<any[]>([]);
-    useEffect(() => {
-      fetchInsumos().then((data) => setInsumos(data));
-    }, []);
-    return { insumos, setInsumos};
+  useEffect(() => {
+    fetchInsumos().then((data) => setInsumos(data));
+  }, []);
+  return { insumos, setInsumos };
 }
