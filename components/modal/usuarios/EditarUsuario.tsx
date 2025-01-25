@@ -42,8 +42,8 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
 
   useEffect(() => {
     setValues({
-      nombres: usuario.nombres,
-      apellidos: usuario.apellidos,
+      nombres: usuario.names,
+      apellidos: usuario.last_names,
       celular: Number(usuario.celular),
       email: usuario.email,
       estado: usuario.estado,
