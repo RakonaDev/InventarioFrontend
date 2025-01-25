@@ -3,7 +3,6 @@ import { NextPage } from "next";
 import { HeadTablePC } from "../../../../components/dashboard/table/HeadTablePC";
 import { ButtonOpenModal } from "../../../../components/buttons/ButtonOpenModal";
 import { AgregarUsuarios } from "../../../../components/modal/usuarios/AgregarUsuarios";
-import { ListUserInterface } from "@/interfaces/ListUserInterface";
 import { ListUsers } from "../../../../components/dashboard/table/usuarios/ListUsers";
 import { useUsers } from "../../../../hooks/useUsers";
 export interface TableTitle {
@@ -134,7 +133,7 @@ const usuarios: ListUserInterface[] = [
 ];
 */
 const Page: NextPage = ({}) => {
-  const { users, setUsers } = useUsers();
+  const { users } = useUsers();
   return (
     <>
       <div className="w-full  flex items-center mb-6 justify-between">

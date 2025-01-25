@@ -141,7 +141,7 @@ const insumos: Insumo[] = [
 ];
 */
 export default function page() {
-  const { insumos, setInsumos } = useInsumos();
+  const { insumos } = useInsumos();
   return (
     <>
       <div className="w-full  flex items-center mb-6 justify-between">

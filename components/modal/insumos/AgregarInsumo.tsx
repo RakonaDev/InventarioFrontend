@@ -20,9 +20,7 @@ export const AgregarInsumo = () => {
       imagen: null,
     },
     validationSchema: SchemaLogin,
-    onSubmit: async (values) => {
-      
-    },
+    onSubmit: async () => {}
   });
 
   useEffect(() => {
