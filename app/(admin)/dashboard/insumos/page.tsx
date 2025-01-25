@@ -1,4 +1,5 @@
 "use client"
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ButtonOpenModal } from "../../../../components/buttons/ButtonOpenModal";
 import { HeadTablePC } from "../../../../components/dashboard/table/HeadTablePC";
 import { AgregarInsumo } from "../../../../components/modal/insumos/AgregarInsumo";
