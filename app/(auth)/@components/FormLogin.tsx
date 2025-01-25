@@ -9,6 +9,7 @@ import { InputForm } from "../../../components/form/InputForm";
 import { Errors } from "../../../components/form/Errors";
 import { NEXT_PUBLIC_API_URL } from "../../../constants/apiurl";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { apiURL } from "../../../helper/global";
 
 export const FormLogin = ({router}: {router: AppRouterInstance}) => {
   const [loadLogin, setLoadLogin] = useState<boolean>(false);
@@ -20,7 +21,7 @@ export const FormLogin = ({router}: {router: AppRouterInstance}) => {
 
     try {
       const response = await axios.post(
-        `${NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/login`,
+        `${apiURL}/login`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },
