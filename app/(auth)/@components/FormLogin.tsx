@@ -7,7 +7,6 @@ import { useFormik } from "formik";
 import { SchemaLogin } from "@/schemas/AuthSchemas";
 import { InputForm } from "../../../components/form/InputForm";
 import { Errors } from "../../../components/form/Errors";
-import { NEXT_PUBLIC_API_URL } from "../../../constants/apiurl";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { apiURL } from "../../../helper/global";
 
