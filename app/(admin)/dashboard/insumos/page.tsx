@@ -1,5 +1,4 @@
 "use client"
-import { Insumo } from "@/interfaces/InsumosInterface";
 import { ButtonOpenModal } from "../../../../components/buttons/ButtonOpenModal";
 import { HeadTablePC } from "../../../../components/dashboard/table/HeadTablePC";
 import { AgregarInsumo } from "../../../../components/modal/insumos/AgregarInsumo";
