@@ -1,0 +1,1 @@
+export const apiURL = "https://apis.logosperu.com/apicinco/public/api"
