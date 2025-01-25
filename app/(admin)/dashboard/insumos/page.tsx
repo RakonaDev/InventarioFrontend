@@ -4,7 +4,7 @@ import { HeadTablePC } from "../../../../components/dashboard/table/HeadTablePC"
 import { AgregarInsumo } from "../../../../components/modal/insumos/AgregarInsumo";
 import { TableTitle } from "../usuarios/page";
 import { ListInsumos } from "../../../../components/dashboard/table/insumos/ListInsumos";
-import { useInsumos } from "../../../../hooks/useInsumos";
+import { useGetInsumos } from "../../../../hooks/useInsumos";
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "Código", className: "" },
@@ -140,7 +140,7 @@ const insumos: Insumo[] = [
 ];
 */
 export default function page() {
-  const { insumos } = useInsumos();
+  const { insumos } = useGetInsumos();
   return (
     <>
       <div className="w-full  flex items-center mb-6 justify-between">

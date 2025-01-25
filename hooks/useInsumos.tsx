@@ -20,7 +20,7 @@ type InsumoReturn = {
   setInsumos: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-export const useInsumos = (): InsumoReturn => {
+export const useGetInsumos = (): InsumoReturn => {
   const [insumos, setInsumos] = useState<any[]>([]);
   useEffect(() => {
     fetchInsumos().then((data) => setInsumos(data));
