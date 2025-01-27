@@ -1,7 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { NextRequest, NextResponse } from "next/server";
+/*
 import cookie from 'cookie';
 import { jwtDecode } from "jwt-decode";
+*/
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.getAll(); 

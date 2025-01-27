@@ -1,11 +1,17 @@
+import { EstadoInterface } from "./EstadoInterface";
+import { RolInterface } from "./RolInterface";
+
 export interface ListUserInterface {
-  id: number;
+  id?: number;
   names: string;
   last_names: string;
-  celular: string;
+  tel: string;
   email: string;
-  estado: string;
-  rol: string;
+  id_estado: number;
+  id_roles: number;
   dni: string;
-  edad: number;
+  age: number;
+  password: string;
+  estado?: EstadoInterface
+  roles?: RolInterface
 }
