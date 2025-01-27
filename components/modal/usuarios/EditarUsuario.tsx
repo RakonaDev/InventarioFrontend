@@ -21,8 +21,8 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
       apellidos: "",
       celular: 0,
       email: "",
-      estado: "",
-      rol: "",
+      id_estado: 0,
+      id_roles: 0,
       edad: 0,
       dni: "",
     },
@@ -44,12 +44,12 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
     setValues({
       nombres: usuario.names,
       apellidos: usuario.last_names,
-      celular: Number(usuario.celular),
+      celular: Number(usuario.tel),
       email: usuario.email,
-      estado: usuario.estado,
-      rol: usuario.rol,
+      id_estado: Number(usuario.id_estado),
+      id_roles: Number(usuario.id_roles),
       dni: usuario.dni,
-      edad: usuario.edad,
+      edad: usuario.age,
     });
   }, [setValues, usuario]);
   return (
@@ -168,13 +168,13 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
                 name="estado"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.estado}
+                value={values.id_estado}
                 className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
               >
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
               </select>
-              <Errors errors={errors.estado} touched={touched.estado} />
+              <Errors errors={errors.id_estado} touched={touched.id_estado} />
             </div>
           </div>
           <div className="w-full lg:w-1/2">
@@ -187,13 +187,13 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
                 name="rol"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.rol}
+                value={values.id_roles}
                 className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
               >
                 <option value="administrador">Administrador</option>
                 <option value="moderador">Moderador</option>
               </select>
-              <Errors errors={errors.rol} touched={touched.rol} />
+              <Errors errors={errors.id_roles} touched={touched.id_roles} />
             </div>
           </div>
         </div>
