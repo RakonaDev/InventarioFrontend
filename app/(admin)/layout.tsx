@@ -34,7 +34,7 @@ export default function AdminLayout({
             <li>
               <Link
                 href={"/dashboard/insumos"}
-                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
               >
                 <span className="text-2xl">
                   <GiFruitBowl />
@@ -45,7 +45,7 @@ export default function AdminLayout({
             <li>
               <Link
                 href={"/dashboard/roles"}
-                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
               >
                 <span className="text-2xl">
                   <BsAwardFill />
@@ -56,7 +56,7 @@ export default function AdminLayout({
             <li>
               <Link
                 href={"/dashboard/categorias"}
-                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
               >
                 <span className="text-2xl">
                   <TbCategoryFilled />
@@ -67,7 +67,7 @@ export default function AdminLayout({
             <li>
               <Link
                 href={"/dashboard/proveedores"}
-                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
               >
                 <span className="text-2xl">
                   <AiFillBank />
@@ -78,7 +78,7 @@ export default function AdminLayout({
             <li>
               <Link
                 href={"/dashboard/tipo-insumo"}
-                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
               >
                 <span className="text-2xl">
                   <AiFillControl />
