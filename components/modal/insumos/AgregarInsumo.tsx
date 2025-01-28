@@ -12,6 +12,7 @@ export const AgregarInsumo = () => {
     handleBlur,
     errors,
     touched,
+    values,
     isSubmitting,
     setFieldValue,
   } = useFormik({
@@ -45,6 +46,7 @@ export const AgregarInsumo = () => {
             name="nombre"
             placeholder="Escribe el nombre"
             type="text"
+            value={values.nombre}
             onBlur={handleBlur}
             onChange={handleChange}
           />

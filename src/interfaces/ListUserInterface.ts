@@ -11,7 +11,7 @@ export interface ListUserInterface {
   id_roles: number;
   dni: string;
   age: number;
-  password: string;
+  password?: string;
   estado?: EstadoInterface
   roles?: RolInterface
 }

@@ -12,6 +12,9 @@ const fetchInsumos = async () => {
     },
 
   });
+  if (response.status === 401) {
+    window.location.href = '/login'
+  }
   const data = await response.json();
   return data;
 };

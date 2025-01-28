@@ -1,11 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputForm } from "../../form/InputForm";
 import { ListUserInterface } from "@/interfaces/ListUserInterface";
 import { useFormik } from "formik";
-import { SchemaLogin } from "@/schemas/AuthSchemas";
+import { EditUserSchema } from "@/schemas/AuthSchemas";
 import { Errors } from "../../form/Errors";
+import { useUsers } from "../../../hooks/useUsers";
+import { useEstado } from "../../../hooks/useEstado";
+import { useRol } from "../../../hooks/useRol";
+import { EstadoInterface } from "@/interfaces/EstadoInterface";
+import { RolInterface } from "@/interfaces/RolInterface";
 
 export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
+  const [id] = useState(usuario.id)
+  const { EditarUser } = useUsers()
+  const { estados } = useEstado()
+  const { roles } = useRol()
   const {
     handleSubmit,
     handleChange,
@@ -19,15 +28,29 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
     initialValues: {
       nombres: "",
       apellidos: "",
-      celular: 0,
+      celular: "",
       email: "",
       id_estado: 0,
       id_roles: 0,
+      contrasena: "",
       edad: 0,
       dni: "",
     },
-    validationSchema: SchemaLogin,
-    onSubmit: () => {},
+    validationSchema: EditUserSchema,
+    onSubmit: async (values) => {
+      EditarUser({
+        age: values.edad,
+        dni: values.dni,
+        email: values.email,
+        id_estado: values.id_estado,
+        id_roles: values.id_roles,
+        last_names: values.apellidos,
+        names: values.nombres,
+        password: values.contrasena,
+        tel: values.celular,
+        id: id
+      })
+    },
   });
 
   useEffect(() => {
@@ -44,12 +67,13 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
     setValues({
       nombres: usuario.names,
       apellidos: usuario.last_names,
-      celular: Number(usuario.tel),
+      celular: usuario.tel,
       email: usuario.email,
       id_estado: Number(usuario.id_estado),
       id_roles: Number(usuario.id_roles),
       dni: usuario.dni,
       edad: usuario.age,
+      contrasena: ''
     });
   }, [setValues, usuario]);
   return (
@@ -94,7 +118,7 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
               label="Celular"
               name="celular"
               placeholder="Escribe el celular"
-              type="number"
+              type="text"
               value={values.celular}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -150,10 +174,14 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
             <InputForm
               id="password"
               label="Contraseña"
-              name="password"
+              name="contrasena"
               placeholder="Escribe la contraseña"
               type="password"
+              value={values.contrasena}
+              onBlur={handleBlur}
+              onChange={handleChange}
             />
+            <Errors errors={errors.contrasena} touched={touched.contrasena} />
           </div>
         </div>
 
@@ -165,14 +193,19 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
               </label>
               <select
                 id="estado"
-                name="estado"
+                name="id_estado"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.id_estado}
                 className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
               >
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
+                {
+                  estados?.map((estado: EstadoInterface) => {
+                    return (
+                      <option value={estado.id} key={estado.id}>{ estado.nombre }</option>
+                    )
+                  })
+                }
               </select>
               <Errors errors={errors.id_estado} touched={touched.id_estado} />
             </div>
@@ -184,14 +217,19 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
               </label>
               <select
                 id="rol"
-                name="rol"
+                name="id_roles"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.id_roles}
                 className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
               >
-                <option value="administrador">Administrador</option>
-                <option value="moderador">Moderador</option>
+                {
+                  roles?.map((rol: RolInterface) => {
+                    return (
+                      <option value={rol.id} key={rol.id} > { rol.name } </option>
+                    )
+                  })
+                }
               </select>
               <Errors errors={errors.id_roles} touched={touched.id_roles} />
             </div>

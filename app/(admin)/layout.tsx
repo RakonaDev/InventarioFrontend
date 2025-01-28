@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { Header } from "../../components/estructura/Header";
 import { FaUsers } from "react-icons/fa6";
+import { BsAwardFill } from "react-icons/bs";
 import { AdminProvider } from "../../context/AdminContext";
 import { ModalRender } from "./dashboard/@components/ModalRender";
 import { GiFruitBowl } from "react-icons/gi";
+import { TbCategoryFilled } from "react-icons/tb";
+import { AiFillBank } from "react-icons/ai";
+import { AiFillControl } from "react-icons/ai";
+
 export default function AdminLayout({
   children,
 }: Readonly<{
@@ -13,28 +18,72 @@ export default function AdminLayout({
     <AdminProvider>
       <Header />
       <section className="w-full flex justify-between h-[calc(100dvh-80px)] ">
-        <div className="w-[280px] bg-secundario-main h-auto">
+        <div className="w-[280px] bg-gradient-to-t from-slate-500 to-slate-900 h-auto">
           <ul>
             <li>
               <Link
                 href={"/dashboard/usuarios"}
-                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-secundario-500 text-white-main"
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
               >
                 <span className="text-2xl">
                   <FaUsers />
                 </span>
-                <p className="text-lg">Usuarios</p>
+                <p className="text-lg font-bold">Usuarios</p>
               </Link>
             </li>
             <li>
               <Link
                 href={"/dashboard/insumos"}
-                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-secundario-500 text-white-main"
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
               >
                 <span className="text-2xl">
                   <GiFruitBowl />
                 </span>
-                <p className="text-lg">Insumos</p>
+                <p className="text-lg font-bold">Insumos</p>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={"/dashboard/roles"}
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+              >
+                <span className="text-2xl">
+                  <BsAwardFill />
+                </span>
+                <p className="text-lg font-bold">Roles</p>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={"/dashboard/categorias"}
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+              >
+                <span className="text-2xl">
+                  <TbCategoryFilled />
+                </span>
+                <p className="text-lg font-bold">Categorias</p>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={"/dashboard/proveedores"}
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+              >
+                <span className="text-2xl">
+                  <AiFillBank />
+                </span>
+                <p className="text-lg font-bold">Proveedores</p>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={"/dashboard/tipo-insumo"}
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-slate-700 transition-colors duration-500 text-white-main"
+              >
+                <span className="text-2xl">
+                  <AiFillControl />
+                </span>
+                <p className="text-lg font-bold">Tipos de Insumo</p>
               </Link>
             </li>
           </ul>

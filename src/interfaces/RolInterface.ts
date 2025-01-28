@@ -1,4 +1,6 @@
 export interface RolInterface {
-  id: number  
+  id?: number  
   name: string
+  created_at?: Date
+  updated_at?: Date
 }

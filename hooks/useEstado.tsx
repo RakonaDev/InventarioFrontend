@@ -11,6 +11,9 @@ const fetchEstados = async () => {
       },
       credentials: 'include'
     });
+    if (response.status === 401) {
+      window.location.href = '/login'
+    }
     const data = await response.json();
     return data;
   }
@@ -24,7 +27,8 @@ export function useEstado () {
     queryKey: ['estados'],
     queryFn: fetchEstados,
     refetchOnReconnect: false,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    refetchOnMount: false
   })
 
   return {

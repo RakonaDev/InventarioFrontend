@@ -43,6 +43,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     console.log(isModalOpen)    
   }, [isModalOpen]);
   const closeModal = () => {
+    setModalContent(null)
     setIsModalOpen(false);
   };
 

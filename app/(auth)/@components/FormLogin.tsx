@@ -34,7 +34,7 @@ export const FormLogin = ({router}: {router: AppRouterInstance}) => {
         localStorage.setItem("token", response.data.token);
         toast.success(response.data.message);
         setLoadLogin(true);
-        router.push('/dashboard')
+        router.push('/dashboard/usuarios')
       }
     } catch (error: any) {
       console.log(error);

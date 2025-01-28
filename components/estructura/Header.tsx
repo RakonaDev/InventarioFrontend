@@ -1,13 +1,21 @@
+'use client'
 import React from "react";
 import { WrapperContent } from "./WrapperContent";
 import { FaBell } from "react-icons/fa6";
 import { CardHeaderUser } from "../user/CardHeaderUser";
+import LogosPeru from "../../public/logo-peru.webp"
+import Image from "next/image";
+import { motion } from "framer-motion";
+
 export const Header = () => {
   return (
-    <header className="bg-fondo-800 h-[80px]">
+    <motion.header 
+      layout
+      className="h-[80px] bg-gradient-to-b from-red-500 to-red-700"
+    >
       <WrapperContent className="flex justify-between items-center py-6 h-full">
         <div className="w-fit flex items-center">
-          <p className="text-2xl text-white-main font-bold">LOGO</p>
+          <Image src={LogosPeru} width={80} height={80} alt="Logos-Peru"/>
         </div>
         <div className="w-fit flex items-center gap-8">
           <button type="button" className="relative text-xl text-white-main">
@@ -17,6 +25,6 @@ export const Header = () => {
           <CardHeaderUser />
         </div>
       </WrapperContent>
-    </header>
+    </motion.header>
   );
 };
