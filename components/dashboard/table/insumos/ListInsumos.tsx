@@ -6,6 +6,7 @@ import { useAdmin } from "../../../../context/AdminContext";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { EditarInsumo } from "../../../modal/insumos/EditarInsumo";
 import EliminarTipoInsumo from "../../../modal/tipo-insumo/EliminarTipoInsumo";
+import { parseToLocalTime } from "../../../../logic/parseToLocalTime";
 
 export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
   const { setModalContent, openModal } = useAdmin();
@@ -25,22 +26,22 @@ export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
           key={insumo.nombre}
         >
           <div className="w-full flex justify-center  items-center">
-            <p className="line-clamp-1">{insumo.codigo}</p>
+            <p className="line-clamp-1">{insumo.id}</p>
           </div>
           <div className="w-full col-span-2 flex justify-center  items-center text-sm">
             <p>{insumo.nombre}</p>
           </div>
           <div className="w-full flex items-center text-sm justify-center ">
-            <img src={insumo.imagen} alt="" width={50} height={50} />
+            <img src={insumo.imagenes} alt="" width={50} height={50} />
           </div>
           <div className="w-full col-span-2 flex items-center text-sm justify-center ">
-            <p>{insumo.categoria}</p>
+            <p>{insumo.id_categoria}</p>
           </div>
           <div className="w-full col-span-2 flex items-center text-sm justify-center ">
-            <p>{insumo.tipo_insumo}</p>
+            <p>{insumo.id_tipo_insumo}</p>
           </div>
           <div className="w-full col-span-2 flex items-center text-sm justify-center ">
-            <p>{insumo.fecha_vencimiento}</p>
+            <p>{parseToLocalTime(insumo.fecha_vencimiento)}</p>
           </div>
           <div className="w-full  flex items-center text-sm justify-center ">
             <p>{insumo.vida_util_dias} días</p>
