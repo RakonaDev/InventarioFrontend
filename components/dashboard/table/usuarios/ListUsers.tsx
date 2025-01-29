@@ -25,18 +25,18 @@ export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
           className="w-full grid grid-cols-12 text-black-700"
           key={usuario.id}
         >
-          <div className="w-full col-span-2 flex items-center">
+          <div className="w-full col-span-2 flex items-center justify-center ">
             <p className="line-clamp-1">{`${usuario.names} ${
               usuario.last_names
             }`}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{usuario.tel}</p>
           </div>
-          <div className="w-full col-span-3 flex items-center text-sm">
+          <div className="w-full col-span-3 flex items-center text-sm justify-center ">
             <p>{usuario.email}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             {usuario.estado?.nombre === "Activo" ? (
               <p className="block rounded-full w-[102px] bg-green-100 px-5 py-1  font-medium text-center text-green-500">
                 Activo
@@ -47,7 +47,7 @@ export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
               </p>
             )}
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{usuario.roles?.name}</p>
           </div>
           <EditAndDeleteButtons

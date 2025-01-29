@@ -5,8 +5,8 @@ import { HeadTablePC } from "../../../../components/dashboard/table/HeadTablePC"
 import { AgregarInsumo } from "../../../../components/modal/insumos/AgregarInsumo";
 import { TableTitle } from "../usuarios/page";
 import { ListInsumos } from "../../../../components/dashboard/table/insumos/ListInsumos";
-import { useGetInsumos } from "../../../../hooks/useInsumos";
 import { motion } from "framer-motion";
+import { useInsumos } from "../../../../hooks/useInsumos";
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "Código", className: "" },
@@ -19,7 +19,8 @@ const ItemsInsumosTable: TableTitle[] = [
 ];
 
 export default function page() {
-  const { insumos } = useGetInsumos();
+  const { insumos } = useInsumos();
+  if (insumos == null) return <div>Loading...</div>;
   return (
     <>
       <div className="w-full  flex items-center mb-6 justify-between">

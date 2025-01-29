@@ -16,7 +16,7 @@ export const HeadTablePC = ({
     >
       {titlesTable.map((title: TableTitle) => (
         <div
-          className={`${title.className} w-full`}
+          className={`${title.className} w-full text-center`}
           key={`titleTable-${title.nombre}`}
         >
           {title.nombre}

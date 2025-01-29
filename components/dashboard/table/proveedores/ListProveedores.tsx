@@ -24,25 +24,25 @@ export default function ListProveedores() {
     <div className="w-full space-y-6">
       {proveedores?.map((proveedor: ProveedorInterface) => (
         <div className="w-full grid grid-cols-12 text-black-700" key={proveedor.id}>
-          <div className="w-full col-span-1 flex items-center text-sm">
+          <div className="w-full col-span-1 flex justify-center  items-center text-sm">
             <p>{proveedor.id}</p>
           </div>
-          <div className="w-full flex items-center text-sm">
+          <div className="w-full flex items-center text-sm justify-center ">
             <p>{proveedor.name}</p>
           </div>
-          <div className="w-full col-span-1 flex items-center text-sm">
+          <div className="w-full col-span-1 flex items-center text-sm justify-center ">
             <p>{proveedor.phone}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{proveedor.email}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{proveedor.address}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{parseToLocalTime(proveedor.created_at)}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{parseToLocalTime(proveedor.updated_at)}</p>
           </div>
           <EditAndDeleteButtons

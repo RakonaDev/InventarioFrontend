@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 const fetchCategorias = async () => {
   try {
-    const response = await fetch(`${apiURL}/getCategorias`, {
+    const response = await fetch(`${apiURL}/categorias`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const postCategorias = async (newCategoria: CategoriaInterface) => {
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    return data.proveedores;
+    return data.categorias;
   } catch (error) {
     console.log(error);
   }
@@ -46,8 +46,8 @@ const postCategorias = async (newCategoria: CategoriaInterface) => {
 
 const patchCategorias = async (updatedCategorias: CategoriaInterface) => {
   try {
-    const response = await fetch(`${apiURL}/categorias`, {
-      method: "PATCH",
+    const response = await fetch(`${apiURL}/categorias/${updatedCategorias.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
@@ -66,15 +66,12 @@ const patchCategorias = async (updatedCategorias: CategoriaInterface) => {
 
 const deleteCategorias = async (id: number) => {
   try {
-    const response = await fetch(`${apiURL}/categorias`, {
+    const response = await fetch(`${apiURL}/categorias/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
       },
       credentials: 'include',
-      body: JSON.stringify({
-        id
-      })
     })
     if (response.status === 401) {
       window.location.href = '/login'
@@ -92,14 +89,17 @@ export function useCategoria () {
   const query = useQueryClient()
   const { data: categorias } = useQuery<CategoriaInterface[]>({
     queryKey: ['categorias'],
-    queryFn: fetchCategorias
+    queryFn: fetchCategorias,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   })
 
   const { mutate: PostCategoria } = useMutation({
     mutationFn: postCategorias,
     onSuccess: async (newCategoria: CategoriaInterface) => {
       closeModal();
-      await query.setQueryData(['roles'], (oldCategoria?: CategoriaInterface[]) => {
+      await query.setQueryData(['categorias'], (oldCategoria?: CategoriaInterface[]) => {
         if (oldCategoria == null) return [newCategoria];
         return [...oldCategoria, newCategoria];
       });
@@ -110,7 +110,7 @@ export function useCategoria () {
     mutationFn: patchCategorias,
     onSuccess: async (updatedCategoria: CategoriaInterface) => {
       closeModal()
-      await query.setQueryData(['roles'], (oldCategorias: CategoriaInterface[]) => {
+      await query.setQueryData(['categorias'], (oldCategorias: CategoriaInterface[]) => {
         return oldCategorias.map((categoria: CategoriaInterface) =>
           categoria.id === updatedCategoria.id ? updatedCategoria : categoria
         );
@@ -125,7 +125,7 @@ export function useCategoria () {
     mutationFn: deleteCategorias,
     onSuccess: async (categoriaDeleted: CategoriaInterface) => {
       closeModal()
-      await query.setQueryData(['roles'], (oldCategoria: CategoriaInterface[]) => {
+      await query.setQueryData(['categorias'], (oldCategoria: CategoriaInterface[]) => {
         return oldCategoria.filter((categoria: CategoriaInterface) => categoria.id !== categoriaDeleted.id)
       })
     }

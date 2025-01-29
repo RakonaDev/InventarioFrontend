@@ -95,6 +95,7 @@ export function useRol() {
     queryFn: fetchRoles,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
   const { mutate: PostRol } = useMutation({

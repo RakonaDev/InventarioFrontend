@@ -5,11 +5,16 @@ import { EditAndDeleteButtons } from "../../../buttons/EditAndDeleteButtons";
 import { useAdmin } from "../../../../context/AdminContext";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { EditarInsumo } from "../../../modal/insumos/EditarInsumo";
+import EliminarTipoInsumo from "../../../modal/tipo-insumo/EliminarTipoInsumo";
 
 export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
   const { setModalContent, openModal } = useAdmin();
   const handleEditarInsumo = (insumo: Insumo) => {
     setModalContent(<EditarInsumo insumo={insumo} />);
+    openModal();
+  };
+  const handleEliminarInsumo = (id: number) => {
+    setModalContent(<EliminarTipoInsumo id={id} />);
     openModal();
   };
   return (
@@ -19,30 +24,30 @@ export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
           className="w-full grid grid-cols-12 text-black-700"
           key={insumo.nombre}
         >
-          <div className="w-full flex items-center">
+          <div className="w-full flex justify-center  items-center">
             <p className="line-clamp-1">{insumo.codigo}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex justify-center  items-center text-sm">
             <p>{insumo.nombre}</p>
           </div>
-          <div className="w-full flex items-center text-sm">
+          <div className="w-full flex items-center text-sm justify-center ">
             <img src={insumo.imagen} alt="" width={50} height={50} />
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{insumo.categoria}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{insumo.tipo_insumo}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
+          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
             <p>{insumo.fecha_vencimiento}</p>
           </div>
-          <div className="w-full  flex items-center text-sm">
+          <div className="w-full  flex items-center text-sm justify-center ">
             <p>{insumo.vida_util_dias} días</p>
           </div>
           <EditAndDeleteButtons
             onEdit={() => handleEditarInsumo(insumo)}
-            onDelete={() => {}}
+            onDelete={() => handleEliminarInsumo(insumo.id || 0)}
           />
         </div>
       ))}

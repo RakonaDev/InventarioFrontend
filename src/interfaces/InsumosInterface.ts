@@ -1,12 +1,13 @@
 export interface Insumo {
-  id: number;
-  codigo: string
+  id?: number;
+  precio: number
   nombre: string;
-  imagen: string;
+  imagenes?: string;
+  imagen?: File
   descripcion: string;
-  categoria: string;
-  tipo_insumo: string;
-  fecha_creacion: string;
-  fecha_vencimiento: string;
+  id_categoria: number;
+  id_tipo_insumo: number;
+  id_proveedor: number;
+  fecha_vencimiento: Date;
   vida_util_dias: number;
 }

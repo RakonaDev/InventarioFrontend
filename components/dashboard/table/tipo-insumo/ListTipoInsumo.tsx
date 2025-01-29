@@ -2,6 +2,11 @@ import React from "react";
 
 import { parseToLocalTime } from "../../../../logic/parseToLocalTime";
 import { EditAndDeleteButtons } from "../../../buttons/EditAndDeleteButtons";
+import { useTipoInsumo } from "../../../../hooks/useTipoInsumo";
+import { TipoInsumoInterface } from "@/interfaces/TipoInsumoInterface";
+import { useAdmin } from "../../../../context/AdminContext";
+import EditarTipoInsumo from "../../../modal/tipo-insumo/EditarTipoInsumo";
+import EliminarTipoInsumo from "../../../modal/tipo-insumo/EliminarTipoInsumo";
 
 type TipoInsumo = {
   id: number;
@@ -10,7 +15,7 @@ type TipoInsumo = {
   updated_at: string;
 };
 
-const tipoInsumos: TipoInsumo[] = [
+export const tipoInsumos: TipoInsumo[] = [
   {
     id: 1,
     nombre: "Acero Inoxidable",
@@ -74,30 +79,36 @@ const tipoInsumos: TipoInsumo[] = [
 ];
 
 export default function ListTipoInsumo() {
-  // const { setModalContent, openModal } = useAdmin();
-
-  const handleEditarRol = () => {};
-  const handleEliminarRol = () => {};
+  const { setModalContent, openModal } = useAdmin();
+  const { tipo_insumo } = useTipoInsumo()
+    const handleEditarTipoInsumo = (tipo_insumo: TipoInsumoInterface) => {
+      setModalContent(<EditarTipoInsumo tipo_insumo={tipo_insumo} />);
+      openModal();
+    };
+    const handleEliminarTipoInsumo = (id: number) => {
+      setModalContent(<EliminarTipoInsumo id={id} />);
+      openModal();
+    };
 
   return (
     <div className="w-full space-y-6">
-      {tipoInsumos?.map((rol: TipoInsumo) => (
-        <div className="w-full grid grid-cols-12 text-black-700" key={rol.id}>
-          <div className="w-full col-span-2 flex items-center text-sm">
-            <p>{rol.id}</p>
+      {tipo_insumo?.map((tipo_insumo: TipoInsumoInterface) => (
+        <div className="w-full grid grid-cols-12 text-black-700" key={tipo_insumo.id}>
+          <div className="w-full col-span-2 flex justify-center items-center text-sm">
+            <p className="text-center">{tipo_insumo.id}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
-            <p>{rol.nombre}</p>
+          <div className="w-full col-span-2 flex justify-center items-center text-sm text-center">
+            <p className="text-center">{tipo_insumo.nombre}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm">
-            <p>{parseToLocalTime(new Date(rol.created_at))}</p>
+          <div className="w-full col-span-2 flex items-center justify-center text-sm text-center">
+            <p className="text-center">{parseToLocalTime(new Date(tipo_insumo.created_at || 0))}</p>
           </div>
-          <div className="w-full col-span-3 flex items-center text-sm">
-            <p>{parseToLocalTime(new Date(rol.updated_at))}</p>
+          <div className="w-full col-span-3 flex items-center justify-center text-sm text-center">
+            <p className="text-center">{parseToLocalTime(new Date(tipo_insumo.updated_at || 0))}</p>
           </div>
           <EditAndDeleteButtons
-            onEdit={() => handleEditarRol()}
-            onDelete={() => handleEliminarRol()}
+            onEdit={() => handleEditarTipoInsumo(tipo_insumo)}
+            onDelete={() => handleEliminarTipoInsumo(tipo_insumo.id || 0)}
           />
         </div>
       ))}

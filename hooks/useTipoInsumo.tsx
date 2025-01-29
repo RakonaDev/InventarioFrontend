@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 const fetchTipoInsumo = async () => {
   try {
-    const response = await fetch(`${apiURL}/getInsumos`, {
+    const response = await fetch(`${apiURL}/tipo-insumo`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const fetchTipoInsumo = async () => {
 
 const postTipoInsumo = async (newTipoInsumo: TipoInsumoInterface) => {
   try {
-    const response = await fetch(`${apiURL}/tipo_insumo`, {
+    const response = await fetch(`${apiURL}/tipo-insumo`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,6 +38,7 @@ const postTipoInsumo = async (newTipoInsumo: TipoInsumoInterface) => {
     if (response.status === 401) {
       window.location.href = '/login'
     }
+    console.log(data.tipo_insumo)
     return data.tipo_insumo;
   } catch (error) {
     console.log(error);
@@ -46,7 +47,7 @@ const postTipoInsumo = async (newTipoInsumo: TipoInsumoInterface) => {
 
 const patchTipoInsumo = async (updatedTipoInsumo: TipoInsumoInterface) => {
   try {
-    const response = await fetch(`${apiURL}/tipo_insumo`, {
+    const response = await fetch(`${apiURL}/tipo-insumo/${updatedTipoInsumo.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
@@ -66,7 +67,7 @@ const patchTipoInsumo = async (updatedTipoInsumo: TipoInsumoInterface) => {
 
 const deleteTipoInsumo = async (id: number) => {
   try {
-    const response = await fetch(`${apiURL}/tipo_insumo`, {
+    const response = await fetch(`${apiURL}/tipo-insumo/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -92,14 +93,17 @@ export function useTipoInsumo () {
   const query = useQueryClient()
   const { data: tipo_insumo } = useQuery<TipoInsumoInterface[]>({
     queryKey: ['tipo_insumo'],
-    queryFn: fetchTipoInsumo
+    queryFn: fetchTipoInsumo,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   })
 
   const { mutate: PostTipoInsumo } = useMutation({
     mutationFn: postTipoInsumo,
     onSuccess: async (newTipoInsumo: TipoInsumoInterface) => {
       closeModal();
-      await query.setQueryData(['roles'], (oldTipoInsumo?: TipoInsumoInterface[]) => {
+      await query.setQueryData(['tipo_insumo'], (oldTipoInsumo?: TipoInsumoInterface[]) => {
         if (oldTipoInsumo == null) return [newTipoInsumo];
         return [...oldTipoInsumo, newTipoInsumo];
       });
@@ -110,7 +114,7 @@ export function useTipoInsumo () {
     mutationFn: patchTipoInsumo,
     onSuccess: async (updatedTipoInsumo: TipoInsumoInterface) => {
       closeModal()
-      await query.setQueryData(['roles'], (oldTipoInsumo: TipoInsumoInterface[]) => {
+      await query.setQueryData(['tipo_insumo'], (oldTipoInsumo: TipoInsumoInterface[]) => {
         return oldTipoInsumo.map((tipo_insumo: TipoInsumoInterface) =>
           tipo_insumo.id === updatedTipoInsumo.id ? updatedTipoInsumo : tipo_insumo
         );
@@ -125,7 +129,7 @@ export function useTipoInsumo () {
     mutationFn: deleteTipoInsumo,
     onSuccess: async (tipoInsumoDeleted: TipoInsumoInterface) => {
       closeModal()
-      await query.setQueryData(['roles'], (oldTipoInsumo: TipoInsumoInterface[]) => {
+      await query.setQueryData(['tipo_insumo'], (oldTipoInsumo: TipoInsumoInterface[]) => {
         return oldTipoInsumo.filter((tipo_insumo: TipoInsumoInterface) => tipo_insumo.id !== tipoInsumoDeleted.id)
       })
     }

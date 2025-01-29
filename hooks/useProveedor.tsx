@@ -92,7 +92,10 @@ export function useProveedor () {
   const query = useQueryClient()
   const { data: proveedores } = useQuery<ProveedorInterface[]>({
     queryKey: ['proveedores'],
-    queryFn: fetchProveedor
+    queryFn: fetchProveedor,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   })
 
   const { mutate: PostProveedor } = useMutation({

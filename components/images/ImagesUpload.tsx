@@ -22,7 +22,7 @@ const ImageUpload = ({
 }) => {
   const [images, setImages] = useState<ImageListType>([]);
   const [classImages, setClassImages] = useState<string>("");
-
+  console.log(fieldName)
   const onChange = (imageList: ImageListType) => {
     setFieldValue(
       fieldName,

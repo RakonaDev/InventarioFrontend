@@ -3,9 +3,9 @@ import React from 'react'
 import { TableTitle } from '../usuarios/page';
 import { motion } from 'framer-motion';
 import { ButtonOpenModal } from '../../../../components/buttons/ButtonOpenModal';
-import { AgregarInsumo } from '../../../../components/modal/insumos/AgregarInsumo';
 import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC';
 import ListCategorias from '../../../../components/dashboard/table/categorias/ListCategorias';
+import AgregarCategoria from '../../../../components/modal/categorias/AgregarCategoria';
 
 const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "Código", className: "col-span-2" },
@@ -27,7 +27,7 @@ export default function CategoriasPage() {
             Categorias
           </motion.h2>
         </div>
-        <ButtonOpenModal modal={<AgregarInsumo />} text="Agregar Categoria" />
+        <ButtonOpenModal modal={<AgregarCategoria />} text="Agregar Categoria" />
       </div>
       <div className="w-full bg-white-main p-5">
         <HeadTablePC

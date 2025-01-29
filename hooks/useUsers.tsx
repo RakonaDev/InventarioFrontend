@@ -100,7 +100,8 @@ export const useUsers = () => {
     queryKey: ['users'],
     queryFn: fetchUsers,
     refetchOnWindowFocus: false,
-    refetchOnMount: false
+    refetchOnMount: false,
+    refetchOnReconnect: false
   })
 
   const { mutate } = useMutation({

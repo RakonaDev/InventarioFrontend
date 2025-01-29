@@ -5,7 +5,7 @@ import { useRol } from "../../../hooks/useRol";
 import DeletePerson from '../../../public/delete-person.webp'
 import Image from "next/image";
 
-type EliminarProps = {
+export type EliminarProps = {
   id: number
 }
 

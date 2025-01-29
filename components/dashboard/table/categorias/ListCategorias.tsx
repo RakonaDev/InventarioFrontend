@@ -1,6 +1,11 @@
 import React from 'react'
 import { EditAndDeleteButtons } from '../../../buttons/EditAndDeleteButtons';
 import { parseToLocalTime } from '../../../../logic/parseToLocalTime';
+import { useCategoria } from '../../../../hooks/useCategoria';
+import { CategoriaInterface } from '@/interfaces/CategoriaInterface';
+import { useAdmin } from '../../../../context/AdminContext';
+import EliminarCategoria from '../../../modal/categorias/EliminarCategoria'
+import EditarCategoria from '../../../modal/categorias/EditarCategoria';
 
 type Categoria = {
   id: number;
@@ -9,7 +14,7 @@ type Categoria = {
   updated_at: string;
 };
 
-const categorias: Categoria[] = [
+export const categoriasI: Categoria[] = [
   { id: 1, nombre: "Materiales de Construcción", created_at: "2025-01-01T10:00:00Z", updated_at: "2025-01-01T10:00:00Z" },
   { id: 2, nombre: "Herramientas Eléctricas", created_at: "2025-01-02T11:00:00Z", updated_at: "2025-01-02T11:00:00Z" },
   { id: 3, nombre: "Equipos de Seguridad", created_at: "2025-01-03T12:00:00Z", updated_at: "2025-01-03T12:00:00Z" },
@@ -33,31 +38,41 @@ const categorias: Categoria[] = [
 ];
 
 export default function ListCategorias() {
-  const handleEditarRol = () => {};
-    const handleEliminarRol = () => {};
-  
-    return (
-      <div className="w-full space-y-6">
-        {categorias?.map((categoria: Categoria) => (
-          <div className="w-full grid grid-cols-12 text-black-700" key={categoria.id}>
-            <div className="w-full col-span-2 flex items-center text-sm">
-              <p>{categoria.id}</p>
-            </div>
-            <div className="w-full col-span-2 flex items-center text-sm">
-              <p>{categoria.nombre}</p>
-            </div>
-            <div className="w-full col-span-2 flex items-center text-sm">
-              <p>{parseToLocalTime(new Date(categoria.created_at))}</p>
-            </div>
-            <div className="w-full col-span-3 flex items-center text-sm">
-              <p>{parseToLocalTime(new Date(categoria.updated_at))}</p>
-            </div>
-            <EditAndDeleteButtons
-              onEdit={() => handleEditarRol()}
-              onDelete={() => handleEliminarRol()}
-            />
+  const { setModalContent, openModal } = useAdmin();
+  const { categorias } = useCategoria()
+  const handeEditarCategoria = (categoria: CategoriaInterface) => {
+    setModalContent(<EditarCategoria categoria={categoria} />);
+    openModal();
+  };
+  const handleEliminarCategoria = (id: number) => {
+    setModalContent(<EliminarCategoria id={id} />);
+    openModal();
+  };
+
+  if (categorias == null) return <div>Loading...</div>;
+
+  return (
+    <div className="w-full space-y-6">
+      {categorias?.map((categoria: CategoriaInterface) => (
+        <div className="w-full grid grid-cols-12 text-black-700" key={categoria.id}>
+          <div className="w-full col-span-2 flex justify-center  items-center text-sm">
+            <p>{categoria.id}</p>
           </div>
-        ))}
-      </div>
-    );
+          <div className="w-full col-span-2 flex justify-center  items-center text-sm">
+            <p>{categoria.nombre}</p>
+          </div>
+          <div className="w-full col-span-2 flex justify-center  items-center text-sm">
+            <p>{parseToLocalTime(new Date(categoria.created_at || 0))}</p>
+          </div>
+          <div className="w-full col-span-3 flex justify-center  items-center text-sm">
+            <p>{parseToLocalTime(new Date(categoria.updated_at || 0))}</p>
+          </div>
+          <EditAndDeleteButtons
+            onEdit={() => handeEditarCategoria(categoria)}
+            onDelete={() => handleEliminarCategoria(categoria.id || 0)}
+          />
+        </div>
+      ))}
+    </div>
+  );
 }

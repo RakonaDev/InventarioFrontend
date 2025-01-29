@@ -10,10 +10,10 @@ export const EditAndDeleteButtons = ({
 }) => {
   return (
     <div className="w-full flex items-center text-sm gap-3 justify-center">
-      <button type="button" className="text-green-500" onClick={onEdit}>
+      <button title="edit" type="button" className="text-green-500" onClick={onEdit}>
         <FaPencil />
       </button>
-      <button type="button" className="text-red-500" onClick={onDelete}>
+      <button title="delete" type="button" className="text-red-500" onClick={onDelete}>
         <FaTrashCan />
       </button>
     </div>
