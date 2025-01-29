@@ -21,12 +21,11 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
     initialValues: {
       nombre: "",
       imagen: "",
-      codigo: "",
+      precio: 0,
       descripcion: "",
-      categoria: "",
-      tipo_insumo: "",
-      fecha_creacion: "",
-      fecha_vencimiento: "",
+      categoria: 0,
+      tipo_insumo: 0,
+      fecha_vencimiento: new Date(),
       vida_util_dias: 0,
     },
     validationSchema: SchemaLogin,
@@ -46,13 +45,12 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
   useEffect(() => {
     setValues({
       nombre: insumo.nombre,
-      categoria: insumo.categoria,
-      codigo: insumo.codigo,
+      categoria: insumo.id_categoria,
+      precio: insumo.precio,
       descripcion: insumo.descripcion,
-      fecha_creacion: insumo.fecha_creacion,
       fecha_vencimiento: insumo.fecha_vencimiento,
-      imagen: insumo.imagen,
-      tipo_insumo: insumo.tipo_insumo,
+      imagen: insumo.imagenes || '',
+      tipo_insumo: insumo.id_tipo_insumo,
       vida_util_dias: insumo.vida_util_dias,
     });
   }, [setValues, insumo]);
@@ -80,7 +78,7 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
               name="codigo"
               placeholder="Escribe el código"
               type="text"
-              value={values.codigo}
+              value={values.precio}
             />
           </div>
           <div className="w-full lg:w-1/2">
