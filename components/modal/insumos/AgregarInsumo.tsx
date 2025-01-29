@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { InputForm } from "../../form/InputForm";
 import ImageUpload from "../../images/ImagesUpload";
 import { useFormik } from "formik";
-import { insumoSchema } from "@/schemas/InsumoSchema";
 import { useCategoria } from "../../../hooks/useCategoria";
 import { useProveedor } from "../../../hooks/useProveedor";
 import { useTipoInsumo } from "../../../hooks/useTipoInsumo";
