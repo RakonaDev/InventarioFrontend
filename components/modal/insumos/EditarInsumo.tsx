@@ -55,7 +55,7 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
     });
   }, [setValues, insumo]);
   return (
-    <form className="space-y-6 p-4" onSubmit={handleSubmit}>
+    <form className="space-y-6 p-4" onSubmit={handleSubmit} id="editInsumo">
       <h2 className="text-2xl font-semibold text-center mb-6">Editar insumo</h2>
       <div className="w-full flex flex-col lg:flex-row gap-4 ">
         <div className="w-full lg:w-1/2">

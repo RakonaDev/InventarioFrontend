@@ -7,7 +7,8 @@ import { ModalRender } from "./dashboard/@components/ModalRender";
 import { GiFruitBowl } from "react-icons/gi";
 import { TbCategoryFilled } from "react-icons/tb";
 import { AiFillBank } from "react-icons/ai";
-import { AiFillControl } from "react-icons/ai";
+import { MdSell } from "react-icons/md";
+import { FaShoppingBag } from "react-icons/fa";
 
 export default function AdminLayout({
   children,
@@ -39,7 +40,7 @@ export default function AdminLayout({
                 <span className="text-2xl">
                   <GiFruitBowl />
                 </span>
-                <p className="text-lg font-bold">Insumos</p>
+                <p className="text-lg font-bold">Productos</p>
               </Link>
             </li>
             <li>
@@ -77,13 +78,24 @@ export default function AdminLayout({
             </li>
             <li>
               <Link
-                href={"/dashboard/tipo-insumo"}
+                href={"/dashboard/compras"}
                 className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
               >
                 <span className="text-2xl">
-                  <AiFillControl />
+                  <FaShoppingBag />
                 </span>
-                <p className="text-lg font-bold">Tipos de Insumo</p>
+                <p className="text-lg font-bold">Compras</p>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={"/dashboard/salidas"}
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
+              >
+                <span className="text-2xl">
+                  <MdSell />
+                </span>
+                <p className="text-lg font-bold">Salidas</p>
               </Link>
             </li>
           </ul>
