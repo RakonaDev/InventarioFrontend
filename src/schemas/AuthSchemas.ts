@@ -29,7 +29,6 @@ export const EditUserSchema = Yup.object().shape({
     .integer('El rol debe ser un número entero')
     .min(1, 'El rol debe ser mayor o igual a 1'),
   contrasena: Yup.string()
-    .required('La contraseña es obligatoria')
     .min(8, 'La contraseña debe tener al menos 8 caracteres')
     .max(15, 'La contraseña no puede exceder 15 caracteres'),
   edad: Yup.number()

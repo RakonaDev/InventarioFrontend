@@ -1,8 +1,11 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import { FaSortDown, FaUser } from 'react-icons/fa6'
+import { useMe } from '../../hooks/useMe'
 
 export const CardHeaderUser = () => {
+  const { me } = useMe()
   return (
     <div className="w-fit flex items-center gap-3 p-1">
     <Link
@@ -12,13 +15,12 @@ export const CardHeaderUser = () => {
       <FaUser />
     </Link>
     <div className="flex flex-col gap-0.5">
-      <p className="text-white-main ">Logos Perú</p>
+      <p className="text-white-main ">{`${me?.names || 'Nombres'} ${me?.last_names || ''}`}</p>
       <span className="text-white-100 italic text-xs">
-        {" "}
-        Administrador
+        {me?.roles.name || 'Rol'}
       </span>
     </div>
-    <button type="button" className="text-xl text-white-main ml-2">
+    <button title='boton' type="button" className="text-xl text-white-main ml-2">
       <FaSortDown />
     </button>
   </div>

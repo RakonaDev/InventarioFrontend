@@ -6,9 +6,18 @@ import { useFormik } from "formik";
 import { Errors } from "../../form/Errors";
 import { InputForm } from "../../form/InputForm";
 import { EditarRolSchema } from "@/schemas/RolSchemas";
+import { usePaginas } from "../../../hooks/usePaginas";
+import { PaginasInterface } from "@/interfaces/PaginasInterface";
+import { toTitleCase } from "../../../logic/parseToTitle";
 
 export default function EditarRol({ rol }: { rol: RolInterface }) {
+  const { paginas } = usePaginas()
   const [id] = useState(rol.id);
+  const Id_arrays: number[] = []
+  rol.list_paginas?.map((item) => {
+    Id_arrays.push(item.id)
+  })
+  const [selectedValues, setSelectedValues] = useState<number[]>(Id_arrays);
   const { EditarRol } = useRol();
   const { handleBlur, handleChange, handleSubmit, errors, values, touched } =
     useFormik({
@@ -20,9 +29,19 @@ export default function EditarRol({ rol }: { rol: RolInterface }) {
         EditarRol({
           id,
           name: values.name,
+          paginas: selectedValues
         });
       },
     });
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value); // Convertir a número
+    const isChecked = event.target.checked;
+
+    setSelectedValues((prev) =>
+      isChecked ? [...prev, value] : prev.filter((item) => item !== value)
+    );
+  };
   return (
     <form className="mx-auto p-6 " onSubmit={handleSubmit}>
       <h2 className="text-2xl font-semibold text-center mb-6">Editar Rol</h2>
@@ -39,6 +58,21 @@ export default function EditarRol({ rol }: { rol: RolInterface }) {
             onChange={handleChange}
           />
           <Errors errors={errors.name} touched={touched.name} />
+        </div>
+        <div className="">
+          <h1 className="text-sm">Elija a que secciones pertenece: </h1>
+          <section className="mt-3 flex flex-wrap gap-10 justify-evenly py-5">
+            {
+              paginas?.map((pagina: PaginasInterface, index: number) => {
+                return (
+                  <div className="flex flex-wrap gap-2" key={index}>
+                    <input type="checkbox" name="seccion" id={pagina.nombre} value={pagina.id} checked={selectedValues.includes(pagina.id)} onChange={handleCheckboxChange} className="w-6" />
+                    <label htmlFor={pagina.nombre}>{toTitleCase(pagina.nombre)}</label>
+                  </div>
+                )
+              })
+            }
+          </section>
         </div>
       </div>
       <button

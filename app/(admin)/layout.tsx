@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import { Header } from "../../components/estructura/Header";
 import { FaUsers } from "react-icons/fa6";
@@ -15,6 +16,7 @@ export default function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <AdminProvider>
       <Header />

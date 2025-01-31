@@ -106,7 +106,7 @@ export default function AgregarProveedor() {
             <div className="w-full lg:w-1/2">
               <InputForm
                 id="departament"
-                label="Departamento del Proveedor"
+                label="Ruc del proveedor"
                 name="departament"
                 placeholder="Escribe el departamento del nuevo proveedor"
                 type="text"

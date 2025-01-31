@@ -8,6 +8,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 export const Header = () => {
+
   return (
     <motion.header 
       layout

@@ -30,10 +30,10 @@ export default function page() {
             initial={{ opacity: 0, x: -60 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            Insumos
+            Productos
           </motion.h2>
         </div>
-        <ButtonOpenModal modal={<AgregarInsumo />} text="Agregar insumo" />
+        <ButtonOpenModal modal={<AgregarInsumo />} text="Agregar Producto" />
       </div>
       <div className="w-full bg-white-main p-5">
         <HeadTablePC

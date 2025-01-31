@@ -82,7 +82,7 @@ export const AgregarInsumo = () => {
       <div className="w-full flex flex-col lg:flex-row gap-4 ">
         <div className="w-1/2">
           <label htmlFor="categoria" className="block text-sm text-black-900">
-            Categoría
+            Proveedor
           </label>
           <select
             id="categoria"
