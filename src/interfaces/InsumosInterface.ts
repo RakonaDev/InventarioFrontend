@@ -1,13 +1,16 @@
+import { CategoriaInterface } from "./CategoriaInterface";
+import { ProveedorInterface } from "./ProveedorInterface";
+
 export interface Insumo {
   id?: number;
   precio: number
   nombre: string;
-  imagenes?: string;
-  imagen?: File
+  cantidad: number;
+  updated_at?: Date;
+  created_at?: Date;
   descripcion: string;
   id_categoria: number;
-  id_tipo_insumo: number;
   id_proveedor: number;
-  fecha_vencimiento: Date;
-  vida_util_dias: number;
+  categorias?: CategoriaInterface;
+  proveedor?: ProveedorInterface;
 }

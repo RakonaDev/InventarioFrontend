@@ -20,14 +20,14 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
         name: proveedor.name,
         phone: proveedor.phone,
         email: proveedor.email,
-        departament: proveedor.departament,
+        ruc: proveedor.ruc,
         address: proveedor.address,
       },
       onSubmit: (values) => {
         EditarProveedor({
           id: proveedor.id,
           address: values.address,
-          departament: values.departament,
+          ruc: values.ruc,
           email: values.email,
           name: values.name,
           phone: values.phone
@@ -49,7 +49,7 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
       <>
         <form onSubmit={handleSubmit}>
           <h2 className="text-2xl font-semibold text-center mb-6">
-            Agregar Proveedor
+            Editar Proveedor
           </h2>
           <div className="w-full space-y-3">
             <div className="w-full flex flex-wrap lg:flex-nowrap gap-4">
@@ -58,7 +58,7 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
                   id="nombre"
                   label="Nombre"
                   name="name"
-                  placeholder="Escribe el nombre del nuevo proveedor"
+                  placeholder="Escribe el nombre del proveedor"
                   type="text"
                   value={values.name}
                   onBlur={handleBlur}
@@ -71,7 +71,7 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
                   id="phone"
                   label="Numero de Contacto"
                   name="phone"
-                  placeholder="Escribe el numero del nuevo proveedor"
+                  placeholder="Escribe el numero del proveedor"
                   type="text"
                   value={values.phone}
                   onBlur={handleBlur}
@@ -86,7 +86,7 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
                   id="email"
                   label="Email del proveedor"
                   name="email"
-                  placeholder="Escribe el email del nuevo proveedor"
+                  placeholder="Escribe el email del proveedor"
                   type="text"
                   value={values.email}
                   onBlur={handleBlur}
@@ -96,18 +96,18 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
               </div>
               <div className="w-full lg:w-1/2">
                 <InputForm
-                  id="departament"
+                  id="ruc"
                   label="Departamento del Proveedor"
-                  name="departament"
-                  placeholder="Escribe el departamento del nuevo proveedor"
+                  name="ruc"
+                  placeholder="Escribe el ruc del proveedor"
                   type="text"
-                  value={values.departament}
+                  value={values.ruc}
                   onBlur={handleBlur}
                   onChange={handleChange}
                 />
                 <Errors
-                  errors={errors.departament}
-                  touched={touched.departament}
+                  errors={errors.ruc}
+                  touched={touched.ruc}
                 />
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
                 id="address"
                 label="Ubicación del Proveedor"
                 name="address"
-                placeholder="Escribe la ubicación del nuevo proveedor"
+                placeholder="Escribe la ubicación del proveedor"
                 type="text"
                 value={values.address}
                 onBlur={handleBlur}

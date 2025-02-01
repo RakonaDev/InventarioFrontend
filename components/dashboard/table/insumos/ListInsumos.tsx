@@ -5,8 +5,8 @@ import { EditAndDeleteButtons } from "../../../buttons/EditAndDeleteButtons";
 import { useAdmin } from "../../../../context/AdminContext";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { EditarInsumo } from "../../../modal/insumos/EditarInsumo";
-import EliminarTipoInsumo from "../../../modal/tipo-insumo/EliminarTipoInsumo";
 import { parseToLocalTime } from "../../../../logic/parseToLocalTime";
+import EliminarInsumo from "../../../modal/insumos/EliminarInsumo";
 
 export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
   const { setModalContent, openModal } = useAdmin();
@@ -15,36 +15,36 @@ export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
     openModal();
   };
   const handleEliminarInsumo = (id: number) => {
-    setModalContent(<EliminarTipoInsumo id={id} />);
+    setModalContent(<EliminarInsumo id={id} />);
     openModal();
   };
   return (
     <div className="w-full space-y-6">
       {insumos.map((insumo: Insumo) => (
         <div
-          className="w-full grid grid-cols-12 text-black-700"
-          key={insumo.nombre}
+          className="w-full col-span-1 grid grid-cols-12 text-black-700"
+          key={insumo.id}
         >
           <div className="w-full flex justify-center  items-center">
             <p className="line-clamp-1">{insumo.id}</p>
           </div>
           <div className="w-full col-span-2 flex justify-center  items-center text-sm">
-            <p>{insumo.nombre}</p>
+            <p>{insumo.nombre || ''}</p>
           </div>
-          <div className="w-full flex items-center text-sm justify-center ">
-            <img src={insumo.imagenes} alt="" width={50} height={50} />
+          <div className="w-full flex items-center text-sm justify-center col-span-1">
+            <p>{insumo.cantidad || ''}</p>
+          </div>
+          <div className="w-full flex items-center text-sm justify-center col-span-1">
+            <p>{insumo.proveedor?.name || ''}</p>
+          </div>
+          <div className="w-full col-span-1 flex items-center text-sm justify-center ">
+            <p>{insumo.categorias?.nombre}</p>
           </div>
           <div className="w-full col-span-2 flex items-center text-sm justify-center ">
-            <p>{insumo.id_categoria}</p>
+            <p>{parseToLocalTime(insumo.created_at)}</p>
           </div>
           <div className="w-full col-span-2 flex items-center text-sm justify-center ">
-            <p>{insumo.id_tipo_insumo}</p>
-          </div>
-          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
-            <p>{parseToLocalTime(insumo.fecha_vencimiento)}</p>
-          </div>
-          <div className="w-full  flex items-center text-sm justify-center ">
-            <p>{insumo.vida_util_dias} días</p>
+            <p>{parseToLocalTime(insumo.updated_at)}</p>
           </div>
           <EditAndDeleteButtons
             onEdit={() => handleEditarInsumo(insumo)}

@@ -11,6 +11,7 @@ interface InputFormInterface {
   id: string;
   name: string;
   placeholder: string;
+  step?: number;
   className?: string
   onChange?: any;
   onBlur?: any;
@@ -27,6 +28,7 @@ export const InputForm: FC<InputFormInterface> = ({
   onChange,
   onBlur,
   value,
+  step = 1,
 }) => {
   const [verContrasena, setVerContrasena] = useState<boolean>(false);
 
@@ -43,6 +45,7 @@ export const InputForm: FC<InputFormInterface> = ({
           onBlur={onBlur}
           value={value}
           name={name}
+          step={step}
           autoComplete="off"
           className={`mt-1 block w-full px-4 py-2 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300 ${className}`}
           placeholder={placeholder}

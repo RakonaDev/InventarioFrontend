@@ -4,6 +4,7 @@ import { apiURL } from "../helper/global";
 import { useAdmin } from "../context/AdminContext";
 import { ProveedorInterface } from "@/interfaces/ProveedorInterface";
 import { toast } from "sonner";
+import { useInsumos } from "./useInsumos";
 
 const fetchProveedor = async () => {
   try {
@@ -89,6 +90,7 @@ const deleteProveedor = async (id: number) => {
 
 export function useProveedor () {
   const { closeModal } = useAdmin();
+  const { ActualizarInformacionInsumos } = useInsumos()
   const query = useQueryClient()
   const { data: proveedores } = useQuery<ProveedorInterface[]>({
     queryKey: ['proveedores'],
@@ -118,6 +120,7 @@ export function useProveedor () {
           proveedor.id === updatedProveedor.id ? updatedProveedor : proveedor
         );
       })
+      ActualizarInformacionInsumos()
     },
     onError: (error) => {
       toast.error(error.message)

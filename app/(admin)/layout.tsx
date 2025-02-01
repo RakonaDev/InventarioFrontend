@@ -10,13 +10,14 @@ import { TbCategoryFilled } from "react-icons/tb";
 import { AiFillBank } from "react-icons/ai";
 import { MdSell } from "react-icons/md";
 import { FaShoppingBag } from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
 export default function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   return (
     <AdminProvider>
       <Header />
@@ -98,6 +99,17 @@ export default function AdminLayout({
                   <MdSell />
                 </span>
                 <p className="text-lg font-bold">Salidas</p>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={"/dashboard/movimientos"}
+                className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
+              >
+                <span className="text-2xl">
+                  <FaArrowRightArrowLeft />
+                </span>
+                <p className="text-lg font-bold">Movimientos</p>
               </Link>
             </li>
           </ul>

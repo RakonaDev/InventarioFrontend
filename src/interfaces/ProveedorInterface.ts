@@ -3,7 +3,7 @@ export interface ProveedorInterface {
   name: string
   phone: string,
   email: string
-  departament: string
+  ruc: string
   address: string
   created_at?: Date
   updated_at?: Date

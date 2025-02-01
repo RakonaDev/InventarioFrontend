@@ -19,7 +19,7 @@ export default function EliminarCategoria(props: EliminarProps) {
   
   return (
     <div className='w-full'>
-      <h1 className='text-center font-bold text-xl mt-10'>Estas seguro de eliminar este Rol?</h1>
+      <h1 className='text-center font-bold text-xl mt-10'>Estas seguro de eliminar esta Categoria?</h1>
       <Image src={DeletePerson} width={350} height={350} alt='Imagen' className='mx-auto'/>
       <section className='mt-16 flex justify-center gap-10'>
         <button 

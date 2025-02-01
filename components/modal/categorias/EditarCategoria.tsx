@@ -63,7 +63,7 @@ export default function EditarCategoria({ categoria }: { categoria: CategoriaInt
         type="submit"
         className="w-full flex justify-center rounded-main mt-5 bg-secundario-main text-white-main py-2 px-5 transition-all duration-200 ease-out hover:bg-secundario-500"
       >
-        Editar Rol
+        Editar Categoria
       </button>
     </form>
   );

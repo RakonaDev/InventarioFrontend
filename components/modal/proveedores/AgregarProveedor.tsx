@@ -20,13 +20,13 @@ export default function AgregarProveedor() {
       name: "",
       phone: "",
       email: "",
-      departament: "",
+      ruc: "",
       address: "",
     },
     onSubmit: (values) => {
       PostProveedor({
         address: values.address,
-        departament: values.departament,
+        ruc: values.ruc,
         email: values.email,
         name: values.name,
         phone: values.phone
@@ -39,7 +39,7 @@ export default function AgregarProveedor() {
       name: "",
       phone: "",
       email: "",
-      departament: "",
+      ruc: "",
       address: "",
     });
   }, [setValues]);
@@ -105,18 +105,18 @@ export default function AgregarProveedor() {
             </div>
             <div className="w-full lg:w-1/2">
               <InputForm
-                id="departament"
+                id="ruc"
                 label="Ruc del proveedor"
-                name="departament"
-                placeholder="Escribe el departamento del nuevo proveedor"
+                name="ruc"
+                placeholder="Escribe el ruc del nuevo proveedor"
                 type="text"
-                value={values.departament}
+                value={values.ruc}
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
               <Errors
-                errors={errors.departament}
-                touched={touched.departament}
+                errors={errors.ruc}
+                touched={touched.ruc}
               />
             </div>
           </div>
