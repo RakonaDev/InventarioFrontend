@@ -6,7 +6,6 @@ import { useMe } from '../../hooks/useMe'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MdLogout } from "react-icons/md";
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
 import { apiURL } from '../../helper/global'
 
 export const CardHeaderUser = () => {
