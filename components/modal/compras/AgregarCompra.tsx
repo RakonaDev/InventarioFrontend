@@ -17,16 +17,20 @@ export const AgregarCompra = () => {
     initialValues: {
       id_producto: 0,
       cantidad: 0,
-      fecha_creacion: new Date(),
-      fecha_vencimiento: new Date(),
+      fecha_creacion: '',
+      fecha_vencimiento: '',
       comprobante: null
     },
     onSubmit: (values) => {
       const newCompra = new FormData();
       newCompra.append("id_producto", Number(values.id_producto).toString());
       newCompra.append("cantidad", values.cantidad.toString());
-      newCompra.append("fecha_creacion", String(values.fecha_creacion));
-      newCompra.append("fecha_vencimiento", String(values.fecha_vencimiento));
+      if (values.fecha_creacion) {
+        newCompra.append("fecha_creacion", String(values.fecha_creacion));
+      }
+      if (values.fecha_vencimiento) {
+        newCompra.append("fecha_vencimiento", String(values.fecha_vencimiento));
+      }
       if (values.comprobante) {
         newCompra.append('comprobante', values.comprobante as File); // Solo agregamos si imagen no es null
       }

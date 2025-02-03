@@ -7,6 +7,8 @@ import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { LinkDinamic } from "../../logic/LinkDinamic";
 import { useMe } from "../../hooks/useMe";
 import { Pagina } from "@/interfaces/MyInfoInterface";
+import { HiMenu } from "react-icons/hi";
+import { useEffect, useState } from "react";
 
 export default function AdminLayout({
   children,
@@ -14,17 +16,39 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   const { me } = useMe()
-  
+  const [openMenu, setOpenMenu] = useState(false)
+
+  const handlerMenu = () => {
+    setOpenMenu(!openMenu)
+  }
+
+  useEffect(() => {
+
+    window.addEventListener('resize',() => {
+      if (window.innerWidth >= 1024) {
+        if (openMenu == false) return
+        setOpenMenu(false)
+      }
+    })
+  })
+
   return (
     <AdminProvider>
       <Header />
-      <section className="w-full flex justify-between h-[calc(100dvh-80px)] ">
-        <div className="w-[280px] bg-gradient-to-t from-slate-500 to-slate-900 h-full lg:relative lg:top-0 fixed top-20 left-0">
+      <section className="w-full relative flex justify-between h-[calc(100dvh-80px)]">
+        <div className={`w-[280px] bg-gradient-to-t from-slate-500 to-slate-900 h-full lg:relative lg:top-0 fixed top-20 ${openMenu ? '-left-[280px]' : 'left-0'} transition-all duration-600`}>
+          <button 
+            type="button"
+            className="absolute p-1 bg-slate-900 z-50 top-0 -right-12 lg:hidden"
+            onClick={handlerMenu}
+          >
+            <HiMenu size={40} color="white"/>
+          </button>
           <ul>
-            { 
-              me?.roles.list_paginas?.map((pagina: Pagina) => { 
+            {
+              me?.roles.list_paginas?.map((pagina: Pagina) => {
                 return LinkDinamic(pagina.nombre || '')
-              }) 
+              })
             }
             <li>
               <Link

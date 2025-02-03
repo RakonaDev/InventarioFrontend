@@ -8,19 +8,19 @@ import AgregarProveedor from "../../../../components/modal/proveedores/AgregarPr
 import ListProveedores from "../../../../components/dashboard/table/proveedores/ListProveedores";
 
 const ItemsProveedorTable: TableTitle[] = [
-  { nombre: "ID", className: "col-span-1" },
-  { nombre: "Nombre", className: "" },
-  { nombre: "Contacto", className: "col-span-1" },
-  { nombre: "Correo", className: "col-span-2" },
-  { nombre: "Ubicación", className: "col-span-2" },
-  { nombre: "Fecha de Registro", className: "col-span-2" },
-  { nombre: "Fecha de Actualización", className: "col-span-2" },
+  { nombre: "ID", className: "min-w-[100px] xl:col-span-1" },
+  { nombre: "Nombre", className: "min-w-[150px] xl:w-full" },
+  { nombre: "Contacto", className: "min-w-[150px] xl:col-span-1" },
+  { nombre: "Correo", className: "min-w-[150px] xl:col-span-2" },
+  { nombre: "Ubicación", className: "min-w-[150px] xl:col-span-2" },
+  { nombre: "Fecha de Registro", className: "min-w-[200px] xl:col-span-2" },
+  { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-2" },
 ];
 
 export default function ProveedoresPage() {
   return (
     <>
-      <div className="w-full  flex items-center mb-6 justify-between">
+      <div className="w-full mt-10 flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
           <motion.h2 
             className="text-2xl font-medium" 
@@ -35,10 +35,10 @@ export default function ProveedoresPage() {
           text="Agregar Proveedor"
         />
       </div>
-      <div className="w-full bg-white-main p-5">
+      <div className="w-full bg-white-main p-5 overflow-x-auto">
         <HeadTablePC
           titlesTable={ItemsProveedorTable}
-          className="mb-6 grid-cols-12 text-gray-400 border-b pb-5"
+          className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
         <ListProveedores />
       </div>

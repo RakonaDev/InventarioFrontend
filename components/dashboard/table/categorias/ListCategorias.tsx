@@ -54,17 +54,17 @@ export default function ListCategorias() {
   return (
     <div className="w-full space-y-6">
       {categorias?.map((categoria: CategoriaInterface) => (
-        <div className="w-full grid grid-cols-12 text-black-700" key={categoria.id}>
-          <div className="w-full col-span-2 flex justify-center  items-center text-sm">
+        <div className="w-full flex gap-5 xl:grid xl:grid-cols-12 text-black-700" key={categoria.id}>
+          <div className="w-full min-w-[100px] xl:col-span-2 flex justify-center  items-center text-sm">
             <p>{categoria.id}</p>
           </div>
-          <div className="w-full col-span-2 flex justify-center  items-center text-sm">
+          <div className="w-full min-w-[150px] xl:col-span-2 flex justify-center  items-center text-sm">
             <p>{categoria.nombre}</p>
           </div>
-          <div className="w-full col-span-2 flex justify-center  items-center text-sm">
+          <div className="w-full min-w-[200px] xl:col-span-2 flex justify-center  items-center text-sm">
             <p>{parseToLocalTime(new Date(categoria.created_at || 0))}</p>
           </div>
-          <div className="w-full col-span-3 flex justify-center  items-center text-sm">
+          <div className="w-full min-w-[200px] xl:col-span-3 flex justify-center  items-center text-sm">
             <p>{parseToLocalTime(new Date(categoria.updated_at || 0))}</p>
           </div>
           <EditAndDeleteButtons

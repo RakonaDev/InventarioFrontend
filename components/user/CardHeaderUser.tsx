@@ -48,11 +48,11 @@ export const CardHeaderUser = () => {
         {
           userMenu && (
             <motion.div
-              exit={{ opacity: 0, x: 100 }}
-              initial={{ opacity: 0, x: 100 }}
+              exit={{ opacity: 0, x: 200 }}
+              initial={{ opacity: 0, x: 200 }}
               animate={{ opacity: 1, x: 0 }}
               key={'wewcd,fmelde'}
-              className='absolute right-0 border-2 border-black-main rounded-lg shadow-md shadow-black-main top-20 bg-white-main p-5 w-full flex flex-col gap-3'
+              className='z-50 absolute right-0 border-2 border-black-main rounded-lg shadow-md shadow-black-main top-20 bg-white-main p-5 w-[270px] flex flex-col gap-3'
             >
               <h1 className='font-bold border-b-2 border-b-black-main pb-4'>Opciones del Usuario</h1>
               <button 

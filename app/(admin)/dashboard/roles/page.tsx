@@ -7,16 +7,16 @@ import { TableTitle } from "../usuarios/page";
 import { motion } from "framer-motion";
 
 const ItemsRolesTable: TableTitle[] = [
-  { nombre: "ID", className: "col-span-2" },
-  { nombre: "Nombre", className: "col-span-2" },
-  { nombre: "Fecha de Creación", className: "col-span-2" },
-  { nombre: "Fecha de Actualización", className: "col-span-3" }  
+  { nombre: "ID", className: "min-w-[100px] xl:col-span-2" },
+  { nombre: "Nombre", className: "min-w-[200px] xl:col-span-2" },
+  { nombre: "Fecha de Creación", className: "min-w-[200px] xl:col-span-2" },
+  { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-3" }  
 ]
 
 export default function RolesPage() {
   return (
     <>
-      <div className="w-full  flex items-center mb-6 justify-between">
+      <div className="w-full mt-10 flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
           <motion.h2 
             className="text-2xl font-medium"
@@ -28,10 +28,10 @@ export default function RolesPage() {
         </div>
         <ButtonOpenModal modal={<AgregarRol />} text="Agregar Rol" />
       </div>
-      <div className="w-full bg-white-main p-5">
+      <div className="w-full bg-white-main p-5 overflow-x-auto">
         <HeadTablePC
           titlesTable={ItemsRolesTable}
-          className="mb-6 grid-cols-12 text-gray-400 border-b pb-5"
+          className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
         <ListRoles />
       </div>

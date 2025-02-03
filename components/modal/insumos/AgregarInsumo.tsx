@@ -28,8 +28,8 @@ export const AgregarInsumo = () => {
       id_categoria: 0,
       id_proveedor: 0,
       cantidad: 0,
-      fecha_creacion: new Date(),
-      fecha_vencimiento: new Date(),
+      fecha_creacion: '',
+      fecha_vencimiento: '',
       comprobante: null
     },
     onSubmit: async (values) => {
@@ -44,8 +44,12 @@ export const AgregarInsumo = () => {
         newInsumo.append('comprobante', values.comprobante as File); // Solo agregamos si imagen no es null
       }
       newInsumo.append("cantidad", values.cantidad.toString());
-      newInsumo.append("fecha_creacion", String(values.fecha_creacion));
-      newInsumo.append("fecha_vencimiento", String(values.fecha_vencimiento));
+      if (values.fecha_creacion) {
+        newInsumo.append("fecha_creacion",String(values.fecha_creacion));
+      }
+      if (values.fecha_vencimiento) {
+        newInsumo.append("fecha_vencimiento", String(values.fecha_vencimiento));
+      }
       PostInsumo(newInsumo)
     }
   });

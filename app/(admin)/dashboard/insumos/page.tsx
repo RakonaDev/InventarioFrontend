@@ -9,13 +9,13 @@ import { motion } from "framer-motion";
 import { useInsumos } from "../../../../hooks/useInsumos";
 
 const ItemsInsumosTable: TableTitle[] = [
-  { nombre: "Código", className: "col-span-1" },
-  { nombre: "Nombre", className: "col-span-2" },
-  { nombre: "Cantidad", className: "col-span-1" },
-  { nombre: "Proveedor", className: "col-span-1" },
-  { nombre: "Categoría", className: "col-span-1" },
-  { nombre: "Fecha de Registro", className: "col-span-2" },
-  { nombre: "Fecha de Actualización", className: "col-span-2" },
+  { nombre: "Código", className: "lg:col-span-1 min-w-[100px]" },
+  { nombre: "Nombre", className: "lg:col-span-2 min-w-[150px]" },
+  { nombre: "Cantidad", className: "lg:col-span-1 min-w-[100px]" },
+  { nombre: "Proveedor", className: "lg:col-span-1 min-w-[150px]" },
+  { nombre: "Categoría", className: "lg:col-span-1 min-w-[150px]" },
+  { nombre: "Fecha de Registro", className: "lg:col-span-2 min-w-[150px]" },
+  { nombre: "Fecha de Actualización", className: "lg:col-span-2 min-w-[180px]" },
 ];
 
 export default function page() {
@@ -23,7 +23,7 @@ export default function page() {
   if (insumos == null) return <div>Loading...</div>;
   return (
     <>
-      <div className="w-full  flex items-center mb-6 justify-between">
+      <div className="w-full mt-10 flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
           <motion.h2 
             className="text-2xl font-medium"
@@ -35,10 +35,10 @@ export default function page() {
         </div>
         <ButtonOpenModal modal={<AgregarInsumo />} text="Agregar Producto" />
       </div>
-      <div className="w-full bg-white-main p-5">
+      <div className="w-full bg-white-main p-5 overflow-x-auto">
         <HeadTablePC
           titlesTable={ItemsInsumosTable}
-          className="mb-6 grid-cols-12 text-gray-400 border-b pb-5"
+          className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
         <ListInsumos insumos={insumos} />
       </div>

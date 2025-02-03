@@ -23,17 +23,17 @@ export default function ListRoles() {
   return (
     <div className="w-full space-y-6">
       {roles?.map((rol: RolInterface) => (
-        <div className="w-full grid grid-cols-12 text-black-700" key={rol.id}>
-          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
+        <div className="w-full flex gap-5 xl:grid xl:grid-cols-12 text-black-700" key={rol.id}>
+          <div className="w-full min-w-[100px] xl:col-span-2 flex items-center text-sm justify-center ">
             <p>{rol.id}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
+          <div className="w-full min-w-[200px] xl:col-span-2 flex items-center text-sm justify-center ">
             <p>{rol.name}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
+          <div className="w-full min-w-[200px] xl:col-span-2 flex items-center text-sm justify-center ">
             <p>{parseToLocalTime(rol.created_at)}</p>
           </div>
-          <div className="w-full col-span-3 flex items-center text-sm justify-center ">
+          <div className="w-full min-w-[200px] xl:col-span-3 flex items-center text-sm justify-center ">
             <p>{parseToLocalTime(rol.updated_at)}</p>
           </div>
           <EditAndDeleteButtons

@@ -42,6 +42,8 @@ const PostCompra = async (newCompra: FormData) => {
 }
 
 export function useCompra() {
+  const { closeModal } = useAdmin()	
+  const query = useQueryClient()
   const { data: compras, refetch: ActualizarInformacionCompras } = useQuery<CompraInterface[]>({
     queryKey: ['compras'],
     queryFn: fetchCompras,
@@ -61,7 +63,7 @@ export function useCompra() {
         if (oldInsumos == null) return
         return oldInsumos.map((insumo: Insumo) => {
           if (insumo.id === newCompra.producto?.id) {
-            insumo.cantidad += newCompra.cantidad
+            insumo.cantidad = Number(insumo.cantidad) + Number(newCompra.cantidad)
             return insumo
           }
           return insumo;
@@ -73,6 +75,7 @@ export function useCompra() {
 
   return {
     compras,
+    PostCompras,
     ActualizarInformacionCompras
   }
 }

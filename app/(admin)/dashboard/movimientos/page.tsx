@@ -6,13 +6,13 @@ import { TableTitle } from '../usuarios/page';
 import ListComprasMov from '../../../../components/dashboard/table/movimientos/ListComprasMov';
 import ListSalidasMov from '../../../../components/dashboard/table/movimientos/ListSalidasMov';
 const ItemsRolesTable: TableTitle[] = [
-  { nombre: "ID_Compra", className: "col-span-1" },
-  { nombre: "Producto", className: "col-span-2" },
-  { nombre: "Precio", className: "col-span-2" },
-  { nombre: "Cantidad", className: "col-span-2" },
-  { nombre: "Total", className: "col-span-1" },
-  { nombre: "Comprobante", className: "col-span-2" },
-  { nombre: "Fecha de Creación", className: "col-span-2" },
+  { nombre: "ID_Compra", className: "xl:col-span-2 min-w-[100px]" },
+  { nombre: "Producto", className: "xl:col-span-2 min-w-[150px]" },
+  { nombre: "Precio", className: "xl:col-span-1 min-w-[130px]" },
+  { nombre: "Cantidad", className: "xl:col-span-2 min-w-[130px]" },
+  { nombre: "Total", className: "xl:col-span-1 min-w-[150px]" },
+  { nombre: "Comprobante", className: "xl:col-span-2 min-w-[150px]" },
+  { nombre: "Fecha de Creación", className: "xl:col-span-2 min-w-[200px]" },
 ]
 
 export default function MovimientoPage(): JSX.Element {
@@ -23,7 +23,7 @@ export default function MovimientoPage(): JSX.Element {
 
   return (
     <>
-      <div className="w-full  flex items-center mb-6 justify-between">
+      <div className="w-full mt-10 flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
           <motion.h2
             className="text-2xl font-medium"
@@ -37,7 +37,7 @@ export default function MovimientoPage(): JSX.Element {
           <select 
             name="opcion" 
             id="opcion"
-            className="px-8 py-2" 
+            className="px-8 py-2 border-2 shadow-sm shadow-black-900 rounded-xl border-black-900" 
             title='opcion'
             onChange={handleChange}
             value={selectedMovimiento}
@@ -48,10 +48,10 @@ export default function MovimientoPage(): JSX.Element {
         </div>
         {/*<ButtonOpenModal modal={<AgregarRol />} text="Agregar Rol" />*/}
       </div>
-      <div className="w-full bg-white-main p-5">
+      <div className="w-full bg-white-main p-5 overflow-x-auto">
         <HeadTablePC
           titlesTable={ItemsRolesTable}
-          className="mb-6 grid-cols-12 text-gray-400 border-b pb-5"
+          className="mb-6 gap-5 xl:grid-cols-12 flex text-gray-400 border-b pb-5"
           nededActions={false}
         />
         {

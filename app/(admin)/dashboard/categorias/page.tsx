@@ -8,16 +8,16 @@ import ListCategorias from '../../../../components/dashboard/table/categorias/Li
 import AgregarCategoria from '../../../../components/modal/categorias/AgregarCategoria';
 
 const ItemsTipoInsumoTable: TableTitle[] = [
-  { nombre: "Código", className: "col-span-2" },
-  { nombre: "Nombre", className: "col-span-2" },
-  { nombre: "Fecha de Creación", className: "col-span-2" },
-  { nombre: "Fecha de Actualización", className: "col-span-3" },
+  { nombre: "Código", className: "min-w-[100px] xl:col-span-2" },
+  { nombre: "Nombre", className: "min-w-[150px] xl:col-span-2" },
+  { nombre: "Fecha de Creación", className: "min-w-[200px] xl:col-span-2" },
+  { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-3" },
 ];
 
 export default function CategoriasPage() {
   return (
     <>
-      <div className="w-full  flex items-center mb-6 justify-between">
+      <div className="w-full mt-10 flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
           <motion.h2 
             className="text-2xl font-medium"
@@ -29,10 +29,10 @@ export default function CategoriasPage() {
         </div>
         <ButtonOpenModal modal={<AgregarCategoria />} text="Agregar Categoria" />
       </div>
-      <div className="w-full bg-white-main p-5">
+      <div className="w-full bg-white-main p-5 overflow-x-auto">
         <HeadTablePC
           titlesTable={ItemsTipoInsumoTable}
-          className="mb-6 grid-cols-12 text-gray-400 border-b pb-5"
+          className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
         <ListCategorias />
       </div>

@@ -23,7 +23,7 @@ const Page: NextPage = ({}) => {
   const { users } = useUsers();
   return (
     <>
-      <div className="w-full  flex items-center mb-6 justify-between">
+      <div className="w-full mt-10 flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
           <motion.h2 
             className="text-2xl font-medium"
