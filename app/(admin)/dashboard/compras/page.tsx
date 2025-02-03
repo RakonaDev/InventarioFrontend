@@ -11,8 +11,8 @@ const ItemsInsumosTable: TableTitle[] = [
   { nombre: "Código", className: "col-span-1" },
   { nombre: "Producto", className: "col-span-2" },
   { nombre: "Cantidad", className: "col-span-1" },
-  { nombre: "Comprobante", className: "col-span-1" },
-  { nombre: "Dias Útiles", className: "col-span-2" },
+  { nombre: "Comprobante", className: "col-span-2" },
+  { nombre: "Dias Útiles", className: "col-span-1" },
   { nombre: "Fecha de Creación", className: "col-span-2" },
   { nombre: "Fecha de Vencimiento", className: "col-span-2" },
 ];
@@ -36,6 +36,7 @@ export default function ComprasPage() {
         <HeadTablePC
           titlesTable={ItemsInsumosTable}
           className="mb-6 grid-cols-12 text-gray-400 border-b pb-5"
+          nededActions={false}
         />
         <ListCompras />
       </div>

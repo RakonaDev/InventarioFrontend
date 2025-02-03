@@ -96,7 +96,7 @@ export const useUsers = () => {
   const query = useQueryClient()
   const { closeModal, setModalContent } = useAdmin()
 
-  const { data: users } = useQuery<ListUserInterface[]>({
+  const { data: users, refetch: ActualizarInfoUsuarios } = useQuery<ListUserInterface[]>({
     queryKey: ['users'],
     queryFn: fetchUsers,
     refetchOnWindowFocus: false,
@@ -147,6 +147,7 @@ export const useUsers = () => {
     users,
     mutate,
     EditarUser,
-    DeleteUser
+    DeleteUser,
+    ActualizarInfoUsuarios
   }
 }

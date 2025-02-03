@@ -3,6 +3,8 @@ import { apiURL } from "../helper/global";
 import { RolInterface } from "@/interfaces/RolInterface";
 import { useAdmin } from "../context/AdminContext";
 import { toast } from "sonner";
+import { useUsers } from "./useUsers";
+// import { ListUserInterface } from "@/interfaces/ListUserInterface";
 
 const fetchRoles = async () => {
   try {
@@ -89,6 +91,7 @@ const deleteRol = async (id: number) => {
 export function useRol() {
   const query = useQueryClient();
   const { closeModal } = useAdmin();
+  const { ActualizarInfoUsuarios } = useUsers();
 
   const { data: roles, isError: ErrorRol, isLoading: CargandoRol } = useQuery<RolInterface[]>({
     queryKey: ['roles'],
@@ -118,6 +121,7 @@ export function useRol() {
           rol.id === updatedRol.id ? updatedRol : rol
         );
       })
+      ActualizarInfoUsuarios()
     },
     onError: (error) => {
       toast.error(error.message)
@@ -127,10 +131,18 @@ export function useRol() {
   const { mutate: DeleteRol } = useMutation({
     mutationFn: deleteRol,
     onSuccess: async (rolDeleted: RolInterface) => {
+      
       closeModal()
       await query.setQueryData(['roles'], (oldRoles: RolInterface[]) => {
         return oldRoles.filter((rol: RolInterface) => rol.id !== rolDeleted.id)
       })
+      ActualizarInfoUsuarios()
+      /*
+      await query.setQueryData(['users'], (oldCompra?: ListUserInterface[]) => {
+        if (oldCompra == null) return [];
+        return oldCompra.filter((compra: ListUserInterface) => compra.id !== compras.id);
+      });
+      */
     }
   })
 

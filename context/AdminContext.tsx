@@ -35,7 +35,6 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const [modalContent, setModalContent] = useState<React.ReactNode | null>(null);
   const openModal = () => {
     setIsModalOpen(true);
-    console.log("click")
   };
 
 
