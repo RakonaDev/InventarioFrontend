@@ -4,7 +4,9 @@ import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page";
 export const HeadTablePC = ({
   className,
   titlesTable,
+  nededActions = true,
 }: {
+  nededActions?: boolean;
   className?: string;
   titlesTable: TableTitle[];
 }) => {
@@ -23,7 +25,7 @@ export const HeadTablePC = ({
         </div>
       ))}
 
-      <div className="w-full text-center">Acciones</div>
+      {nededActions && <div className="w-full text-center">Acciones</div>}
     </div>
   );
 };
