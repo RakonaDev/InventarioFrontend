@@ -1,9 +1,10 @@
 import { PaginasInterface } from "@/interfaces/PaginasInterface";
-import { apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../helper/global";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPaginas = async () => {
   try{
+    /*
     const response = await fetch(`${apiURL}/paginas`, {
       method: "GET",
       headers: {
@@ -11,11 +12,13 @@ const fetchPaginas = async () => {
       },
       credentials: 'include'
     });
+    */
+    const response = await apiAuth.get('/paginas')
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json();
-    return data;
+    // const data = await response.json();
+    return response.data;
   }
   catch (error) {
     console.log(error)

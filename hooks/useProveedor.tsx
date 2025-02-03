@@ -1,6 +1,6 @@
 'use client'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../helper/global";
 import { useAdmin } from "../context/AdminContext";
 import { ProveedorInterface } from "@/interfaces/ProveedorInterface";
 import { toast } from "sonner";
@@ -8,6 +8,7 @@ import { useInsumos } from "./useInsumos";
 
 const fetchProveedor = async () => {
   try {
+    /*
     const response = await fetch(`${apiURL}/proveedores`, {
       method: "GET",
       headers: {
@@ -15,11 +16,14 @@ const fetchProveedor = async () => {
       },
       credentials: "include",
     });
+    */
+    const response = await apiAuth.get('/proveedores')
+
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json();
-    return data;
+    // const data = await response.json();
+    return response.data;
   } catch (error) {
     console.log(error);
   }
@@ -27,6 +31,7 @@ const fetchProveedor = async () => {
 
 const postProveedores = async (newProveedor: ProveedorInterface) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/proveedores`, {
       method: "POST",
       headers: {
@@ -35,11 +40,13 @@ const postProveedores = async (newProveedor: ProveedorInterface) => {
       credentials: "include",
       body: JSON.stringify(newProveedor),
     });
-    const data = await response.json();
+    */
+    const response = await apiAuth.post('/proveedores', newProveedor)
+    // const data = await response.json();
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    return data.proveedores;
+    return response.data.proveedores;
   } catch (error) {
     console.log(error);
   }
@@ -47,6 +54,7 @@ const postProveedores = async (newProveedor: ProveedorInterface) => {
 
 const patchProveedor = async (updatedProveedor: ProveedorInterface) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/proveedores/${updatedProveedor.id}`, {
       method: "PUT",
       headers: {
@@ -55,11 +63,14 @@ const patchProveedor = async (updatedProveedor: ProveedorInterface) => {
       credentials: 'include',
       body: JSON.stringify(updatedProveedor)
     })
+      */
+    const response = await apiAuth.put(`/proveedores/${updatedProveedor.id}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json()
-    return data.proveedores
+    // const data = await response.json()
+
+    return response.data.proveedores
   } catch (error) {
     console.log(error)
   }
@@ -67,6 +78,7 @@ const patchProveedor = async (updatedProveedor: ProveedorInterface) => {
 
 const deleteProveedor = async (id: number) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/proveedores/${id}`, {
       method: "DELETE",
       headers: {
@@ -77,11 +89,13 @@ const deleteProveedor = async (id: number) => {
         id
       })
     })
+    */
+    const response = await apiAuth.delete(`/proveedores/${id}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json()
-    return data.proveedores
+    // const data = await response.json()
+    return response.data.proveedores
   }
   catch (error) {
     console.log(error)

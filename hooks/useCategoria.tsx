@@ -1,12 +1,13 @@
 'use client'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../helper/global";
 import { useAdmin } from "../context/AdminContext";
 import { CategoriaInterface } from "@/interfaces/CategoriaInterface";
 import { toast } from "sonner";
 
 const fetchCategorias = async () => {
   try {
+    /*
     const response = await fetch(`${apiURL}/categorias`, {
       method: "GET",
       headers: {
@@ -14,11 +15,14 @@ const fetchCategorias = async () => {
       },
       credentials: "include",
     });
+    */
+    const response = await apiAuth.get('/categorias')
+    
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json();
-    return data;
+    
+    return response.data;
   } catch (error) {
     console.log(error);
   }
@@ -26,6 +30,7 @@ const fetchCategorias = async () => {
 
 const postCategorias = async (newCategoria: CategoriaInterface) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/categorias`, {
       method: "POST",
       headers: {
@@ -35,10 +40,12 @@ const postCategorias = async (newCategoria: CategoriaInterface) => {
       body: JSON.stringify(newCategoria),
     });
     const data = await response.json();
+    */
+    const response = await apiAuth.post('/categorias', newCategoria)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    return data.categorias;
+    return response.data.categorias;
   } catch (error) {
     console.log(error);
   }
@@ -46,6 +53,7 @@ const postCategorias = async (newCategoria: CategoriaInterface) => {
 
 const patchCategorias = async (updatedCategorias: CategoriaInterface) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/categorias/${updatedCategorias.id}`, {
       method: "PUT",
       headers: {
@@ -54,11 +62,13 @@ const patchCategorias = async (updatedCategorias: CategoriaInterface) => {
       credentials: 'include',
       body: JSON.stringify(updatedCategorias)
     })
+    */
+    const response = await apiAuth.put(`/categorias/${updatedCategorias.id}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json()
-    return data.categorias
+    // const data = await response.json()
+    return response.data.categorias
   } catch (error) {
     console.log(error)
   }
@@ -66,6 +76,7 @@ const patchCategorias = async (updatedCategorias: CategoriaInterface) => {
 
 const deleteCategorias = async (id: number) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/categorias/${id}`, {
       method: "DELETE",
       headers: {
@@ -73,11 +84,13 @@ const deleteCategorias = async (id: number) => {
       },
       credentials: 'include',
     })
+    */
+   const response = await apiAuth.delete(`/categorias/${id}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json()
-    return data.categorias
+    // const data = await response.json()
+    return response.data.categorias
   }
   catch (error) {
     console.log(error)

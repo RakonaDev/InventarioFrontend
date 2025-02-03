@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import { apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../helper/global";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { useAdmin } from "../context/AdminContext";
@@ -8,6 +8,7 @@ import { CompraInterface } from "@/interfaces/CompraInterface";
 import { useCompra } from "./useCompra";
 
 const fetchInsumos = async () => {
+  /*
   const response = await fetch(`${apiURL}/getInsumos`, {
     method: "GET",
     headers: {
@@ -16,27 +17,34 @@ const fetchInsumos = async () => {
     credentials: 'include'
 
   });
+  */
+  const response = await apiAuth.get('/getInsumos')
   if (response.status === 401) {
     window.location.href = '/login'
   }
-  const data = await response.json();
-  return data;
+  // const data = await response.json();
+  return response.data;
 };
 
 const postInsumos = async (newInsumo: FormData) => {
+  /*
   const response = await fetch(`${apiURL}/insumos`, {
     method: "POST",
     credentials: 'include',
     body: newInsumo
   });
+  */
+  const response = await apiAuth.postForm('/insumos', newInsumo)
+
   if (response.status === 401) {
     window.location.href = '/login'
   }
-  const data = await response.json();
-  return data;
+  // const data = await response.json();
+  return response.data;
 };
 
 const editInsumos = async (editedInsumo: Insumo) => {
+  /*
   const response = await fetch(`${apiURL}/insumos/${editedInsumo.id}`, {
     method: "PUT",
     headers: {
@@ -45,26 +53,28 @@ const editInsumos = async (editedInsumo: Insumo) => {
     credentials: 'include',
     body: JSON.stringify(editedInsumo)
   });
+  */
+  const response = await apiAuth.put(`/insumos/${editedInsumo.id}`, editedInsumo)
   if (response.status === 401) {
     window.location.href = '/login'
   }
-  const data = await response.json();
-  return data;
+  // const data = await response.json();
+  return response.data;
 };
 
 const deleteInsumo = async (id: number) => {
+  /*
   const response = await fetch(`${apiURL}/insumos/${id}`, {
     method: "DELETE",
     credentials: 'include'
   });
-  if (!response.ok) {
-    throw new Error("Failed to delete insumo");
-  }
+  */
+  const response = await apiAuth(`/insumos/${id}`)
   if (response.status === 401) {
     window.location.href = '/login'
   }
-  const data = await response.json();
-  return data;
+  // const data = await response.json();
+  return response.data;
 };
 
 export function useInsumos() {

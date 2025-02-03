@@ -1,6 +1,6 @@
 'use client'
 import { ListUserInterface } from "@/interfaces/ListUserInterface";
-import { apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../helper/global";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAdmin } from "../context/AdminContext";
 import { toast } from "sonner";
@@ -8,6 +8,7 @@ import { toast } from "sonner";
 // FETCH USERS
 const fetchUsers = async () => {
   try{
+    /*
     const response = await fetch(`${apiURL}/getUsers`, {
       method: "GET",
       headers: {
@@ -15,12 +16,14 @@ const fetchUsers = async () => {
       },
       credentials: 'include'
     });
+    */
+   const response = await apiAuth.get('/getUsers')
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json();
-    console.log(data)
-    return data;
+    // const data = await response.json();
+    // console.log(data)
+    return response.data;
   }
   catch (error) {
     console.log(error)

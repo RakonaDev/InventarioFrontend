@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../helper/global";
 import { CompraInterface } from "@/interfaces/CompraInterface";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { useAdmin } from "../context/AdminContext";
 
 const fetchCompras = async () => {
   try{
+    /*
     const response = await fetch(`${apiURL}/compras`, {
       method: "GET",
       headers: {
@@ -13,11 +14,14 @@ const fetchCompras = async () => {
       },
       credentials: 'include'
     });
+    */
+    const response = await apiAuth.get('/compras')
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json();
-    return data;
+    
+    // const data = await response.json();
+    return response.data;
   }
   catch (error) {
     console.log(error)
@@ -26,16 +30,19 @@ const fetchCompras = async () => {
 
 const PostCompra = async (newCompra: FormData) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/compras`, {
       method: "POST",
       credentials: 'include',
       body: newCompra
     });
+    */
+    const response = await apiAuth.post('/compras', newCompra)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json();
-    return data.compras;
+    // const data = await response.json();
+    return response.data.compras;
   } catch (error) {
     console.log(error)
   }
