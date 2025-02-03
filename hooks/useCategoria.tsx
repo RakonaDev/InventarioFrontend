@@ -87,7 +87,7 @@ const deleteCategorias = async (id: number) => {
 export function useCategoria () {
   const { closeModal } = useAdmin();
   const query = useQueryClient()
-  const { data: categorias } = useQuery<CategoriaInterface[]>({
+  const { data: categorias, isError: ErrorCategoria, isLoading: CargandoCategorias } = useQuery<CategoriaInterface[]>({
     queryKey: ['categorias'],
     queryFn: fetchCategorias,
     refetchOnMount: false,
@@ -133,6 +133,8 @@ export function useCategoria () {
 
   return {
     categorias,
+    ErrorCategoria,
+    CargandoCategorias,
     PostCategoria,
     EditarCategoria,
     DeleteCategoria

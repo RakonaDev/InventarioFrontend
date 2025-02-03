@@ -19,13 +19,13 @@ export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
     openModal();
   };
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-6 overflow-x-auto">
       {insumos.map((insumo: Insumo) => (
         <div
           className="w-full col-span-1 grid grid-cols-12 text-black-700"
           key={insumo.id}
         >
-          <div className="w-full flex justify-center  items-center">
+          <div className="w-full flex justify-center  items-center min-w-[150px]">
             <p className="line-clamp-1">{insumo.id}</p>
           </div>
           <div className="w-full col-span-2 flex justify-center  items-center text-sm">

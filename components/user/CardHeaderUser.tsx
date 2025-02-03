@@ -1,28 +1,73 @@
 'use client'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { FaSortDown, FaUser } from 'react-icons/fa6'
 import { useMe } from '../../hooks/useMe'
+import { AnimatePresence, motion } from 'framer-motion'
+import { MdLogout } from "react-icons/md";
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
+import { apiURL } from '../../helper/global'
 
 export const CardHeaderUser = () => {
   const { me } = useMe()
+  const router = useRouter()
+  const [userMenu, setUserMenu] = useState(false)
+  const menuHandler = () => {
+    setUserMenu(!userMenu)
+  }
+  const logout = () => {
+    fetch(`${apiURL}/logout`, {
+      method: 'POST',
+      headers: {
+        'Autorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      credentials: 'include' 
+    })
+    router.push('/login')
+  }
+
   return (
-    <div className="w-fit flex items-center gap-3 p-1">
-    <Link
-      href={""}
-      className="flex bg-gray-500 p-3.5 rounded-main text-white-main text-xl"
-    >
-      <FaUser />
-    </Link>
-    <div className="flex flex-col gap-0.5">
-      <p className="text-white-main ">{`${me?.names || 'Nombres'} ${me?.last_names || ''}`}</p>
-      <span className="text-white-100 italic text-xs">
-        {me?.roles.name || 'Rol'}
-      </span>
+    <div className="w-fit flex items-center gap-3 p-1 relative">
+      <Link
+        href={""}
+        className="flex bg-gray-500 p-3.5 rounded-main text-white-main text-xl"
+      >
+        <FaUser />
+      </Link>
+      <div className="flex flex-col gap-0.5">
+        <p className="text-white-main ">{`${me?.names || 'Nombres'} ${me?.last_names || ''}`}</p>
+        <span className="text-white-100 italic text-xs">
+          {me?.roles.name || 'Rol'}
+        </span>
+      </div>
+      <button title='boton' type="button" className="text-xl text-white-main ml-2" onClick={menuHandler}>
+        <FaSortDown />
+      </button>
+      <AnimatePresence>
+        {
+          userMenu && (
+            <motion.div
+              exit={{ opacity: 0, x: 100 }}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              key={'wewcd,fmelde'}
+              className='absolute right-0 border-2 border-black-main rounded-lg shadow-md shadow-black-main top-20 bg-white-main p-5 w-full flex flex-col gap-3'
+            >
+              <h1 className='font-bold border-b-2 border-b-black-main pb-4'>Opciones del Usuario</h1>
+              <button 
+                onClick={logout}
+                type='button' 
+                className='w-full flex gap-2 items-center hover:translate-x-1 transition-all duration-300'>
+                <MdLogout size={25}/>
+                <span>Cerrar Sesion</span>
+              </button>
+            </motion.div>
+          )
+        }
+      </AnimatePresence>
     </div>
-    <button title='boton' type="button" className="text-xl text-white-main ml-2">
-      <FaSortDown />
-    </button>
-  </div>
   )
 }
+
+

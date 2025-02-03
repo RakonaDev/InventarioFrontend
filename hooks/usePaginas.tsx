@@ -23,7 +23,7 @@ const fetchPaginas = async () => {
 };
 
 export function usePaginas () {
-  const { data: paginas } = useQuery<PaginasInterface[]>({
+  const { data: paginas, isError: ErrorPaginas, isLoading: CargandoPaginas } = useQuery<PaginasInterface[]>({
     queryKey: ['paginas'],
     queryFn: fetchPaginas,
     refetchOnReconnect: false,
@@ -32,6 +32,8 @@ export function usePaginas () {
   })
 
   return {
-    paginas
+    paginas,
+    ErrorPaginas,
+    CargandoPaginas
   }
 }

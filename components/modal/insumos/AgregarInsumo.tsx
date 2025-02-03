@@ -155,7 +155,7 @@ export const AgregarInsumo = () => {
             type="date"
             id="fecha_creacion"
             name="fecha_creacion"
-            label="Fecha de Creación"
+            label="Fecha de Creación (Opcional)"
             placeholder="Elige la fecha"
             value={values.fecha_creacion}
             onBlur={handleBlur}
@@ -167,7 +167,7 @@ export const AgregarInsumo = () => {
             type="date"
             id="fecha_vencimiento"
             name="fecha_vencimiento"
-            label="Fecha de vencimiento"
+            label="Fecha de vencimiento (Opcional)"
             placeholder="Elige la fecha"
             value={values.fecha_vencimiento}
             onBlur={handleBlur}

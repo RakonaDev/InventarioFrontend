@@ -72,7 +72,11 @@ export function useInsumos() {
   const { ActualizarInformacionCompras } = useCompra()
   const query = useQueryClient()
 
-  const { data: insumos, refetch: ActualizarInformacionInsumos } = useQuery<Insumo[]>({
+  const { data: insumos, 
+    refetch: ActualizarInformacionInsumos,
+    isLoading: CargandoInsumos,
+    isError: ErrorInsumos,
+  } = useQuery<Insumo[]>({
     queryKey: ['insumos'],
     queryFn: fetchInsumos,
     refetchOnWindowFocus: false,
@@ -143,7 +147,9 @@ export function useInsumos() {
     PostInsumo,
     DeleteInsumo,
     EditInsumo,
-    ActualizarInformacionInsumos
+    ActualizarInformacionInsumos,
+    CargandoInsumos,
+    ErrorInsumos
   }
 }
 /*

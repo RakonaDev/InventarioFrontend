@@ -9,7 +9,7 @@ export const EditAndDeleteButtons = ({
   onDelete: () => void;
 }) => {
   return (
-    <div className="w-full flex items-center text-sm gap-3 justify-center">
+    <div className="lg:w-full flex items-center text-sm gap-3 justify-center min-w-[150px]">
       <button title="edit" type="button" className="text-green-500" onClick={onEdit}>
         <FaPencil />
       </button>

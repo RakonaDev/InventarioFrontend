@@ -92,7 +92,7 @@ export function useProveedor () {
   const { closeModal } = useAdmin();
   const { ActualizarInformacionInsumos } = useInsumos()
   const query = useQueryClient()
-  const { data: proveedores } = useQuery<ProveedorInterface[]>({
+  const { data: proveedores, isError: ErrorProveedor, isLoading: CargandoProveedor } = useQuery<ProveedorInterface[]>({
     queryKey: ['proveedores'],
     queryFn: fetchProveedor,
     refetchOnMount: false,
@@ -139,6 +139,8 @@ export function useProveedor () {
 
   return {
     proveedores,
+    ErrorProveedor,
+    CargandoProveedor,
     PostProveedor,
     EditarProveedor,
     DeleteProveedor

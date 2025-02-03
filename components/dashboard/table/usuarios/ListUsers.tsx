@@ -21,22 +21,21 @@ export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
     <div className="w-full space-y-6">
       {usuarios?.map((usuario: ListUserInterface) => (
         <div
-          
-          className="w-full grid grid-cols-12 text-black-700"
+          className="w-full flex gap-5 xl:grid xl:grid-cols-12 text-black-700"
           key={usuario.id}
         >
-          <div className="w-full col-span-2 flex items-center justify-center ">
+          <div className="w-full lg:col-span-2 flex items-center justify-center min-w-[180px]">
             <p className="line-clamp-1">{`${usuario.names} ${
               usuario.last_names
             }`}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
+          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center min-w-[150px]">
             <p>{usuario.tel}</p>
           </div>
-          <div className="w-full col-span-3 flex items-center text-sm justify-center ">
+          <div className="w-full lg:col-span-3 flex items-center text-sm justify-center min-w-[150px]">
             <p>{usuario.email}</p>
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
+          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center min-w-[150px]">
             {usuario.estado?.nombre === "Activo" ? (
               <p className="block rounded-full w-[102px] bg-green-100 px-5 py-1  font-medium text-center text-green-500">
                 Activo
@@ -47,7 +46,7 @@ export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
               </p>
             )}
           </div>
-          <div className="w-full col-span-2 flex items-center text-sm justify-center ">
+          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center min-w-[150px]">
             <p>{usuario.roles?.name}</p>
           </div>
           <EditAndDeleteButtons

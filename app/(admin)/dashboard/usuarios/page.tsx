@@ -12,11 +12,11 @@ export interface TableTitle {
 }
 
 const ItemsUsuariosTable: TableTitle[] = [
-  { nombre: "Nombre Completo", className: "col-span-2" },
-  { nombre: "Celular", className: "col-span-2" },
-  { nombre: "Email", className: "col-span-3" },
-  { nombre: "Estado", className: "col-span-2" },
-  { nombre: "Rol", className: "col-span-2" },
+  { nombre: "Nombre Completo", className: "lg:col-span-2 min-w-[180px]" },
+  { nombre: "Celular", className: "lg:col-span-2 min-w-[150px]" },
+  { nombre: "Email", className: "lg:col-span-3 min-w-[150px]" },
+  { nombre: "Estado", className: "lg:col-span-2 min-w-[150px]" },
+  { nombre: "Rol", className: "lg:col-span-2 min-w-[150px]" },
 ];
 
 const Page: NextPage = ({}) => {
@@ -35,10 +35,10 @@ const Page: NextPage = ({}) => {
         </div>
         <ButtonOpenModal modal={<AgregarUsuarios />}  text="Agregar usuario"/>
       </div>
-      <div className="w-full bg-white-main p-5">
+      <div className="w-full bg-white-main p-5 overflow-x-auto">
         <HeadTablePC
           titlesTable={ItemsUsuariosTable}
-          className="mb-6 grid-cols-12 text-gray-400 border-b pb-5"
+          className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
         <ListUsers usuarios={users} />
       </div>

@@ -23,7 +23,7 @@ const fetchCompras = async () => {
 };
 
 export function useCompra() {
-  const { data: compras, refetch: ActualizarInformacionCompras } = useQuery<CompraInterface[]>({
+  const { data: compras, refetch: ActualizarInformacionCompras, isError: ErrorCompra, isLoading: CargandoCompra } = useQuery<CompraInterface[]>({
     queryKey: ['compras'],
     queryFn: fetchCompras,
     refetchOnWindowFocus: false,
@@ -33,6 +33,8 @@ export function useCompra() {
 
   return {
     compras,
+    ErrorCompra,
+    CargandoCompra,
     ActualizarInformacionCompras
   }
 }

@@ -90,7 +90,7 @@ export function useRol() {
   const query = useQueryClient();
   const { closeModal } = useAdmin();
 
-  const { data: roles } = useQuery<RolInterface[]>({
+  const { data: roles, isError: ErrorRol, isLoading: CargandoRol } = useQuery<RolInterface[]>({
     queryKey: ['roles'],
     queryFn: fetchRoles,
     refetchOnWindowFocus: false,
@@ -136,6 +136,8 @@ export function useRol() {
 
   return {
     roles,
+    ErrorRol,
+    CargandoRol,
     PostRol,
     EditarRol,
     DeleteRol
