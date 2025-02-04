@@ -1,12 +1,13 @@
 'use client'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../helper/global";
 import { useAdmin } from "../context/AdminContext";
 import { TipoInsumoInterface } from "@/interfaces/TipoInsumoInterface";
 import { toast } from "sonner";
 
 const fetchTipoInsumo = async () => {
   try {
+    
     const response = await fetch(`${apiURL}/tipo-insumo`, {
       method: "GET",
       headers: {
@@ -14,6 +15,7 @@ const fetchTipoInsumo = async () => {
       },
       credentials: "include",
     });
+    
     if (response.status === 401) {
       window.location.href = '/login'
     }

@@ -1,11 +1,12 @@
 import { SalidaInterface } from "@/interfaces/SalidaInterface";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../helper/global";
 import { useAdmin } from "../context/AdminContext";
 
 // FETCHS SALIDAS
 const fetchSalidas = async () => {
   try{
+    /*
     const response = await fetch(`${apiURL}/salidas`, {
       method: "GET",
       headers: {
@@ -13,11 +14,13 @@ const fetchSalidas = async () => {
       },
       credentials: 'include'
     });
+    */
+    const response = await apiAuth.get('/salidas')
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json();
-    return data;
+    // const data = await response.json();
+    return response.data;
   }
   catch (error) {
     console.log(error)
@@ -26,6 +29,7 @@ const fetchSalidas = async () => {
 
 const postSalida = async (newSalida: SalidaInterface) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/salidas`, {
       method: "POST",
       credentials: 'include',
@@ -34,11 +38,14 @@ const postSalida = async (newSalida: SalidaInterface) => {
       },
       body: JSON.stringify(newSalida)
     });
+    */
+    const response = await apiAuth.post('/salidas', newSalida)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json();
-    return data.salidas;
+    // const data = await response.json();
+
+    return response.data.salidas;
   } catch (error) {
     console.log(error)
   }

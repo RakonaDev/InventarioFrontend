@@ -32,6 +32,7 @@ const fetchUsers = async () => {
 
 const postUser = async (newUser: ListUserInterface) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/register`, {
       method: "POST",
       headers: {
@@ -40,11 +41,13 @@ const postUser = async (newUser: ListUserInterface) => {
       credentials: 'include',
       body: JSON.stringify(newUser)
     })
+    */
+    const response = await apiAuth.post('register', newUser)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json()
-    return data.user
+    // const data = await response.json()
+    return response.data.user
   } 
   catch (error) {
     console.log(error)
@@ -53,6 +56,7 @@ const postUser = async (newUser: ListUserInterface) => {
 
 const patchUser = async (updatedUser: ListUserInterface) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/user`, {
       method: "PATCH",
       headers: {
@@ -61,11 +65,13 @@ const patchUser = async (updatedUser: ListUserInterface) => {
       credentials: 'include',
       body: JSON.stringify(updatedUser)
     })
+    */
+    const response = await apiAuth.patch('/user', updatedUser)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json()
-    return data.user
+    // const data = await response.json()
+    return response.data.user
   } catch (error) {
     console.log(error)
   }
@@ -73,6 +79,7 @@ const patchUser = async (updatedUser: ListUserInterface) => {
 
 const deleteUser = async (id: number) => {
   try {
+    /*
     const response = await fetch(`${apiURL}/user`, {
       method: "DELETE",
       headers: {
@@ -83,11 +90,14 @@ const deleteUser = async (id: number) => {
         id
       })
     })
+    */
+    const response = await apiAuth.delete(`/user/${id}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    const data = await response.json()
-    return data.user
+    // const data = await response.json()
+
+    return response.data.user
   }
   catch (error) {
     console.log(error)
