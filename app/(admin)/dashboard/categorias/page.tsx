@@ -1,11 +1,12 @@
 'use client'
 import React from 'react'
-import { TableTitle } from '../usuarios/page';
+import { type TableTitle } from '../usuarios/page';
 import { motion } from 'framer-motion';
 import { ButtonOpenModal } from '../../../../components/buttons/ButtonOpenModal';
 import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC';
 import ListCategorias from '../../../../components/dashboard/table/categorias/ListCategorias';
 import AgregarCategoria from '../../../../components/modal/categorias/AgregarCategoria';
+import dynamic from 'next/dynamic';
 
 const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "Código", className: "min-w-[100px] xl:col-span-2" },
@@ -13,6 +14,7 @@ const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "Fecha de Creación", className: "min-w-[200px] xl:col-span-2" },
   { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-3" },
 ];
+
 
 export default function CategoriasPage() {
   return (
