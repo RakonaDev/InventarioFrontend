@@ -20,6 +20,12 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .modales::-webkit-scrollbar {
   width: 12px;
   height: 12px;
