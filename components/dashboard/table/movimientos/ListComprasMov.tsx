@@ -20,7 +20,7 @@ export default function ListComprasMov() {
             <p>{compra.producto?.nombre || ''}</p>
           </div>
           <div className="w-full flex items-center text-sm justify-center min-w-[150px] lg:col-span-1">
-            <p>{'S/. ' + compra.producto?.precio.toFixed(2) || ''}</p>
+            <p>{'S/. ' + compra.producto?.precio || ''}</p>
           </div>
           <div className="w-full min-w-[150px] lg:col-span-2 flex items-center text-sm justify-center ">
             <p>{compra.cantidad || '-'}</p>

@@ -19,7 +19,7 @@ export default function ListSalidasMov() {
             <p>{salida.producto?.nombre || ''}</p>
           </div>
           <div className="w-full flex items-center text-sm justify-center min-w-[130px] xl:col-span-1">
-            <p>{'S/. ' + salida.producto?.precio.toFixed(2) || ''}</p>
+            <p>{'S/. ' + salida.producto?.precio || ''}</p>
           </div>
           <div className="w-full min-w-[130px] xl:col-span-2 flex items-center text-sm justify-center ">
             <p>{salida.cantidad || '-'}</p>
