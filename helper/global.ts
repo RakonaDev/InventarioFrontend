@@ -1,4 +1,4 @@
-
+'use client'
 export const apiURL = "https://apis.logosperu.com/apicinco/public/api"
 // export const apiURL = "https://www.apinventario.logosperu.com.pe/api"
 
