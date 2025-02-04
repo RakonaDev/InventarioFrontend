@@ -6,7 +6,6 @@ import { ButtonOpenModal } from '../../../../components/buttons/ButtonOpenModal'
 import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC';
 import ListCategorias from '../../../../components/dashboard/table/categorias/ListCategorias';
 import AgregarCategoria from '../../../../components/modal/categorias/AgregarCategoria';
-import dynamic from 'next/dynamic';
 
 const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "Código", className: "min-w-[100px] xl:col-span-2" },
