@@ -64,7 +64,7 @@ const patchProveedor = async (updatedProveedor: ProveedorInterface) => {
       body: JSON.stringify(updatedProveedor)
     })
       */
-    const response = await apiAuth.put(`/proveedores/${updatedProveedor.id}`)
+    const response = await apiAuth.put(`/proveedores/${updatedProveedor.id}`, updatedProveedor)
     if (response.status === 401) {
       window.location.href = '/login'
     }
@@ -114,7 +114,7 @@ export function useProveedor () {
     refetchOnReconnect: false,
   })
 
-  const { mutate: PostProveedor } = useMutation({
+  const { mutate: PostProveedor, isPending: LoadingPost } = useMutation({
     mutationFn: postProveedores,
     onSuccess: async (newProveedor: ProveedorInterface) => {
       closeModal();
@@ -125,7 +125,7 @@ export function useProveedor () {
     },
   });
 
-  const { mutate: EditarProveedor} = useMutation({
+  const { mutate: EditarProveedor, isPending: LoadingEdit} = useMutation({
     mutationFn: patchProveedor,
     onSuccess: async (updatedProveedor: ProveedorInterface) => {
       closeModal()
@@ -141,7 +141,7 @@ export function useProveedor () {
     }
   })
 
-  const { mutate: DeleteProveedor } = useMutation({
+  const { mutate: DeleteProveedor, isPending: LoadingDelete } = useMutation({
     mutationFn: deleteProveedor,
     onSuccess: async (proveedorDeleted: ProveedorInterface) => {
       closeModal()
@@ -156,7 +156,10 @@ export function useProveedor () {
     ErrorProveedor,
     CargandoProveedor,
     PostProveedor,
+    LoadingPost,
     EditarProveedor,
-    DeleteProveedor
+    LoadingEdit,
+    DeleteProveedor,
+    LoadingDelete
   }
 } 

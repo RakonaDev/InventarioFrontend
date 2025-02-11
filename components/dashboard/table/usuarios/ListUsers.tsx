@@ -5,6 +5,7 @@ import { EditAndDeleteButtons } from "../../../buttons/EditAndDeleteButtons";
 import { EditarUsuario } from "../../../modal/usuarios/EditarUsuario";
 import { useAdmin } from "../../../../context/AdminContext";
 import EliminarUsuario from "../../../modal/usuarios/EliminarUsuario";
+import { VerUsuario } from "../../../modal/usuarios/VerUsuario";
 
 export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
   const { setModalContent, openModal } = useAdmin();
@@ -16,6 +17,11 @@ export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
     setModalContent(<EliminarUsuario id={id} />);
     openModal()
   }
+  const handleViewUsuario = (usuario: ListUserInterface) => {
+    setModalContent(<VerUsuario usuario={usuario} />)
+    openModal()
+  }
+
   console.log(usuarios)
   return (
     <div className="w-full space-y-6">
@@ -50,6 +56,7 @@ export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
             <p>{usuario.roles?.name}</p>
           </div>
           <EditAndDeleteButtons
+            onView={() => handleViewUsuario(usuario)}
             onEdit={() => handleEditarUsuario(usuario)}
             onDelete={() => handleEliminarUsuario(usuario.id || 0)}
           />

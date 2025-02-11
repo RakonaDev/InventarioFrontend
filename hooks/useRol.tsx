@@ -113,7 +113,7 @@ export function useRol() {
     refetchOnReconnect: false,
   });
 
-  const { mutate: PostRol } = useMutation({
+  const { mutate: PostRol, isPending: LoadingPost } = useMutation({
     mutationFn: postRol,
     onSuccess: async (newRol: RolInterface) => {
       closeModal();
@@ -124,7 +124,7 @@ export function useRol() {
     },
   });
 
-  const { mutate: EditarRol } = useMutation({
+  const { mutate: EditarRol, isPending: LoadingEdit } = useMutation({
     mutationFn: patchRol,
     onSuccess: async (updatedRol: RolInterface) => {
       closeModal()
@@ -140,7 +140,7 @@ export function useRol() {
     }
   })
 
-  const { mutate: DeleteRol } = useMutation({
+  const { mutate: DeleteRol, isPending: LoadingDelete } = useMutation({
     mutationFn: deleteRol,
     onSuccess: async (rolDeleted: RolInterface) => {
       
@@ -163,7 +163,10 @@ export function useRol() {
     ErrorRol,
     CargandoRol,
     PostRol,
+    LoadingPost,
     EditarRol,
-    DeleteRol
+    LoadingEdit,
+    DeleteRol,
+    LoadingDelete
   };
 }

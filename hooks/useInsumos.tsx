@@ -69,13 +69,14 @@ const deleteInsumo = async (id: number) => {
     credentials: 'include'
   });
   */
-  const response = await apiAuth(`/insumos/${id}`)
+  const response = await apiAuth.delete(`/insumos/${id}`)
   if (response.status === 401) {
     window.location.href = '/login'
   }
   // const data = await response.json();
   return response.data;
 };
+
 
 export function useInsumos() {
   const { closeModal } = useAdmin();
@@ -94,7 +95,7 @@ export function useInsumos() {
     refetchOnReconnect: false
   })
 
-  const { mutate: PostInsumo } = useMutation({
+  const { mutate: PostInsumo, isPending: LoadingPost } = useMutation({
     mutationFn: postInsumos,
     onSuccess: async (newData: any) => {
       if (!newData.insumos || !newData.compras) {
@@ -118,7 +119,7 @@ export function useInsumos() {
     },
   })
 
-  const { mutate: DeleteInsumo } = useMutation({
+  const { mutate: DeleteInsumo, isPending: LoadingDelete } = useMutation({
     mutationFn: deleteInsumo,
     onSuccess: async (newData: any) => {
       closeModal();
@@ -134,7 +135,7 @@ export function useInsumos() {
     },
   })
 
-  const { mutate: EditInsumo } = useMutation({
+  const { mutate: EditInsumo, isPending: LoadingEdit } = useMutation({
     mutationFn: editInsumos,
     onSuccess: async (newData: any) => {
       closeModal();
@@ -155,8 +156,11 @@ export function useInsumos() {
   return {
     insumos,
     PostInsumo,
+    LoadingPost,
     DeleteInsumo,
+    LoadingDelete,
     EditInsumo,
+    LoadingEdit,
     ActualizarInformacionInsumos,
     CargandoInsumos,
     ErrorInsumos

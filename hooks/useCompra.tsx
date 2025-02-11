@@ -6,21 +6,11 @@ import { useAdmin } from "../context/AdminContext";
 
 const fetchCompras = async () => {
   try{
-    /*
-    const response = await fetch(`${apiURL}/compras`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: 'include'
-    });
-    */
     const response = await apiAuth.get('/compras')
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    
-    // const data = await response.json();
+
     return response.data;
   }
   catch (error) {
@@ -49,7 +39,7 @@ const PostCompra = async (newCompra: FormData) => {
 }
 
 export function useCompra() {
-  const { closeModal } = useAdmin()	
+  const { closeModal } = useAdmin()
   const query = useQueryClient()
   const { data: compras, refetch: ActualizarInformacionCompras } = useQuery<CompraInterface[]>({
     queryKey: ['compras'],
@@ -59,7 +49,7 @@ export function useCompra() {
     refetchOnReconnect: false
   })
 
-  const { mutate: PostCompras } = useMutation({
+  const { mutate: PostCompras, isPending: LoadingPost } = useMutation({
     mutationFn: PostCompra,
     onSuccess: async (newCompra: CompraInterface) => {
       await query.setQueryData(['compras'], (oldCompras?: CompraInterface[]) => {
@@ -83,6 +73,7 @@ export function useCompra() {
   return {
     compras,
     PostCompras,
+    LoadingPost,
     ActualizarInformacionCompras
   }
 }

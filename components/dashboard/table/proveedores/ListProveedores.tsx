@@ -6,6 +6,7 @@ import { ProveedorInterface } from "@/interfaces/ProveedorInterface";
 import { useAdmin } from "../../../../context/AdminContext";
 import { parseToLocalTime } from "../../../../logic/parseToLocalTime";
 import EliminarProveedor from "../../../modal/proveedores/EliminarProveedor";
+import { VerProveedor } from "../../../modal/proveedores/VerProveedor";
 
 export default function ListProveedores() {
   const { proveedores } = useProveedor();
@@ -19,6 +20,10 @@ export default function ListProveedores() {
     setModalContent(<EliminarProveedor id={id} />);
     openModal();
   };
+  const handleVerRol = (proveedor: ProveedorInterface) => {
+    setModalContent(<VerProveedor proveedor={proveedor} />)
+    openModal()
+  }
 
   return (
     <div className="w-full space-y-6">
@@ -46,6 +51,7 @@ export default function ListProveedores() {
             <p>{parseToLocalTime(proveedor.updated_at)}</p>
           </div>
           <EditAndDeleteButtons
+            onView={() => handleVerRol(proveedor)}
             onEdit={() => handleEditarRol(proveedor)}
             onDelete={() => handleEliminarRol(proveedor.id || 0)}
           />

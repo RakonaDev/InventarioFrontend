@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { useCategoria } from '../../../hooks/useCategoria';
 
 export default function AgregarCategoria() {
-  const { PostCategoria } = useCategoria()
+  const { PostCategoria, LoadingPost } = useCategoria()
   const {
     handleSubmit,
     handleBlur,
@@ -21,6 +21,7 @@ export default function AgregarCategoria() {
       descripcion: "",
     },
     onSubmit: async (values) => {
+      if (LoadingPost) return
       PostCategoria({
         nombre: values.nombre,
         descripcion: values.descripcion
@@ -84,7 +85,7 @@ export default function AgregarCategoria() {
         type="submit"
         className="w-fit mx-auto flex justify-center rounded-main mt-5 bg-secundario-main text-white-main py-2 px-5 transition-all duration-200 ease-out hover:bg-secundario-500"
       >
-        Agregar Categoria
+        {LoadingPost ? 'Ingresando Categoria...' : 'Agregar Categoria'}
       </button>
     </form>
   );

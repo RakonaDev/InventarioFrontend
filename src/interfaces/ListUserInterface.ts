@@ -14,4 +14,6 @@ export interface ListUserInterface {
   password?: string;
   estado?: EstadoInterface
   roles?: RolInterface
+  created_at?: Date
+  updated_at?: Date
 }

@@ -60,7 +60,7 @@ export function useSalida() {
     queryFn: fetchSalidas,
   })
 
-  const { mutate: PostSalida } = useMutation({
+  const { mutate: PostSalida, isPending: LoadingPost } = useMutation({
     mutationFn: postSalida,
     onSuccess: async (newSalida: SalidaInterface) => {
       closeModal()
@@ -84,6 +84,7 @@ export function useSalida() {
   return {
     salidas,
     PostSalida,
+    LoadingPost,
     ActualizarInformacionSalidas
   }
 }

@@ -35,8 +35,9 @@ const ModalWrapper: React.FC<ModalProps> = ({ componente }) => {
                 duration: 0.5,
                 ease: "easeOut",
               }}
-              className="p-6 w-full max-w-[850px] bg-white-main max-h-[650px] absolute top-0 my-auto  h-fit overflow-y-auto modales"
+              className="p-6 w-full max-w-[850px] bg-white-main max-h-[100dvh] absolute top-0 my-auto  h-fit overflow-y-auto modales"
             >
+              {/** max-h-[650px] */}
               <button
                 onClick={closeModal}
                 className="absolute top-2 right-2 text-red-700"

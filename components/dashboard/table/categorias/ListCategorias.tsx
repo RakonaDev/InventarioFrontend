@@ -6,6 +6,7 @@ import { CategoriaInterface } from '@/interfaces/CategoriaInterface';
 import { useAdmin } from '../../../../context/AdminContext';
 import EliminarCategoria from '../../../modal/categorias/EliminarCategoria'
 import EditarCategoria from '../../../modal/categorias/EditarCategoria';
+import { VerCategoria } from '../../../modal/categorias/VerCategoria';
 
 type Categoria = {
   id: number;
@@ -48,6 +49,10 @@ export default function ListCategorias() {
     setModalContent(<EliminarCategoria id={id} />);
     openModal();
   };
+  const handleVerCategoria = (categoria: CategoriaInterface) => {
+    setModalContent(<VerCategoria categoria={categoria}/>)
+    openModal()
+  }
 
   if (categorias == null) return <div>Loading...</div>;
 
@@ -68,6 +73,7 @@ export default function ListCategorias() {
             <p>{parseToLocalTime(new Date(categoria.updated_at || 0))}</p>
           </div>
           <EditAndDeleteButtons
+            onView={() => handleVerCategoria(categoria)}
             onEdit={() => handeEditarCategoria(categoria)}
             onDelete={() => handleEliminarCategoria(categoria.id || 0)}
           />

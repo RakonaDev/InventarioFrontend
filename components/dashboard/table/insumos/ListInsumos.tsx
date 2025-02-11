@@ -6,6 +6,7 @@ import { Insumo } from "@/interfaces/InsumosInterface";
 import { EditarInsumo } from "../../../modal/insumos/EditarInsumo";
 import { parseToLocalTime } from "../../../../logic/parseToLocalTime";
 import EliminarInsumo from "../../../modal/insumos/EliminarInsumo";
+import { VerInsumo } from "../../../modal/insumos/VerInsumo";
 
 export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
   const { setModalContent, openModal } = useAdmin();
@@ -17,6 +18,10 @@ export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
     setModalContent(<EliminarInsumo id={id} />);
     openModal();
   };
+  const handleVerInsumo = (insumo: Insumo) => {
+    setModalContent(<VerInsumo insumo={insumo} />)
+    openModal()
+  }
   return (
     <div className="w-full space-y-6">
       {insumos.map((insumo: Insumo) => (
@@ -27,17 +32,17 @@ export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
           <div className="w-full flex justify-center  items-center min-w-[100px]">
             <p className="line-clamp-1">{insumo.id}</p>
           </div>
-          <div className="w-full min-w-[150px] lg:col-span-2 flex justify-center  items-center text-sm">
+          <div className="w-full min-w-[150px] line-clamp-1 lg:col-span-2 flex justify-center  items-center text-sm">
             <p>{insumo.nombre || ''}</p>
           </div>
           <div className="w-full flex items-center text-sm justify-center min-w-[100px] lg:col-span-1">
             <p>{insumo.cantidad || ''}</p>
           </div>
-          <div className="w-full flex items-center text-sm justify-center min-w-[150px] lg:col-span-1">
-            <p>{insumo.proveedor?.name || ''}</p>
+          <div className="w-full flex items-center text-sm justify-center lg:col-span-1">
+            <p className="line-clamp-1 text-ellipsis text-center">{insumo.proveedor?.name || ''}</p>
           </div>
           <div className="w-full min-w-[150px] lg:col-span-1 flex items-center text-sm justify-center ">
-            <p>{insumo.categorias?.nombre}</p>
+            <p className="line-clamp-1 text-ellipsis">{insumo.categorias?.nombre}</p>
           </div>
           <div className="w-full min-w-[150px] lg:col-span-2 flex items-center text-sm justify-center ">
             <p>{parseToLocalTime(insumo.created_at)}</p>
@@ -46,6 +51,7 @@ export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
             <p>{parseToLocalTime(insumo.updated_at)}</p>
           </div>
           <EditAndDeleteButtons
+            onView={() => handleVerInsumo(insumo)}
             onEdit={() => handleEditarInsumo(insumo)}
             onDelete={() => handleEliminarInsumo(insumo.id || 0)}
           />

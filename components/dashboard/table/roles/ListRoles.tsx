@@ -7,6 +7,7 @@ import { parseToLocalTime } from "../../../../logic/parseToLocalTime";
 import EliminarRol from "../../../modal/roles/EliminarRol";
 import EditarRol from "../../../modal/roles/EditarRol";
 import { useAdmin } from "../../../../context/AdminContext";
+import { VerRol } from "../../../modal/roles/VerRol";
 
 export default function ListRoles() {
   const { setModalContent, openModal } = useAdmin();
@@ -19,6 +20,10 @@ export default function ListRoles() {
     setModalContent(<EliminarRol id={id}/>)
     openModal()
   };
+  const handleVerRol = (rol: RolInterface) => {
+    setModalContent(<VerRol rol={rol} />)
+    openModal()
+  }
 
   return (
     <div className="w-full space-y-6">
@@ -37,6 +42,7 @@ export default function ListRoles() {
             <p>{parseToLocalTime(rol.updated_at)}</p>
           </div>
           <EditAndDeleteButtons
+            onView={() => handleVerRol(rol)}
             onEdit={() => handleEditarRol(rol)}
             onDelete={() => handleEliminarRol(rol.id || 0)}
           />

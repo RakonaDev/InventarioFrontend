@@ -1,15 +1,20 @@
 import React from "react";
-import { FaPencil, FaTrashCan } from "react-icons/fa6";
+import { FaEye, FaPencil, FaTrashCan } from "react-icons/fa6";
 
 export const EditAndDeleteButtons = ({
   onEdit,
   onDelete,
+  onView
 }: {
+  onView: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }) => {
   return (
     <div className="xl:w-full flex items-center text-sm gap-3 justify-center min-w-[150px]">
+      <button title="ver" type="button" className="text-blue-500" onClick={onView}>
+        <FaEye />
+      </button>
       <button title="edit" type="button" className="text-green-500" onClick={onEdit}>
         <FaPencil />
       </button>
