@@ -15,7 +15,6 @@ const fetchCategorias = async () => {
 
     return response.data;
   } catch (error) {
-    toast.error(response?.data.message)
     console.log(error);
   }
 };
