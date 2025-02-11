@@ -17,12 +17,6 @@ export function VerProveedor({ proveedor }: { proveedor: ProveedorInterface }) {
       </section>
       <section className="w-full flex gap-5 max-md:flex-wrap">
         <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
-          <p className="font-bold text-lg">Descripcion:</p>
-          <p>{proveedor.descripcion}</p>
-        </div>
-      </section>
-      <section className="w-full flex gap-5 max-md:flex-wrap">
-        <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
           <p className="font-bold text-lg">Fecha de Creacion:</p>
           <p>{parseToLocalTime(proveedor.created_at)}</p>
         </div>
