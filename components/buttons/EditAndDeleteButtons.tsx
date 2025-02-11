@@ -6,7 +6,7 @@ export const EditAndDeleteButtons = ({
   onDelete,
   onView
 }: {
-  onView: () => void;
+  onView?: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }) => {
