@@ -1,6 +1,5 @@
 import { RolInterface } from "@/interfaces/RolInterface";
 import { parseToLocalTime } from "../../../logic/parseToLocalTime";
-import { usePaginas } from "../../../hooks/usePaginas";
 
 export function VerRol({ rol }: { rol: RolInterface }) {
   return (

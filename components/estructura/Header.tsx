@@ -3,8 +3,6 @@ import React from "react";
 import { WrapperContent } from "./WrapperContent";
 import { FaBell } from "react-icons/fa6";
 import { CardHeaderUser } from "../user/CardHeaderUser";
-import LogosPeru from "../../public/logo-peru.webp"
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 export const Header = () => {
