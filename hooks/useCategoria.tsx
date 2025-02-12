@@ -1,6 +1,6 @@
 'use client'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiAuth, apiURL } from "../helper/global";
+import { apiAuth } from "../helper/global";
 import { useAdmin } from "../context/AdminContext";
 import { CategoriaInterface } from "@/interfaces/CategoriaInterface";
 import { toast } from "sonner";
@@ -21,17 +21,6 @@ const fetchCategorias = async () => {
 
 const postCategorias = async (newCategoria: CategoriaInterface) => {
   try {
-    /*
-    const response = await fetch(`${apiURL}/categorias`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(newCategoria),
-    });
-    const data = await response.json();
-    */
     const response = await apiAuth.post('/categorias', newCategoria)
     if (response.status === 401) {
       window.location.href = '/login'
@@ -48,7 +37,8 @@ const postCategorias = async (newCategoria: CategoriaInterface) => {
 
 const patchCategorias = async (updatedCategorias: CategoriaInterface) => {
   try {
-    const response = await apiAuth.put(`/categorias/${updatedCategorias.id}`, updatedCategorias)
+    // const response = await apiAuth.put(`/categorias/${updatedCategorias.id}`, updatedCategorias)
+    const response = await apiAuth.post(`/categorias/${updatedCategorias.id}`, updatedCategorias)
     if (response.status === 401) {
       window.location.href = '/login'
     }
@@ -65,7 +55,8 @@ const patchCategorias = async (updatedCategorias: CategoriaInterface) => {
 
 const deleteCategorias = async (id: number) => {
   try {
-   const response = await apiAuth.delete(`/categorias/${id}`)
+   // const response = await apiAuth.delete(`/categorias/${id}`)
+   const response = await apiAuth.post(`/deleteCategorias/${id}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
@@ -97,13 +88,14 @@ export function useCategoria () {
     mutationFn: postCategorias,
     onSuccess: async (newCategoria: CategoriaInterface) => {
       if (!newCategoria) return
-      console.log('renderizando esto...')
-      closeModal();
+      
       await query.setQueryData(['categorias'], (oldCategoria?: CategoriaInterface[]) => {
         if (oldCategoria == null) return [newCategoria];
         toast.success('Agregado Correctamente!')
         return [...oldCategoria, newCategoria];
       });
+      toast.success('Categoria Creada Correctamente!')
+      closeModal();
     },
     onError: async () => {
       toast.error('Faltan Datos!')
@@ -114,24 +106,25 @@ export function useCategoria () {
     mutationFn: patchCategorias,
     onSuccess: async (updatedCategoria: CategoriaInterface) => {
       if (!updatedCategoria) return
-      closeModal()
       await query.setQueryData(['categorias'], (oldCategorias: CategoriaInterface[]) => {
-        toast.success('Actualizado Correctamente!')
         return oldCategorias.map((categoria: CategoriaInterface) =>
           categoria.id === updatedCategoria.id ? updatedCategoria : categoria
         );
       })
+      toast.success('Actualizado Correctamente!')
+      closeModal()
     }
   })
 
-  const { mutate: DeleteCategoria, isPending: LoadingDelete } = useMutation({
+  const { mutateAsync: DeleteCategoria, isPending: LoadingDelete } = useMutation({
     mutationFn: deleteCategorias,
     onSuccess: async (categoriaDeleted: CategoriaInterface) => {
-      closeModal()
       await query.setQueryData(['categorias'], (oldCategoria: CategoriaInterface[]) => {
         toast.success('Eliminado Correctamente')
         return oldCategoria.filter((categoria: CategoriaInterface) => categoria.id !== categoriaDeleted.id)
       })
+      toast.success('Eliminado Correctamente')
+      closeModal()
     },
     onError: async () => {
       toast.error('Error al eliminar el producto')

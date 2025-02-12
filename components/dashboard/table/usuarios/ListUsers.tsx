@@ -30,18 +30,18 @@ export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
           className="w-full flex gap-5 xl:grid xl:grid-cols-12 text-black-700"
           key={usuario.id}
         >
-          <div className="w-full lg:col-span-2 flex items-center justify-center min-w-[180px]">
-            <p className="line-clamp-1">{`${usuario.names} ${
+          <div className="w-full lg:col-span-2 flex items-center justify-center">
+            <p className="line-clamp-1 text-ellipsis text-center">{`${usuario.names} ${
               usuario.last_names
             }`}</p>
           </div>
-          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center min-w-[150px]">
-            <p>{usuario.tel}</p>
+          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center ">
+            <p className="line-clamp-1 text-ellipsis text-center">{usuario.tel}</p>
           </div>
-          <div className="w-full lg:col-span-3 flex items-center text-sm justify-center min-w-[150px]">
-            <p>{usuario.email}</p>
+          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center ">
+            <p className="line-clamp-1 text-ellipsis text-center">{usuario.email}</p>
           </div>
-          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center min-w-[150px]">
+          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center ">
             {usuario.estado?.nombre === "Activo" ? (
               <p className="block rounded-full w-[102px] bg-green-100 px-5 py-1  font-medium text-center text-green-500">
                 Activo
@@ -52,8 +52,8 @@ export const ListUsers = ({ usuarios }: { usuarios?: ListUserInterface[] }) => {
               </p>
             )}
           </div>
-          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center min-w-[150px]">
-            <p>{usuario.roles?.name}</p>
+          <div className="w-full lg:col-span-2 flex items-center text-sm justify-center ">
+            <p className="line-clamp-1 text-ellipsis text-center">{usuario.roles?.name}</p>
           </div>
           <EditAndDeleteButtons
             onView={() => handleViewUsuario(usuario)}

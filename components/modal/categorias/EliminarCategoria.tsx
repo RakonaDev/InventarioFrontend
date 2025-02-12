@@ -7,14 +7,21 @@ import { useAdmin } from '../../../context/AdminContext';
 
 export default function EliminarCategoria(props: EliminarProps) {
   const { closeModal } = useAdmin();
-  const { DeleteCategoria } = useCategoria();
+  const { DeleteCategoria, LoadingDelete } = useCategoria();
+  const [loading, setLoading] = React.useState(false);
+  
 
   const CancelAction = () => {
     closeModal();
   };
 
   const EditAction = () => {
-    DeleteCategoria(props.id);
+    if (loading) return;
+    console.log(LoadingDelete)
+    DeleteCategoria(props.id).finally(() => {
+      setLoading(false);
+    });
+    setLoading(true);
   };
   
   return (

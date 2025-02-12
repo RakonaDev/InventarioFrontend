@@ -12,11 +12,11 @@ export interface TableTitle {
 }
 
 const ItemsUsuariosTable: TableTitle[] = [
-  { nombre: "Nombre Completo", className: "lg:col-span-2 min-w-[180px]" },
-  { nombre: "Celular", className: "lg:col-span-2 min-w-[150px]" },
-  { nombre: "Email", className: "lg:col-span-3 min-w-[150px]" },
-  { nombre: "Estado", className: "lg:col-span-2 min-w-[150px]" },
-  { nombre: "Rol", className: "lg:col-span-2 min-w-[150px]" },
+  { nombre: "Nombre Completo", className: "lg:col-span-2" },
+  { nombre: "Celular", className: "lg:col-span-2" },
+  { nombre: "Email", className: "lg:col-span-2 " },
+  { nombre: "Estado", className: "lg:col-span-2 " },
+  { nombre: "Rol", className: "lg:col-span-2 " },
 ];
 
 const Page: NextPage = ({}) => {

@@ -8,7 +8,7 @@ import ListCategorias from '../../../../components/dashboard/table/categorias/Li
 import AgregarCategoria from '../../../../components/modal/categorias/AgregarCategoria';
 
 const ItemsTipoInsumoTable: TableTitle[] = [
-  { nombre: "Código", className: "min-w-[100px] xl:col-span-2" },
+  { nombre: "ID Categoría", className: "min-w-[100px] xl:col-span-2" },
   { nombre: "Nombre", className: "min-w-[150px] xl:col-span-2" },
   { nombre: "Fecha de Creación", className: "min-w-[200px] xl:col-span-2" },
   { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-3" },

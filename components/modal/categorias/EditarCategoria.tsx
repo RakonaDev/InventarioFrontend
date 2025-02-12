@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { CategoriaInterface } from '@/interfaces/CategoriaInterface';
 import { Errors } from '../../form/Errors';
 import { useCategoria } from '../../../hooks/useCategoria';
+import { EditCategorySchema } from '@/schemas/CategoriaSchema';
 
 export default function EditarCategoria({ categoria }: { categoria: CategoriaInterface }) {
   const [id] = useState(categoria.id);
@@ -15,6 +16,7 @@ export default function EditarCategoria({ categoria }: { categoria: CategoriaInt
         name: categoria.nombre,
         descripcion: categoria.descripcion,
       },
+      validationSchema: EditCategorySchema,
       onSubmit: async (values) => {
         EditarCategoria({
           id,

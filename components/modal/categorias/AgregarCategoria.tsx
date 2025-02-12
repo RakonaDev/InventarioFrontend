@@ -3,6 +3,7 @@ import { InputForm } from '../../form/InputForm';
 import { Errors } from '../../form/Errors';
 import { useFormik } from 'formik';
 import { useCategoria } from '../../../hooks/useCategoria';
+import { PostCategorySchema } from '@/schemas/CategoriaSchema';
 
 export default function AgregarCategoria() {
   const { PostCategoria, LoadingPost } = useCategoria()
@@ -20,6 +21,7 @@ export default function AgregarCategoria() {
       nombre: "",
       descripcion: "",
     },
+    validationSchema: PostCategorySchema,
     onSubmit: async (values) => {
       if (LoadingPost) return
       PostCategoria({

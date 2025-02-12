@@ -8,7 +8,7 @@ import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC'
 import ListSalida from '../../../../components/dashboard/table/salidas/ListSalida';
 
 const ItemsInsumosTable: TableTitle[] = [
-  { nombre: "Código", className: "min-w-[100px] xl:col-span-2" },
+  { nombre: "ID Salida", className: "min-w-[100px] xl:col-span-2" },
   { nombre: "Producto", className: "min-w-[150px] xl:col-span-2" },
   { nombre: "Cantidad", className: "min-w-[100px] xl:col-span-2" },
   { nombre: "Fecha de Salida", className: "min-w-[200px] xl:col-span-3" }

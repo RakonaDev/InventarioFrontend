@@ -6,7 +6,7 @@ import { TableTitle } from '../usuarios/page';
 import ListComprasMov from '../../../../components/dashboard/table/movimientos/ListComprasMov';
 import ListSalidasMov from '../../../../components/dashboard/table/movimientos/ListSalidasMov';
 const ItemsRolesTable: TableTitle[] = [
-  { nombre: "ID_Compra", className: "xl:col-span-2 min-w-[100px]" },
+  { nombre: "ID_Movimiento", className: "xl:col-span-2 min-w-[100px]" },
   { nombre: "Producto", className: "xl:col-span-2 min-w-[150px]" },
   { nombre: "Precio", className: "xl:col-span-1 min-w-[130px]" },
   { nombre: "Cantidad", className: "xl:col-span-2 min-w-[130px]" },

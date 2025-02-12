@@ -9,13 +9,12 @@ import { motion } from "framer-motion";
 import { useInsumos } from "../../../../hooks/useInsumos";
 
 const ItemsInsumosTable: TableTitle[] = [
-  { nombre: "Código", className: "lg:col-span-1 min-w-[100px]" },
-  { nombre: "Nombre", className: "lg:col-span-2 min-w-[150px]" },
-  { nombre: "Cantidad", className: "lg:col-span-1 min-w-[100px]" },
-  { nombre: "Proveedor", className: "lg:col-span-1 min-w-[150px]" },
-  { nombre: "Categoría", className: "lg:col-span-1 min-w-[150px]" },
-  { nombre: "Fecha de Registro", className: "lg:col-span-2 min-w-[150px]" },
-  { nombre: "Fecha de Actualización", className: "lg:col-span-2 min-w-[180px]" },
+  { nombre: "Código", className: "lg:col-span-1" },
+  { nombre: "Nombre", className: "lg:col-span-2" },
+  { nombre: "Cantidad", className: "lg:col-span-1" },
+  { nombre: "Proveedor", className: "lg:col-span-2" },
+  { nombre: "Categoría", className: "lg:col-span-2" },
+  { nombre: "Fecha de Registro", className: "lg:col-span-2 " },
 ];
 
 export default function page() {

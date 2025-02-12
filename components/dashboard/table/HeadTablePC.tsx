@@ -25,7 +25,7 @@ export const HeadTablePC = ({
         </div>
       ))}
 
-      {nededActions && <div className="lg:w-full text-center min-w-[150px]">Acciones</div>}
+      {nededActions && <div className="lg:col-span-2 text-center min-w-[150px]">Acciones</div>}
     </div>
   );
 };

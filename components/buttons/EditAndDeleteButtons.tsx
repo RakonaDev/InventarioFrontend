@@ -11,15 +11,15 @@ export const EditAndDeleteButtons = ({
   onDelete: () => void;
 }) => {
   return (
-    <div className="xl:w-full flex items-center text-sm gap-3 justify-center min-w-[150px]">
+    <div className="xl:col-span-2 flex flex-wrap items-center text-sm gap-3 justify-center min-w-[150px]">
       <button title="ver" type="button" className="text-blue-500" onClick={onView}>
-        <FaEye />
+        <FaEye size={20}/>
       </button>
       <button title="edit" type="button" className="text-green-500" onClick={onEdit}>
-        <FaPencil />
+        <FaPencil size={20}/>
       </button>
       <button title="delete" type="button" className="text-red-500" onClick={onDelete}>
-        <FaTrashCan />
+        <FaTrashCan size={20}/>
       </button>
     </div>
   );

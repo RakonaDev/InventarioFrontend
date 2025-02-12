@@ -5,30 +5,30 @@ import { Insumo } from "@/interfaces/InsumosInterface";
 export function VerInsumo({ insumo }: { insumo: Insumo }) {
   return (
     <div className="w-full p-4 space-y-5">
-      <h1 className="text-center font-bold text-xl lg:text-3xl">Informaciôn del Insumo</h1>
+      <h1 className="text-center font-bold text-xl lg:text-3xl">Información del Producto</h1>
       <section className="w-full flex gap-5 max-md:flex-wrap">
         <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
-          <p className="font-bold text-lg">Codigo del Insumo:</p>
+          <p className="font-bold text-lg">Codigo del Producto:</p>
           <p>{insumo.id}</p>
         </div>
         <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
-          <p className="font-bold text-lg">Nombre del Insumo:</p>
+          <p className="font-bold text-lg">Nombre del Producto:</p>
           <p>{insumo.nombre}</p>
         </div>
       </section>
       <section className="w-full flex gap-5 max-md:flex-wrap">
         <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
-          <p className="font-bold text-lg">Stock del Insumo:</p>
+          <p className="font-bold text-lg">Stock del Producto:</p>
           <p>{insumo.cantidad}</p>
         </div>
         <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
-          <p className="font-bold text-lg">Categoria del Insumo:</p>
+          <p className="font-bold text-lg">Categoria del Producto:</p>
           <p>{insumo.categorias?.nombre}</p>
         </div>
       </section>
       <section className="w-full flex gap-5 max-md:flex-wrap">
         <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
-          <p className="font-bold text-lg">Proveedor del Insumo:</p>
+          <p className="font-bold text-lg">Proveedor del Producto:</p>
           <p>{insumo.proveedor?.name}</p>
         </div>
         <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
@@ -38,7 +38,7 @@ export function VerInsumo({ insumo }: { insumo: Insumo }) {
       </section>
       <section className="w-full flex gap-5 max-md:flex-wrap">
         <div className="w-full min-w-[20rem]">
-          <p className="font-bold text-lg">Descripcion del Insumo:</p>
+          <p className="font-bold text-lg">Descripcion del Producto:</p>
           <p>{insumo.descripcion}</p>
         </div>
       </section>

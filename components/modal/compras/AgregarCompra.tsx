@@ -2,6 +2,7 @@ import { useFormik } from "formik"
 import { InputForm } from "../../form/InputForm"
 import { Errors } from "../../form/Errors"
 import { useCompra } from "../../../hooks/useCompra"
+import { PostCompraSchema } from "@/schemas/CompraSchema"
 
 export const AgregarCompra = () => {
   const { PostCompras } = useCompra()
@@ -15,16 +16,17 @@ export const AgregarCompra = () => {
     values,
   } = useFormik({
     initialValues: {
-      id_producto: 0,
-      cantidad: 0,
+      id_producto: '',
+      cantidad: '',
       fecha_creacion: '',
       fecha_vencimiento: '',
       comprobante: null
     },
+    validationSchema: PostCompraSchema,
     onSubmit: (values) => {
       const newCompra = new FormData();
       newCompra.append("id_producto", Number(values.id_producto).toString());
-      newCompra.append("cantidad", values.cantidad.toString());
+      newCompra.append("cantidad", values.cantidad ? values.cantidad : '' );
       if (values.fecha_creacion) {
         newCompra.append("fecha_creacion", String(values.fecha_creacion));
       }
@@ -48,7 +50,7 @@ export const AgregarCompra = () => {
               label="Codigo del Producto"
               name="id_producto"
               placeholder="Escribe el codigo del producto"
-              type="number"
+              type="text"
               value={values.id_producto}
               onBlur={handleBlur}
               onChange={handleChange}

@@ -1,6 +1,6 @@
 'use client'
 import { ListUserInterface } from "@/interfaces/ListUserInterface";
-import { apiAuth, apiURL } from "../helper/global";
+import { apiAuth } from "../helper/global";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAdmin } from "../context/AdminContext";
 import { toast } from "sonner";
@@ -31,11 +31,10 @@ const postUser = async (newUser: ListUserInterface) => {
     if (response.status !== 200) {
       throw new Error('error')
     }
-    // const data = await response.json()
     return response.data.user
   }
   catch (error) {
-    toast.error('Error Agregando el Nuevo Usuario!')
+    toast.error('Hubo un error agregando el nuevo usuario!')
     console.log(error)
   }
 }
@@ -43,28 +42,30 @@ const postUser = async (newUser: ListUserInterface) => {
 const patchUser = async (updatedUser: ListUserInterface) => {
   try {
 
-    const response = await apiAuth.patch('/user', updatedUser)
+    // const response = await apiAuth.patch('/user', updatedUser)
+    const response = await apiAuth.post('/user', updatedUser)
     if (response.status === 401) {
       window.location.href = '/login'
     }
     if (response.status !== 200) {
       throw new Error('error')
     }
-    // const data = await response.json()
+
     return response.data.user
   } catch (error) {
     console.log(error)
-    toast.error('Error Actualizando el Usuario')
+    toast.error('Hubo un error actualizando el usuario')
   }
 }
 
 const deleteUser = async (id: number) => {
   try {
-    const response = await apiAuth.delete(`/user/${id}`)
+    // const response = await apiAuth.delete(`/user/${id}`)
+    const response = await apiAuth.post(`/deleteUser/${id}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    // const data = await response.json()
+  
     if (response.status !== 200) {
       throw new Error('error')
     }
@@ -72,7 +73,7 @@ const deleteUser = async (id: number) => {
   }
   catch (error) {
     console.log(error)
-    toast.error('Error Actualizando el Usuario')
+    toast.error('Hubo un error eliminando el usuario')
   }
 }
 
@@ -94,12 +95,14 @@ export const useUsers = () => {
     onSuccess: async (newUser: ListUserInterface) => {
       if (!newUser) return
       setModalContent(null)
-      closeModal()
+      // Actualiza la lista de usuarios agregando el nuevo usuario
       await query.setQueryData(['users'], (oldUsers?: ListUserInterface[]) => {
         if (oldUsers == null) return [newUser]
         toast.success('Usuario Creado Correctamente!')
         return [...oldUsers, newUser]
       })
+      toast.success('Usuario Creado Correctamente!')
+      closeModal()
     }
   })
 
@@ -108,13 +111,15 @@ export const useUsers = () => {
     onSuccess: async (updatedUser: ListUserInterface) => {
       if (!updatedUser) return
       setModalContent(null)
-      closeModal()
+      // Actualiza la lista de usuarios actualizando el usuario editado
       await query.setQueryData(['users'], (oldUsers: ListUserInterface[]) => {
         toast.success('Usuario Editado Correctamente!')
         return oldUsers.map((user: ListUserInterface) =>
           user.id === updatedUser.id ? updatedUser : user
         );
       })
+      toast.success('Usuario Actualizado Correctamente!')
+      closeModal()
     },
     onError: (error) => {
       toast.error(error.message)
@@ -126,11 +131,13 @@ export const useUsers = () => {
     onSuccess: async (userDeleted: ListUserInterface) => {
       if (!userDeleted) return
       setModalContent(null)
-      closeModal()
+      // Actualiza la lista de usuarios quitando el usuario eliminado
       await query.setQueryData(['users'], (oldUsers: ListUserInterface[]) => {
         toast.success('Usuario Eliminado Correctamente!')
         return oldUsers.filter((user: ListUserInterface) => user.id !== userDeleted.id)
       })
+      toast.success('Usuario Eliminado Correctamente!')
+      closeModal()
     }
   })
 

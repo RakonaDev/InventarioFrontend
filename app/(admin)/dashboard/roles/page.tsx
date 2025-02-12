@@ -7,7 +7,7 @@ import { TableTitle } from "../usuarios/page";
 import { motion } from "framer-motion";
 
 const ItemsRolesTable: TableTitle[] = [
-  { nombre: "ID", className: "min-w-[100px] xl:col-span-2" },
+  { nombre: "ID Rol", className: "min-w-[100px] xl:col-span-2" },
   { nombre: "Nombre", className: "min-w-[200px] xl:col-span-2" },
   { nombre: "Fecha de Creación", className: "min-w-[200px] xl:col-span-2" },
   { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-3" }  

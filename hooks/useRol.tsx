@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiURL, apiAuth } from "../helper/global";
+import { apiAuth } from "../helper/global";
 import { RolInterface } from "@/interfaces/RolInterface";
 import { useAdmin } from "../context/AdminContext";
 import { toast } from "sonner";
@@ -8,15 +8,6 @@ import { useUsers } from "./useUsers";
 
 const fetchRoles = async () => {
   try {
-    /*
-    const response = await fetch(`${apiURL}/getRoles`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    */
     const response = await apiAuth.get('/getRoles')
     if (response.status === 401) {
       window.location.href = '/login'
@@ -30,72 +21,46 @@ const fetchRoles = async () => {
 
 const postRol = async (newRol: RolInterface) => {
   try {
-    /*
-    const response = await fetch(`${apiURL}/roles`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(newRol),
-    });
-    */
-   const response = await apiAuth.post('/roles', newRol)
-    // const data = await response.json();
+
+    const response = await apiAuth.post('/roles', newRol)
+
     if (response.status === 401) {
       window.location.href = '/login'
     }
     return response.data.roles;
   } catch (error) {
+    toast.error('Hubo un error creando el rol')
     console.log(error);
   }
 };
 
 const patchRol = async (updatedRol: RolInterface) => {
   try {
-    /*
-    const response = await fetch(`${apiURL}/roles`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: 'include',
-      body: JSON.stringify(updatedRol)
-    })
-    */
-    const response = await apiAuth.patch('/roles', updatedRol)
+    // const response = await apiAuth.patch('/roles', updatedRol)
+    const response = await apiAuth.post('/roles', updatedRol)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    // const data = await response.json()
     return response.data.roles
   } catch (error) {
+    toast.error('Hubo un error actualizando el rol')
     console.log(error)
   }
 }
 
 const deleteRol = async (id: number) => {
   try {
-    /*
-    const response = await fetch(`${apiURL}/roles`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        id
-      })
-    })
-    */
-    const response = await apiAuth.delete(`/roles/${id}`)
+
+    //const response = await apiAuth.delete(`/roles/${id}`)
+    const response = await apiAuth.post(`/deleteRoles/${id}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    // const data = await response.json()
+    
     return response.data.roles
   }
   catch (error) {
+    toast.error('Hubo un error eliminando el rol')
     console.log(error)
   }
 }
@@ -116,23 +81,27 @@ export function useRol() {
   const { mutate: PostRol, isPending: LoadingPost } = useMutation({
     mutationFn: postRol,
     onSuccess: async (newRol: RolInterface) => {
-      closeModal();
+      if (!newRol) return
       await query.setQueryData(['roles'], (oldRoles?: RolInterface[]) => {
         if (oldRoles == null) return [newRol];
         return [...oldRoles, newRol];
       });
+      toast.success('Rol Creado Correctamente!')
+      closeModal();
     },
   });
 
   const { mutate: EditarRol, isPending: LoadingEdit } = useMutation({
     mutationFn: patchRol,
     onSuccess: async (updatedRol: RolInterface) => {
-      closeModal()
+      if (!updatedRol) return
       await query.setQueryData(['roles'], (oldRoles: RolInterface[]) => {
         return oldRoles.map((rol: RolInterface) =>
           rol.id === updatedRol.id ? updatedRol : rol
         );
       })
+      toast.success('Rol Actualizado Correctamente!')
+      closeModal()
       ActualizarInfoUsuarios()
     },
     onError: (error) => {
@@ -143,18 +112,13 @@ export function useRol() {
   const { mutate: DeleteRol, isPending: LoadingDelete } = useMutation({
     mutationFn: deleteRol,
     onSuccess: async (rolDeleted: RolInterface) => {
-      
-      closeModal()
+      if (!rolDeleted) return
       await query.setQueryData(['roles'], (oldRoles: RolInterface[]) => {
         return oldRoles.filter((rol: RolInterface) => rol.id !== rolDeleted.id)
       })
+      toast.success('Rol Eliminado Correctamente!')
+      closeModal()
       ActualizarInfoUsuarios()
-      /*
-      await query.setQueryData(['users'], (oldCompra?: ListUserInterface[]) => {
-        if (oldCompra == null) return [];
-        return oldCompra.filter((compra: ListUserInterface) => compra.id !== compras.id);
-      });
-      */
     }
   })
 

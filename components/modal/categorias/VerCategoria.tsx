@@ -4,7 +4,7 @@ import { parseToLocalTime } from "../../../logic/parseToLocalTime";
 export function VerCategoria({ categoria }: { categoria: CategoriaInterface }) {
   return (
     <div className="w-full p-4 space-y-5">
-      <h1 className="text-center font-bold text-xl lg:text-3xl">Informaciôn de la Categoria</h1>
+      <h1 className="text-center font-bold text-xl lg:text-3xl">Información de la Categoria</h1>
       <section className="w-full flex gap-5 max-md:flex-wrap">
         <div className="max-md:w-full md:w-1/2 min-w-[20rem]">
           <p className="font-bold text-lg">Codigo de la Categoria:</p>

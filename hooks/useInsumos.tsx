@@ -1,80 +1,69 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import { apiAuth, apiURL } from "../helper/global";
+import { apiAuth } from "../helper/global";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { useAdmin } from "../context/AdminContext";
 import { CompraInterface } from "@/interfaces/CompraInterface";
 import { useCompra } from "./useCompra";
+import { toast } from "sonner";
 
 const fetchInsumos = async () => {
-  /*
-  const response = await fetch(`${apiURL}/getInsumos`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: 'include'
 
-  });
-  */
   const response = await apiAuth.get('/getInsumos')
   if (response.status === 401) {
     window.location.href = '/login'
   }
-  // const data = await response.json();
+
   return response.data;
 };
 
 const postInsumos = async (newInsumo: FormData) => {
-  /*
-  const response = await fetch(`${apiURL}/insumos`, {
-    method: "POST",
-    credentials: 'include',
-    body: newInsumo
-  });
-  */
-  const response = await apiAuth.postForm('/insumos', newInsumo)
 
-  if (response.status === 401) {
-    window.location.href = '/login'
+  try {
+    const response = await apiAuth.postForm('/insumos', newInsumo)
+
+    if (response.status === 401) {
+      window.location.href = '/login'
+    }
+
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    toast.error('Hubo un error añadiendo el producto')
   }
-  // const data = await response.json();
-  return response.data;
 };
 
 const editInsumos = async (editedInsumo: Insumo) => {
-  /*
-  const response = await fetch(`${apiURL}/insumos/${editedInsumo.id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    credentials: 'include',
-    body: JSON.stringify(editedInsumo)
-  });
-  */
-  const response = await apiAuth.put(`/insumos/${editedInsumo.id}`, editedInsumo)
-  if (response.status === 401) {
-    window.location.href = '/login'
+
+  try {
+    //const response = await apiAuth.put(`/insumos/${editedInsumo.id}`, editedInsumo)
+    const response = await apiAuth.post(`/editInsumos/${editedInsumo.id}`, editedInsumo)
+    if (response.status === 401) {
+      window.location.href = '/login'
+    }
+
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    toast.error('Hubo un error editando el producto')
   }
-  // const data = await response.json();
-  return response.data;
 };
 
 const deleteInsumo = async (id: number) => {
-  /*
-  const response = await fetch(`${apiURL}/insumos/${id}`, {
-    method: "DELETE",
-    credentials: 'include'
-  });
-  */
-  const response = await apiAuth.delete(`/insumos/${id}`)
-  if (response.status === 401) {
-    window.location.href = '/login'
+
+  try {
+    // const response = await apiAuth.delete(`/insumos/${id}`)
+    const response = await apiAuth.post(`/deleteInsumos/${id}`)
+    if (response.status === 401) {
+      window.location.href = '/login'
+    }
+
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    toast.error('Hubo un error eliminando el producto')
   }
-  // const data = await response.json();
-  return response.data;
 };
 
 
@@ -83,7 +72,7 @@ export function useInsumos() {
   const { ActualizarInformacionCompras } = useCompra()
   const query = useQueryClient()
 
-  const { data: insumos, 
+  const { data: insumos,
     refetch: ActualizarInformacionInsumos,
     isLoading: CargandoInsumos,
     isError: ErrorInsumos,
@@ -92,18 +81,16 @@ export function useInsumos() {
     queryFn: fetchInsumos,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
-    refetchOnReconnect: false
+    refetchOnReconnect: false,
   })
 
   const { mutate: PostInsumo, isPending: LoadingPost } = useMutation({
     mutationFn: postInsumos,
     onSuccess: async (newData: any) => {
       if (!newData.insumos || !newData.compras) {
-        console.error("Respuesta de la API inválida:", newData);
         return;
       }
       const { insumos, compras } = newData;
-      closeModal();
       await query.setQueryData(['insumos'], (oldInsumo: Insumo[]) => {
         if (oldInsumo == null) return [insumos];
         return [...oldInsumo, insumos as Insumo];
@@ -112,17 +99,15 @@ export function useInsumos() {
         if (oldCompra == null) return [compras as CompraInterface];
         return [...oldCompra, compras as CompraInterface];
       });
-    },
-    onError: (error) => {
-      console.error("Error al agregar insumo:", error);
-      alert("Hubo un error al agregar el insumo. Intenta de nuevo.");
-    },
+      toast.success('Producto Añadido Correctamente')
+      closeModal();
+    }
   })
 
   const { mutate: DeleteInsumo, isPending: LoadingDelete } = useMutation({
     mutationFn: deleteInsumo,
     onSuccess: async (newData: any) => {
-      closeModal();
+      if (!newData) return
       const { insumos, compras } = newData;
       await query.setQueryData(['insumos'], (oldInsumo?: Insumo[]) => {
         if (oldInsumo == null) return [];
@@ -132,13 +117,15 @@ export function useInsumos() {
         if (oldCompra == null) return [];
         return oldCompra.filter((compra: CompraInterface) => compra.id !== compras.id);
       });
+      toast.success('Producto Eliminado Correctamente!')
+      closeModal();
     },
   })
 
   const { mutate: EditInsumo, isPending: LoadingEdit } = useMutation({
     mutationFn: editInsumos,
     onSuccess: async (newData: any) => {
-      closeModal();
+      if (!newData) return
       const { insumos } = newData;
       await query.setQueryData(['insumos'], (oldInsumo?: Insumo[]) => {
         if (oldInsumo == null) return [];
@@ -149,6 +136,8 @@ export function useInsumos() {
           return insumo;
         });
       });
+      toast.success('Producto Editado Correctamente')
+      closeModal();
       ActualizarInformacionCompras()
     }
   })

@@ -8,13 +8,11 @@ import AgregarProveedor from "../../../../components/modal/proveedores/AgregarPr
 import ListProveedores from "../../../../components/dashboard/table/proveedores/ListProveedores";
 
 const ItemsProveedorTable: TableTitle[] = [
-  { nombre: "ID", className: "min-w-[100px] xl:col-span-1" },
-  { nombre: "Nombre", className: "min-w-[150px] xl:w-full" },
-  { nombre: "Contacto", className: "min-w-[150px] xl:col-span-1" },
+  { nombre: "ID Proveedor", className: "min-w-[100px] xl:col-span-2" },
+  { nombre: "Nombre", className: "min-w-[150px] xl:col-span-2" },
+  { nombre: "Contacto", className: "min-w-[150px] xl:col-span-2" },
   { nombre: "Correo", className: "min-w-[150px] xl:col-span-2" },
   { nombre: "Ubicación", className: "min-w-[150px] xl:col-span-2" },
-  { nombre: "Fecha de Registro", className: "min-w-[200px] xl:col-span-2" },
-  { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-2" },
 ];
 
 export default function ProveedoresPage() {

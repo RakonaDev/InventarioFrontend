@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { apiAuth, apiURL } from "../helper/global";
+import { apiAuth } from "../helper/global";
 import { CompraInterface } from "@/interfaces/CompraInterface";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { useAdmin } from "../context/AdminContext";
+import { toast } from "sonner";
 
 const fetchCompras = async () => {
   try{
@@ -20,20 +21,15 @@ const fetchCompras = async () => {
 
 const PostCompra = async (newCompra: FormData) => {
   try {
-    /*
-    const response = await fetch(`${apiURL}/compras`, {
-      method: "POST",
-      credentials: 'include',
-      body: newCompra
-    });
-    */
+
     const response = await apiAuth.post('/compras', newCompra)
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    // const data = await response.json();
+    
     return response.data.compras;
   } catch (error) {
+    toast.error('Hubo un error añadiendo la compra')
     console.log(error)
   }
 }
@@ -52,6 +48,7 @@ export function useCompra() {
   const { mutate: PostCompras, isPending: LoadingPost } = useMutation({
     mutationFn: PostCompra,
     onSuccess: async (newCompra: CompraInterface) => {
+      if (!newCompra) return
       await query.setQueryData(['compras'], (oldCompras?: CompraInterface[]) => {
         if (oldCompras == null) return [newCompra]
         return [...oldCompras, newCompra]
@@ -66,6 +63,7 @@ export function useCompra() {
           return insumo;
         });
       })
+      toast.success('Compra Creada Correctamente!')
       closeModal()
     }
   })

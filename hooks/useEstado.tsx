@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiAuth, apiURL } from "../helper/global";
+import { apiAuth } from "../helper/global";
 import { EstadoInterface } from "@/interfaces/EstadoInterface";
 
 const fetchEstados = async () => {
