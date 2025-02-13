@@ -7,6 +7,8 @@ import { TableTitle } from "../usuarios/page";
 import { ListInsumos } from "../../../../components/dashboard/table/insumos/ListInsumos";
 import { motion } from "framer-motion";
 import { useInsumos } from "../../../../hooks/useInsumos";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "Código", className: "lg:col-span-1" },
@@ -18,13 +20,13 @@ const ItemsInsumosTable: TableTitle[] = [
 ];
 
 export default function page() {
-  const { insumos } = useInsumos();
+  const { insumos, totalPages, nextPage, pageInsumos } = useInsumos();
   if (insumos == null) return <div>Loading...</div>;
   return (
     <>
       <div className="w-full mt-10 flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-medium"
             initial={{ opacity: 0, x: -60 }}
             animate={{ opacity: 1, x: 0 }}
@@ -40,6 +42,11 @@ export default function page() {
           className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
         <ListInsumos insumos={insumos} />
+        <div className="w-full flex justify-center pt-5">
+          <Stack spacing={2}>
+            <Pagination count={totalPages} page={pageInsumos} onChange={nextPage} />
+          </Stack>
+        </div>
       </div>
     </>
   );

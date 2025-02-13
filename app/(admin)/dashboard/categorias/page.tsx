@@ -6,6 +6,8 @@ import { ButtonOpenModal } from '../../../../components/buttons/ButtonOpenModal'
 import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC';
 import ListCategorias from '../../../../components/dashboard/table/categorias/ListCategorias';
 import AgregarCategoria from '../../../../components/modal/categorias/AgregarCategoria';
+import { Pagination, Stack } from '@mui/material';
+import { useCategoria } from '../../../../hooks/useCategoria';
 
 const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "ID Categoría", className: "min-w-[100px] xl:col-span-2" },
@@ -14,8 +16,8 @@ const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-3" },
 ];
 
-
 export default function CategoriasPage() {
+  const { nextPage, pageCategorias, totalPages } = useCategoria()
   return (
     <>
       <div className="w-full mt-10 flex items-center mb-6 justify-between">
@@ -36,6 +38,11 @@ export default function CategoriasPage() {
           className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
         <ListCategorias />
+        <div className='w-full flex justify-center pt-5'>
+          <Stack spacing={2}>
+            <Pagination count={totalPages} page={pageCategorias} onChange={nextPage} />
+          </Stack>
+        </div>
       </div>
     </>
   );

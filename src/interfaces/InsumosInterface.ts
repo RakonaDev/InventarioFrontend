@@ -14,3 +14,8 @@ export interface Insumo {
   categorias?: CategoriaInterface;
   proveedor?: ProveedorInterface;
 }
+
+export type InsumoReturn = {
+  insumos: Insumo[];
+  totalPages: number;
+}
