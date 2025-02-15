@@ -1,13 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { apiAuth } from "../helper/global";
 import { CompraInterface } from "@/interfaces/CompraInterface";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { useAdmin } from "../context/AdminContext";
 import { toast } from "sonner";
+import { useComprasStore } from "../store/ComprasStore";
 
-const fetchCompras = async () => {
+const fetchCompras = async (page:number) => {
   try{
-    const response = await apiAuth.get('/compras')
+    const response = await apiAuth.get(`/compras/10/${page}`)
     if (response.status === 401) {
       window.location.href = '/login'
     }
@@ -36,13 +37,15 @@ const PostCompra = async (newCompra: FormData) => {
 
 export function useCompra() {
   const { closeModal } = useAdmin()
+  const { currentPage } = useComprasStore()
   const query = useQueryClient()
   const { data: compras, refetch: ActualizarInformacionCompras } = useQuery<CompraInterface[]>({
-    queryKey: ['compras'],
-    queryFn: fetchCompras,
+    queryKey: ['compras', currentPage],
+    queryFn: () => fetchCompras(1),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
-    refetchOnReconnect: false
+    refetchOnReconnect: false,
+    placeholderData: keepPreviousData
   })
 
   const { mutate: PostCompras, isPending: LoadingPost } = useMutation({

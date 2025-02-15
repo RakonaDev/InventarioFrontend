@@ -13,3 +13,11 @@ export interface CompraInterface {
   updated_at?: Date
   producto?: Insumo
 }
+
+export interface ComprasPaginate {
+  currentPage: number
+}
+
+export interface ComprasPaginateActions {
+  setComprasPaginate: (currentPage: number) => void;
+}

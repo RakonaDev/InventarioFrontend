@@ -11,7 +11,7 @@ export const PostCategorySchema = Yup.object().shape({
 });
 
 export const EditCategorySchema = Yup.object().shape({
-  nombre: Yup.string()
+  name: Yup.string()
     .required("El nombre de la categoría es obligatorio")
     .min(3, "El nombre debe tener al menos 3 caracteres")
     .max(255, "El nombre no puede tener más de 255 caracteres"),

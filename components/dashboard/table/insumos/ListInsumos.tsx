@@ -8,7 +8,7 @@ import { parseToLocalTime } from "../../../../logic/parseToLocalTime";
 import EliminarInsumo from "../../../modal/insumos/EliminarInsumo";
 import { VerInsumo } from "../../../modal/insumos/VerInsumo";
 
-export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
+export const ListInsumos = ({ insumos }: { insumos?: Insumo[] }) => {
   const { setModalContent, openModal } = useAdmin();
   const handleEditarInsumo = (insumo: Insumo) => {
     setModalContent(<EditarInsumo insumo={insumo} />);
@@ -24,7 +24,7 @@ export const ListInsumos = ({ insumos }: { insumos: Insumo[] }) => {
   }
   return (
     <div className="w-full space-y-6">
-      {insumos.map((insumo: Insumo) => (
+      {insumos?.map((insumo: Insumo) => (
         <div
           className="w-full flex gap-5 col-span-1 xl:grid xl:grid-cols-12 text-black-700"
           key={insumo.id}

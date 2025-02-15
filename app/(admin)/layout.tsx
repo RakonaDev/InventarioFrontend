@@ -24,7 +24,7 @@ export default function AdminLayout({
 
   useEffect(() => {
 
-    window.addEventListener('resize',() => {
+    window.addEventListener('resize', () => {
       if (window.innerWidth >= 1024) {
         if (openMenu == false) return
         setOpenMenu(false)
@@ -37,12 +37,13 @@ export default function AdminLayout({
       <Header />
       <section className="w-full relative flex justify-between h-[calc(100dvh-80px)]">
         <div className={`w-[280px] bg-gradient-to-t from-slate-500 to-slate-900 h-full lg:relative lg:top-0 fixed top-20 ${openMenu ? '-left-[280px]' : 'left-0'} transition-all duration-600`}>
-          <button 
+          <button
+            title="Abrir menú"
             type="button"
             className="absolute p-1 bg-slate-900 z-50 top-0 -right-12 lg:hidden"
             onClick={handlerMenu}
           >
-            <HiMenu size={40} color="white"/>
+            <HiMenu size={40} color="white" />
           </button>
           <ul>
             {

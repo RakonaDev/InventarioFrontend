@@ -237,7 +237,7 @@ const postInsumos = async (newInsumo: FormData): Promise<PostInsumoResponse> => 
 
 const editInsumos = async (editedInsumo: Insumo): Promise<EditInsumoResponse> => {
   try {
-    const response = await apiAuth.post(`/editInsumos/${editedInsumo.id}`, editedInsumo);
+    const response = await apiAuth.post(`/insumos/${editedInsumo.id}`, editedInsumo);
     if (response.status === 401) {
       window.location.href = '/login';
       throw new Error("Unauthorized");
@@ -381,6 +381,7 @@ export function useInsumos() {
   }
 
   return {
+    insumosData,
     totalPages,
     pageInsumos,
     nextPage,

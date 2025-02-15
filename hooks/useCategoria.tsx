@@ -1,23 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiAuth } from "../helper/global";
 import { useAdmin } from "../context/AdminContext";
-import { CategoriaInterface } from "@/interfaces/CategoriaInterface";
+import { CategoriaInterface, CategoriaResponse, CategoriasResponse } from "@/interfaces/CategoriaInterface";
 import { toast } from "sonner";
-import { useState } from "react";
-
-// Interfaces para tipar las respuestas de la API
-interface CategoriasResponse {
-  categorias: CategoriaInterface[];
-  currentPage: number;
-  totalPages: number;
-}
-
-interface CategoriaResponse {
-  categorias: CategoriaInterface;
-}
+import { JSX } from "react";
+import { parseToLocalTime } from "../logic/parseToLocalTime";
+import { EditAndDeleteButtons } from "../components/buttons/EditAndDeleteButtons";
+import EliminarCategoria from "../components/modal/categorias/EliminarCategoria";
+import { VerCategoria } from "../components/modal/categorias/VerCategoria";
+import EditarCategoria from "../components/modal/categorias/EditarCategoria";
+import { useCategoryStore } from "../store/CategoryStore";
 
 // Funciones fetch tipadas
 const fetchCategorias = async (page: number): Promise<CategoriasResponse> => {
@@ -89,42 +84,54 @@ const deleteCategorias = async (id: number): Promise<CategoriaResponse> => {
 };
 
 export function useCategoria() {
-  const [pageCategorias, setPageCategorias] = useState(1); // Estado para la página actual
-  const { closeModal } = useAdmin();
+  const { currentPage, setCategoryPaginate } = useCategoryStore()
+  const { setModalContent, openModal } = useAdmin();
   const queryClient = useQueryClient();
+  const { closeModal } = useAdmin();
 
   // useQuery con paginación
-  const { data: categoriasData, isLoading: CargandoCategorias, isError: ErrorCategoria, refetch: ActualizarCategorias } = useQuery<CategoriasResponse>({
-    queryKey: ['categorias', pageCategorias], // Incluir pageCategorias en la queryKey
-    queryFn: () => fetchCategorias(pageCategorias),
+  const { data: categoriasData, isPending: CargandoCategorias, isError: ErrorCategoria, refetch: ActualizarCategorias } = useQuery<CategoriasResponse>({
+    queryKey: ['categorias', currentPage], // Incluir pageCategorias en la queryKey
+    queryFn: () => fetchCategorias(currentPage), // Función de fetch
+    // staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    placeholderData: keepPreviousData
   });
 
-  const categorias = categoriasData?.categorias || []; // Acceder a las categorías tipadas
-  const totalPages = categoriasData?.totalPages || 1;
-
   // useMutation para crear una categoría
+
+
   const { mutate: PostCategoria, isPending: LoadingPost } = useMutation<CategoriaResponse, any, CategoriaInterface>({
     mutationFn: postCategorias,
     onSuccess: async (newCategoria) => {
-      queryClient.setQueryData<CategoriasResponse>(['categorias', pageCategorias], (oldCategorias) => {
-        if (!oldCategorias) return { categorias: [newCategoria.categorias], currentPage: 1, totalPages: 1 };
-
-        const updatedCategorias = { ...oldCategorias };
-        if (pageCategorias === updatedCategorias.totalPages) {
-          if (updatedCategorias.categorias.length > 10) {
+      console.log(currentPage)
+      console.log(newCategoria)
+      queryClient.setQueryData<CategoriasResponse>(['categorias', currentPage], (oldCategorias) => {
+        if (!oldCategorias) return { categorias: [newCategoria.categorias], currentPage: currentPage, totalPages: 1 };
+        console.log(oldCategorias)
+        const updatedCategorias = { ...oldCategorias, currentPage: currentPage };
+        console.log(updatedCategorias)
+        if (currentPage === updatedCategorias.totalPages) {
+          if (updatedCategorias.categorias.length >= 10) {
             updatedCategorias.totalPages++;
+            if (currentPage + 1 === updatedCategorias.totalPages) {
+              setCategoryPaginate(currentPage + 1)
+            }
           }
-          else {
-            updatedCategorias.categorias.push(newCategoria.categorias);
-          }
-        } else if (pageCategorias === 1) {
+
+          updatedCategorias.categorias.push(newCategoria.categorias);
+          console.log(updatedCategorias.categorias)
+        } 
+        /*
+        else if (pageCategorias === 1) {
           updatedCategorias.categorias.push(newCategoria.categorias);
         }
+          */
         return updatedCategorias;
       });
+
       toast.success('Categoria Creada Correctamente!');
       closeModal();
     },
@@ -135,10 +142,10 @@ export function useCategoria() {
   });
 
   // useMutation para editar una categoría
-  const { mutate: EditarCategoria, isPending: LoadingEdit } = useMutation<CategoriaResponse, any, CategoriaInterface>({
+  const { mutate: EditarCategorias, isPending: LoadingEdit } = useMutation<CategoriaResponse, any, CategoriaInterface>({
     mutationFn: patchCategorias,
     onSuccess: async (updatedCategoria) => {
-      queryClient.setQueryData<CategoriasResponse>(['categorias', pageCategorias], (oldCategorias) => {
+      queryClient.setQueryData<CategoriasResponse>(['categorias', currentPage], (oldCategorias) => {
         if (!oldCategorias) return { categorias: [updatedCategoria.categorias], currentPage: 1, totalPages: 1 };
 
         const updatedCategorias = {
@@ -162,25 +169,32 @@ export function useCategoria() {
   const { mutateAsync: DeleteCategoria, isPending: LoadingDelete } = useMutation<CategoriaResponse, any, number>({
     mutationFn: deleteCategorias,
     onSuccess: async (categoriaDeleted) => {
-
-      queryClient.setQueryData<CategoriasResponse>(['categorias', pageCategorias], (oldCategorias) => {
+      
+      queryClient.setQueryData<CategoriasResponse>(['categorias', currentPage], (oldCategorias) => {
         if (!oldCategorias) return { categorias: [], currentPage: 1, totalPages: 1 };
 
         const updatedCategorias = { ...oldCategorias };
-        if (pageCategorias === updatedCategorias.totalPages) {
+        if (currentPage === updatedCategorias.totalPages) {
           updatedCategorias.categorias = updatedCategorias.categorias.filter((categoria) => categoria.id !== categoriaDeleted.categorias.id);
-          if (updatedCategorias.categorias.length === 0 && updatedCategorias.totalPages > 1) {
-            updatedCategorias.totalPages--;
-            if (pageCategorias > 1) {
-              setPageCategorias(prev => prev - 1);
+          console.log(updatedCategorias.categorias)
+          console.log(updatedCategorias.totalPages)
+          if (updatedCategorias.totalPages > 1) {
+            console.log("Aqui pagina")
+            /*updatedCategorias.totalPages--;*/
+            setCategoryPaginate(totalPages - 1);
+            /*
+            if (currentPage > 1) {
+              setPageCategorias(currentPage - 1);
             }
+            */
           }
         } else {
           updatedCategorias.categorias = updatedCategorias.categorias.filter((categoria) => categoria.id !== categoriaDeleted.categorias.id);
         }
         return updatedCategorias;
       });
-
+      
+      ActualizarCategorias()
       toast.success('Categoria Eliminada Correctamente!');
       closeModal();
     },
@@ -192,19 +206,73 @@ export function useCategoria() {
 
   const nextPage = (event: React.ChangeEvent<unknown>, value: number) => {
     console.log(value)
-    setPageCategorias(value)
+    // setPageCategorias(value)
+    setCategoryPaginate(value)
   }
 
+  const RenderListCategories = (): JSX.Element => {
+    const handeEditarCategoria = (categoria: CategoriaInterface) => {
+      setModalContent(<EditarCategoria categoria={categoria} />);
+      openModal();
+    };
+    const handleEliminarCategoria = (id: number) => {
+      setModalContent(<EliminarCategoria id={id} />);
+      openModal();
+    };
+    const handleVerCategoria = (categoria: CategoriaInterface) => {
+      setModalContent(<VerCategoria categoria={categoria} />)
+      openModal()
+    }
+
+    if (CargandoCategorias) return <div>Loading...</div>;
+
+    return (
+      <div className="w-full space-y-6 bg-white-main">
+        {CargandoCategorias ? <h1>Cargando...</h1> : categoriasData?.categorias.map((categoria: CategoriaInterface) => (
+          <div className="w-full flex gap-5 xl:grid xl:grid-cols-12 text-black-700" key={categoria.id}>
+            <div className="w-full min-w-[100px] xl:col-span-2 flex justify-center  items-center text-sm">
+              <p>{categoria.id}</p>
+            </div>
+            <div className="w-full min-w-[150px] xl:col-span-2 flex justify-center  items-center text-sm">
+              <p>{categoria.nombre}</p>
+            </div>
+            <div className="w-full min-w-[200px] xl:col-span-2 flex justify-center  items-center text-sm">
+              <p>{parseToLocalTime(new Date(categoria.created_at || 0))}</p>
+            </div>
+            <div className="w-full min-w-[200px] xl:col-span-3 flex justify-center  items-center text-sm">
+              <p>{parseToLocalTime(new Date(categoria.updated_at || 0))}</p>
+            </div>
+            <EditAndDeleteButtons
+              onView={() => handleVerCategoria(categoria)}
+              onEdit={() => handeEditarCategoria(categoria)}
+              onDelete={() => handleEliminarCategoria(categoria.id || 0)}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  /*
+  const prevPage = () => {
+    setPageCategorias(prevState => prevState = prevState - 1)
+  }
+  const nextPage = () => {
+    setPageCategorias(prevState => prevState = prevState + 1)
+  }
+  */
+
+  const totalPages = categoriasData?.totalPages || 1;
   return {
+    RenderListCategories,
+    categoriasData,
     nextPage,
     totalPages,
-    pageCategorias,
-    categorias,
     ErrorCategoria,
     CargandoCategorias,
     PostCategoria,
     LoadingPost,
-    EditarCategoria,
+    EditarCategorias,
     LoadingEdit,
     DeleteCategoria,
     LoadingDelete,

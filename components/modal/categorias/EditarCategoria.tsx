@@ -9,7 +9,7 @@ import { EditCategorySchema } from '@/schemas/CategoriaSchema';
 export default function EditarCategoria({ categoria }: { categoria: CategoriaInterface }) {
   const [id] = useState(categoria.id);
   console.log(categoria)
-  const { EditarCategoria } = useCategoria();
+  const { EditarCategorias } = useCategoria();
   const { handleBlur, handleChange, handleSubmit, errors, values, touched } =
     useFormik({
       initialValues: {
@@ -18,7 +18,7 @@ export default function EditarCategoria({ categoria }: { categoria: CategoriaInt
       },
       validationSchema: EditCategorySchema,
       onSubmit: async (values) => {
-        EditarCategoria({
+        EditarCategorias({
           id,
           nombre: values.name,
           descripcion: values.descripcion,

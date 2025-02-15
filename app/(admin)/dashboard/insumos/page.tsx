@@ -20,8 +20,9 @@ const ItemsInsumosTable: TableTitle[] = [
 ];
 
 export default function page() {
-  const { insumos, totalPages, nextPage, pageInsumos } = useInsumos();
-  if (insumos == null) return <div>Loading...</div>;
+  const { totalPages, nextPage, pageInsumos, insumosData } = useInsumos();
+  console.log(insumosData)
+  if (insumosData?.insumos == undefined) return <div>Loading...</div>;
   return (
     <>
       <div className="w-full mt-10 flex items-center mb-6 justify-between">
@@ -41,7 +42,7 @@ export default function page() {
           titlesTable={ItemsInsumosTable}
           className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
-        <ListInsumos insumos={insumos} />
+        <ListInsumos insumos={insumosData?.insumos} />
         <div className="w-full flex justify-center pt-5">
           <Stack spacing={2}>
             <Pagination count={totalPages} page={pageInsumos} onChange={nextPage} />
