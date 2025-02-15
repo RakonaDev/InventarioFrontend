@@ -8,7 +8,7 @@ import { Errors } from "../../form/Errors";
 import { useInsumos } from "../../../hooks/useInsumos";
 
 export const AgregarInsumo = () => {
-  const { categorias } = useCategoria();
+  const { categoriasData } = useCategoria();
   const { proveedores } = useProveedor()
   const { PostInsumo } = useInsumos()
   const {
@@ -146,7 +146,7 @@ export const AgregarInsumo = () => {
             onChange={handleChange}
           >
             <option value={0} disabled>Elija la Categoría</option>
-            {categorias?.map((categoria) => (
+            {categoriasData?.categorias?.map((categoria) => (
               <option key={categoria.id} value={categoria.id}>
                 {categoria.nombre}
               </option>
