@@ -10,7 +10,7 @@ import { ProveedorInterface } from "@/interfaces/ProveedorInterface";
 import { useInsumos } from "../../../hooks/useInsumos";
 
 export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
-  const { categorias } = useCategoria();
+  const { categoriasData } = useCategoria();
   const { proveedores } = useProveedor()
   const { EditInsumo } = useInsumos()
   const {
@@ -110,7 +110,7 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
             className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
           >
             {
-              categorias?.map((categoria: CategoriaInterface) => {
+              categoriasData?.categorias?.map((categoria: CategoriaInterface) => {
                 return (
                   <option value={categoria.id} key={categoria.id}>{ categoria.nombre }</option>
                 )
