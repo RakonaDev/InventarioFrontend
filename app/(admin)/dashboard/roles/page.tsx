@@ -2,7 +2,6 @@
 import { Pagination, Stack } from "@mui/material";
 import { ButtonOpenModal } from "../../../../components/buttons/ButtonOpenModal";
 import { HeadTablePC } from "../../../../components/dashboard/table/HeadTablePC";
-import ListRoles from "../../../../components/dashboard/table/roles/ListRoles";
 import AgregarRol from "../../../../components/modal/roles/AgregarRol";
 import { TableTitle } from "../usuarios/page";
 import { motion } from "framer-motion";
@@ -17,7 +16,7 @@ const ItemsRolesTable: TableTitle[] = [
 ]
 
 export default function RolesPage() {
-  const { nextPage, rolesData } = useRol()
+  const { nextPage, rolesData, RenderListRoles } = useRol()
   const { currentPage } = useRolesStore()
   return (
     <>
@@ -38,7 +37,9 @@ export default function RolesPage() {
           titlesTable={ItemsRolesTable}
           className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
-        <ListRoles />
+        <div className='w-full min-h-[45dvh] bg-white-main'>
+          <RenderListRoles />
+        </div>
       </div>
       <div className='w-full flex justify-center pt-5'>
         <Stack spacing={2}>
