@@ -12,20 +12,19 @@ export async function getServerSideProps(url: string) {
         Cookie: `jwt_token=${token}`,
       },
     });
-    console.log("hola")
-    /*
+    
     if (!res.ok) {
       console.log("Algo pasó")
+      window.location.href = '/login'
       return;
     }
-    */
-    console.log("aqui, renderizo")
     
     console.log("aqui renderizo")
     const data = await res.json();
     console.log("DATA: ", data);
     return data;
   } catch (error) {
+    window.location.href = '/login'
     console.log(error);
   }
 }

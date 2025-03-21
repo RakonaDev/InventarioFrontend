@@ -2,6 +2,7 @@
 
 import { CategoriasResponse } from "@/interfaces/CategoriaInterface"
 import { getServerSideProps } from "@/logic/getServerSideProps"
+import { CategoriaPagina } from "../../../../../components/modal/categorias/CategoriaPagina"
 
 export default async function CategoriasPage ({
   params
@@ -16,7 +17,7 @@ export default async function CategoriasPage ({
 
   return (
     <>
-        
+      <CategoriaPagina categoriasData={data} />
     </>
   )
 }

@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import { InputForm } from '../../form/InputForm';
 import { Errors } from '../../form/Errors';
 import { useFormik } from 'formik';
-import { useCategoria } from '../../../hooks/useCategoria';
 import { PostCategorySchema } from '@/schemas/CategoriaSchema';
+import { apiAuth } from '../../../fonts/helper/global';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export default function AgregarCategoria() {
-  const { PostCategoria, LoadingPost } = useCategoria()
+  const router = useRouter()
+  const [LoadingPost, setLoadingPost] = useState(false)
   const {
     handleSubmit,
     handleBlur,
@@ -24,10 +28,37 @@ export default function AgregarCategoria() {
     validationSchema: PostCategorySchema,
     onSubmit: async (values) => {
       if (LoadingPost) return
+      setLoadingPost(true)
+      try {
+        const newCategoria = {
+          nombre: values.nombre,
+          descripcion: values.descripcion
+        }
+        const response = await apiAuth.post('/categorias', newCategoria);
+        if (response.status === 401) {
+          window.location.href = '/login';
+          throw new Error("Unauthorized");
+        }
+        if (response.status !== 201) {
+          throw new Error('Error');
+        }
+        if (response.status === 201) {
+          window.location.reload()
+        } 
+      } catch (error) {
+        toast.error('Faltan Datos!');
+        console.error(error);
+        throw error;
+      } finally {
+        setLoadingPost(false)
+      }
+      /*
+      if (LoadingPost) return
       PostCategoria({
         nombre: values.nombre,
         descripcion: values.descripcion
       })
+      */
     },
   });
 
