@@ -16,10 +16,11 @@ export default function AgregarRol() {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value); // Convertir a número
     const isChecked = event.target.checked;
-
+    
     setSelectedValues((prev) =>
       isChecked ? [...prev, value] : prev.filter((item) => item !== value)
     );
+    console.log(selectedValues)
   };
   const {
     handleSubmit,

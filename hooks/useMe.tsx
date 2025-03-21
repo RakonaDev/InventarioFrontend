@@ -9,7 +9,7 @@ const fetchMe = async () => {
       "Content-Type": "application/json",
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     },
-    credentials: 'include',
+    credentials: 'same-origin',
   });
   if (response.status === 401) {
     window.location.href = '/login'
