@@ -190,9 +190,8 @@ export const useUsers = () => {
       if (!userDeleted) return
       setModalContent(null)
       // Actualiza la lista de usuarios quitando el usuario eliminado
-      await query.setQueryData<UsersResponse>(['users'], (oldUsers) => {
+      query.setQueryData<UsersResponse>(['users', currentPage], (oldUsers) => {
         if (!oldUsers) return { insumos: [], currentPage: 1, totalPages: 1 };
-        toast.success('Usuario Eliminado Correctamente!')
 
         const updatedUsers = { ...oldUsers };
         if (currentPage === updatedUsers.totalPages) {
