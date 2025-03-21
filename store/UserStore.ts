@@ -1,4 +1,8 @@
+import { UsersPaginate, UsersPaginateActions } from '@/interfaces/ListUserInterface'
 import { create } from 'zustand'
-import { UserPaginate, UserPaginateActions } from "@/interfaces/ListUserInterface";
-
-export const useUserStore = create()
+export const useUserStore = create<UsersPaginate & UsersPaginateActions>((set) => ({
+  currentPage: 1,
+  setUsersPaginate: (currentPage: number) => {
+    set({ currentPage })
+  },
+}))

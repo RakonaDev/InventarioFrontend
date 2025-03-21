@@ -18,11 +18,20 @@ export interface ListUserInterface {
   updated_at?: Date
 }
 
-// Zustand
-export interface UserPaginate {
+export interface UsersResponse {
+  insumos: ListUserInterface[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface UserResponse {
+  user: ListUserInterface;
+}
+
+export interface UsersPaginate {
   currentPage: number
 }
 
-export interface UserPaginateActions {
-  setUserPaginate: (currentPage: number) => void;
+export interface UsersPaginateActions {
+  setUsersPaginate: (currentPage: number) => void;
 }

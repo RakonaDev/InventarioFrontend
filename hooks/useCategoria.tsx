@@ -2,7 +2,7 @@
 
 "use client";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiAuth } from "../helper/global";
+import { apiAuth } from "../fonts/helper/global";
 import { useAdmin } from "../context/AdminContext";
 import { CategoriaInterface, CategoriaResponse, CategoriasResponse } from "@/interfaces/CategoriaInterface";
 import { toast } from "sonner";
@@ -110,7 +110,7 @@ export function useCategoria() {
         if (!oldCategorias) return { categorias: [newCategoria.categorias], currentPage: currentPage, totalPages: 1 };
 
         const updatedCategorias = { ...oldCategorias, currentPage: currentPage };
-
+        
         if (currentPage === updatedCategorias.totalPages) {
           if (updatedCategorias.categorias.length >= 10) {
             updatedCategorias.totalPages++;

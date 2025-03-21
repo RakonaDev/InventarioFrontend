@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiURL } from "../helper/global";
+import { apiURL } from "../fonts/helper/global";
 import { Me } from "@/interfaces/MyInfoInterface";
 
 const fetchMe = async () => {

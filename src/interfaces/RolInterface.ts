@@ -8,3 +8,28 @@ export interface RolInterface {
   created_at?: Date
   updated_at?: Date
 }
+
+export interface RolCrearInterface {
+  name: string
+  paginas: {
+    id: number
+  }[]
+}
+
+export interface RolesResponse {
+  roles: RolInterface[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface RolResponse {
+  roles: RolInterface;
+}
+
+export interface RolesPaginate {
+  currentPage: number
+}
+
+export interface RolesPaginateActions {
+  setRolesPaginate: (currentPage: number) => void;
+}

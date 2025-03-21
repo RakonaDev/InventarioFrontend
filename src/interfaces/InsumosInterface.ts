@@ -20,11 +20,14 @@ export type InsumoReturn = {
   totalPages: number;
 }
 
-// Zustand
-export interface InsumoPaginate {
+export interface InsumosResponse {
+  insumos: Insumo[];
+}
+
+export interface InsumosPaginate {
   currentPage: number
 }
 
-export interface InsumoPaginateActions {
-  setInsumoPaginate: (currentPage: number) => void;
+export interface InsumosPaginateActions {
+  setInsumosPaginate: (currentPage: number) => void;
 }

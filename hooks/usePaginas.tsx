@@ -1,5 +1,5 @@
 import { PaginasInterface } from "@/interfaces/PaginasInterface";
-import { apiAuth } from "../helper/global";
+import { apiAuth } from "../fonts/helper/global";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPaginas = async () => {

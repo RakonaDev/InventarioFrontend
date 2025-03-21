@@ -3,8 +3,10 @@ import React, { JSX, useState } from 'react'
 import { motion } from 'framer-motion';
 import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC';
 import { TableTitle } from '../usuarios/page';
-import ListComprasMov from '../../../../components/dashboard/table/movimientos/ListComprasMov';
-import ListSalidasMov from '../../../../components/dashboard/table/movimientos/ListSalidasMov';
+import { useCompra } from '../../../../hooks/useCompra';
+import { useSalida } from '../../../../hooks/useSalida';
+import { Pagination, Stack } from '@mui/material';
+import { useComprasStore } from '../../../../store/ComprasStore';
 const ItemsRolesTable: TableTitle[] = [
   { nombre: "ID_Movimiento", className: "xl:col-span-2 min-w-[100px]" },
   { nombre: "Producto", className: "xl:col-span-2 min-w-[150px]" },
@@ -17,6 +19,10 @@ const ItemsRolesTable: TableTitle[] = [
 
 export default function MovimientoPage(): JSX.Element {
   const [selectedMovimiento, setSelectedMovimiento] = useState<number>(1);
+  const { RenderListComprasMov, nextPage: nextComprasPage, comprasData } = useCompra()
+  const { RenderListSalidasMov, nextPage: nextSalidasPage, salidasData } = useSalida()
+  const { currentPage: currentPageCompras } = useComprasStore()
+  const { currentPage: currentPageSalidas } = useComprasStore()
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMovimiento(Number(event.target.value));
   };
@@ -34,10 +40,10 @@ export default function MovimientoPage(): JSX.Element {
           </motion.h2>
         </div>
         <div>
-          <select 
-            name="opcion" 
+          <select
+            name="opcion"
             id="opcion"
-            className="px-8 py-2 border-2 shadow-sm shadow-black-900 rounded-xl border-black-900" 
+            className="px-8 py-2 border-2 shadow-sm shadow-black-900 rounded-xl border-black-900"
             title='opcion'
             onChange={handleChange}
             value={selectedMovimiento}
@@ -55,7 +61,30 @@ export default function MovimientoPage(): JSX.Element {
           nededActions={false}
         />
         {
-          selectedMovimiento === 1 ? <ListComprasMov /> : <ListSalidasMov />
+          selectedMovimiento === 1 ?
+            (
+              <>
+                <div className='w-full min-h-[45dvh] bg-white-main'>
+                  <RenderListComprasMov />
+                </div>
+                <div className='w-full flex justify-center pt-5'>
+                  <Stack spacing={2}>
+                    <Pagination count={comprasData?.totalPages} page={currentPageCompras} onChange={nextComprasPage} />
+                  </Stack>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className='w-full min-h-[45dvh] bg-white-main'>
+                  <RenderListSalidasMov />
+                </div>
+                <div className='w-full flex justify-center pt-5'>
+                  <Stack spacing={2}>
+                    <Pagination count={salidasData?.totalPages} page={currentPageSalidas} onChange={nextSalidasPage} />
+                  </Stack>
+                </div>
+              </>
+            )
         }
         {/*<ListRoles />*/}
       </div>

@@ -71,13 +71,13 @@ const deleteInsumo = async (id: number) => {
 
 
 export function useInsumos() {
-  const [pageInsumos, setPageInsumos] = useState(1)
+  const [currentPage, setPageInsumos] = useState(1)
   const { closeModal } = useAdmin();
   const { ActualizarInformacionCompras } = useCompra()
   const query = useQueryClient()
 
   const { data: insumos , refetch: ActualizarInformacionInsumos, isLoading: CargandoInsumos, isError: ErrorInsumos } = useQuery<Insumo[]>({
-    queryKey: ['insumos', pageInsumos],
+    queryKey: ['insumos', currentPage],
     queryFn: fetchInsumos,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -142,11 +142,11 @@ export function useInsumos() {
   })
 
   const nextPage = () => {
-    setPageInsumos(pageInsumos + 1)
+    setPageInsumos(currentPage + 1)
   }
   const previousPage = () => {
-    if (pageInsumos === 1) return
-    setPageInsumos(pageInsumos - 1)
+    if (currentPage === 1) return
+    setPageInsumos(currentPage - 1)
   }
 
   return {
@@ -179,14 +179,20 @@ export const useGetInsumos = (): InsumoReturn => {
 }
 */
 "use client";
-import { apiAuth } from "../helper/global";
+import { apiAuth } from "../fonts/helper/global";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Insumo } from "@/interfaces/InsumosInterface";
 import { useAdmin } from "../context/AdminContext";
 import { CompraInterface } from "@/interfaces/CompraInterface";
 import { useCompra } from "./useCompra";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useInsumosStore } from "../store/ProductosStore";
+import { AxiosError } from "axios";
+import { parseToLocalTime } from "../logic/parseToLocalTime";
+import { EditAndDeleteButtons } from "../components/buttons/EditAndDeleteButtons";
+import { EditarInsumo } from "../components/modal/insumos/EditarInsumo";
+import EliminarInsumo from "../components/modal/insumos/EliminarInsumo";
+import { VerInsumo } from "../components/modal/insumos/VerInsumo";
 
 // Definición de la interfaz para la respuesta de la API
 interface InsumosResponse {
@@ -212,12 +218,21 @@ interface DeleteInsumoResponse {
 
 // Funciones para realizar las peticiones a la API (fetchs)
 const fetchInsumos = async (page: number): Promise<InsumosResponse> => {
-  const response = await apiAuth.get(`/insumos/10/${page}`);
-  if (response.status === 401) {
-    window.location.href = '/login';
-    throw new Error("Unauthorized");
+  try {
+    const response = await apiAuth.get(`/insumos/10/${page}`);
+    if (response.status === 401) {
+      window.location.href = '/login';
+      throw new Error("Unauthorized");
+    }
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        window.location.href = '/login';
+      }
+    }
+    throw new Error('Error al obtener los insumos');
   }
-  return response.data;
 };
 
 const postInsumos = async (newInsumo: FormData): Promise<PostInsumoResponse> => {
@@ -266,17 +281,16 @@ const deleteInsumo = async (id: number): Promise<DeleteInsumoResponse> => {
 };
 
 export function useInsumos() {
-  const [pageInsumos, setPageInsumos] = useState(1);
+  const { currentPage, setInsumosPaginate } = useInsumosStore()
   const { closeModal } = useAdmin();
   const { ActualizarInformacionCompras } = useCompra();
   const queryClient = useQueryClient();
 
   // useQuery para obtener los insumos
   const { data: insumosData, refetch: ActualizarInformacionInsumos, isLoading: CargandoInsumos, isError: ErrorInsumos } = useQuery<InsumosResponse>({
-    queryKey: ['insumos', pageInsumos],
-    queryFn: () => fetchInsumos(pageInsumos),
+    queryKey: ['insumos', currentPage],
+    queryFn: () => fetchInsumos(currentPage),
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
     refetchOnReconnect: false,
   });
   const totalPages = insumosData?.totalPages || 1;
@@ -287,19 +301,19 @@ export function useInsumos() {
     mutationFn: postInsumos,
     onSuccess: async (newData) => {
       // Actualización optimista de la caché
-      queryClient.setQueryData(['insumos', pageInsumos], (oldInsumos: InsumosResponse) => {
+      queryClient.setQueryData(['insumos', currentPage], (oldInsumos: InsumosResponse) => {
         if (!oldInsumos) return { insumos: [newData.insumos], totalPages: 1 };
 
         const newInsumos = { ...oldInsumos };
 
-        if (pageInsumos === oldInsumos.totalPages) {
+        if (currentPage === oldInsumos.totalPages) {
           if (oldInsumos.insumos.length < 10) {
             newInsumos.insumos.push(newData.insumos);
           } else {
             newInsumos.insumos.push(newData.insumos);
             newInsumos.totalPages++;
           }
-        } else if (pageInsumos === 1) {
+        } else if (currentPage === 1) {
           newInsumos.insumos.push(newData.insumos);
         }
         toast.success('Producto Añadido Correctamente');
@@ -318,18 +332,18 @@ export function useInsumos() {
     mutationFn: deleteInsumo,
     onSuccess: async (newData) => {
       // Actualización optimista de la caché
-      queryClient.setQueryData<InsumosResponse>(['insumos', pageInsumos], (oldInsumos) => {
+      queryClient.setQueryData<InsumosResponse>(['insumos', currentPage], (oldInsumos) => {
         if (!oldInsumos) return { insumos: [], currentPage: 1, totalPages: 1 };
 
         const newInsumos = { ...oldInsumos };
 
         // Lógica para eliminar el insumo y actualizar totalPages
-        if (pageInsumos === oldInsumos.totalPages) { // Si estamos en la última página
+        if (currentPage === oldInsumos.totalPages) { // Si estamos en la última página
           newInsumos.insumos = oldInsumos.insumos.filter((insumo) => insumo.id !== newData.insumos.id);
           if (newInsumos.insumos.length === 0 && oldInsumos.totalPages > 1) { // Si la página queda vacía y no es la primera
             newInsumos.totalPages--; // Decrementamos el número de páginas
-            if (pageInsumos > 1) {
-              setPageInsumos(prev => prev - 1); // Redirigimos a la página anterior
+            if (currentPage > 1) {
+              setInsumosPaginate(currentPage - 1); // Redirigimos a la página anterior
             }
           }
         } else { // Si no estamos en la última página, eliminamos normalmente
@@ -351,7 +365,7 @@ export function useInsumos() {
     mutationFn: editInsumos,
     onSuccess: async (newData) => {
       // Actualización optimista de la caché
-      queryClient.setQueryData<InsumosResponse>(['insumos', pageInsumos], (oldInsumos) => {
+      queryClient.setQueryData<InsumosResponse>(['insumos', currentPage], (oldInsumos) => {
         if (!oldInsumos) return { insumos: [newData.insumos], currentPage: 1, totalPages: 1 };
         const newInsumos = {
           insumos: oldInsumos.insumos.map((insumo) =>
@@ -377,13 +391,63 @@ export function useInsumos() {
   */
   const nextPage = (event: React.ChangeEvent<unknown>, value: number) => {
     console.log(value)
-    setPageInsumos(value)
+    setInsumosPaginate(value)
+  }
+
+  function RenderListInsumos() {
+    const { setModalContent, openModal } = useAdmin();
+    const handleEditarInsumo = (insumo: Insumo) => {
+      setModalContent(<EditarInsumo insumo={insumo} />);
+      openModal();
+    };
+    const handleEliminarInsumo = (id: number) => {
+      setModalContent(<EliminarInsumo id={id} />);
+      openModal();
+    };
+    const handleVerInsumo = (insumo: Insumo) => {
+      setModalContent(<VerInsumo insumo={insumo} />)
+      openModal()
+    }
+    return (
+      <div className="w-full space-y-6">
+        {insumosData?.insumos?.map((insumo: Insumo) => (
+          <div
+            className="w-full flex gap-5 col-span-1 xl:grid xl:grid-cols-12 text-black-700"
+            key={insumo.id}
+          >
+            <div className="w-full flex justify-center  items-center lg:col-span-1">
+              <p className="line-clamp-1">{insumo.id}</p>
+            </div>
+            <div className="w-full line-clamp-1 lg:col-span-2 flex justify-center  items-center text-sm">
+              <p className="line-clamp-1 text-ellipsis text-center">{insumo.nombre || ''}</p>
+            </div>
+            <div className="w-full flex items-center text-sm justify-center lg:col-span-1">
+              <p className="line-clamp-1 text-ellipsis text-center">{insumo.cantidad || ''}</p>
+            </div>
+            <div className="w-full flex items-center text-sm justify-center lg:col-span-2">
+              <p className="line-clamp-1 text-ellipsis text-center">{insumo.proveedor?.name || ''}</p>
+            </div>
+            <div className="w-full lg:col-span-2 flex items-center text-sm justify-center ">
+              <p className="line-clamp-1 text-ellipsis text-center">{insumo.categorias?.nombre}</p>
+            </div>
+            <div className="w-full lg:col-span-2 flex items-center text-sm justify-center ">
+              <p className="line-clamp-1 text-ellipsis text-center">{parseToLocalTime(insumo.created_at)}</p>
+            </div>
+            <EditAndDeleteButtons
+              onView={() => handleVerInsumo(insumo)}
+              onEdit={() => handleEditarInsumo(insumo)}
+              onDelete={() => handleEliminarInsumo(insumo.id || 0)}
+            />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return {
     insumosData,
     totalPages,
-    pageInsumos,
+    currentPage,
     nextPage,
     insumos,
     PostInsumo,
@@ -395,5 +459,6 @@ export function useInsumos() {
     ActualizarInformacionInsumos,
     CargandoInsumos,
     ErrorInsumos,
+    RenderListInsumos
   };
 }

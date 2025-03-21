@@ -14,7 +14,7 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
   const [id] = useState(usuario.id)
   const { EditarUser } = useUsers()
   const { estados } = useEstado()
-  const { roles } = useRol()
+  const { rolesData } = useRol()
   const {
     handleSubmit,
     handleChange,
@@ -224,7 +224,7 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
                 className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
               >
                 {
-                  roles?.map((rol: RolInterface) => {
+                  rolesData?.roles?.map((rol: RolInterface) => {
                     return (
                       <option value={rol.id} key={rol.id} > { rol.name } </option>
                     )

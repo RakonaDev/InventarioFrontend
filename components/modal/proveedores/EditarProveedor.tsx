@@ -6,7 +6,7 @@ import { useProveedor } from '../../../hooks/useProveedor';
 import { ProveedorInterface } from '@/interfaces/ProveedorInterface';
 
 export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInterface }) {
-  const { EditarProveedor } = useProveedor()
+  const { EditarProveedores } = useProveedor()
     const {
       handleBlur,
       handleChange,
@@ -24,7 +24,7 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
         address: proveedor.address,
       },
       onSubmit: (values) => {
-        EditarProveedor({
+        EditarProveedores({
           id: proveedor.id,
           address: values.address,
           ruc: values.ruc,

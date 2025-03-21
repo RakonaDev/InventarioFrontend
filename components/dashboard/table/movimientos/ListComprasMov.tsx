@@ -5,10 +5,10 @@ import { parseToLocalTime } from '../../../../logic/parseToLocalTime';
 import Link from 'next/link';
 
 export default function ListComprasMov() {
-  const { compras } = useCompra()
+  const { comprasData } = useCompra()
   return (
     <div className="w-full space-y-6">
-      {compras?.map((compra: CompraInterface) => (
+      {comprasData?.compras?.map((compra: CompraInterface) => (
         <div
           className="w-full flex gap-5 xl:grid xl:grid-cols-12 text-black-700"
           key={compra.id}

@@ -11,7 +11,7 @@ import { useInsumos } from "../../../hooks/useInsumos";
 
 export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
   const { categoriasData } = useCategoria();
-  const { proveedores } = useProveedor()
+  const { proveedoresData } = useProveedor()
   const { EditInsumo } = useInsumos()
   const {
     handleSubmit,
@@ -131,7 +131,7 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
             className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
           >
             {
-              proveedores?.map((proveedor: ProveedorInterface) => {
+              proveedoresData?.proveedores?.map((proveedor: ProveedorInterface) => {
                 return (
                   <option value={proveedor.id} key={proveedor.id}>{ proveedor.name }</option>
                 )
