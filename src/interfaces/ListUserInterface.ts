@@ -17,3 +17,21 @@ export interface ListUserInterface {
   created_at?: Date
   updated_at?: Date
 }
+
+export interface UsersResponse {
+  insumos: ListUserInterface[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface UserResponse {
+  user: ListUserInterface;
+}
+
+export interface UsersPaginate {
+  currentPage: number
+}
+
+export interface UsersPaginateActions {
+  setUsersPaginate: (currentPage: number) => void;
+}

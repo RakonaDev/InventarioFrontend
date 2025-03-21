@@ -5,7 +5,9 @@ import { motion } from "framer-motion";
 import { AgregarCompra } from '../../../../components/modal/compras/AgregarCompra';
 import { ButtonOpenModal } from '../../../../components/buttons/ButtonOpenModal';
 import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC';
-import ListCompras from '../../../../components/dashboard/table/compras/ListCompras';
+import { Pagination, Stack } from '@mui/material';
+import { useComprasStore } from '../../../../store/ComprasStore';
+import { useCompra } from '../../../../hooks/useCompra';
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "ID Compra", className: "min-w-[100px] xl:col-span-1" },
@@ -18,11 +20,13 @@ const ItemsInsumosTable: TableTitle[] = [
 ];
 
 export default function ComprasPage() {
+  const { totalPages, nextPage, RenderListCompras } = useCompra()
+  const { currentPage } = useComprasStore()
   return (
     <>
       <div className="w-full mt-10 flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-medium"
             initial={{ opacity: 0, x: -60 }}
             animate={{ opacity: 1, x: 0 }}
@@ -38,7 +42,14 @@ export default function ComprasPage() {
           className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
           nededActions={false}
         />
-        <ListCompras />
+        <div className='w-full min-h-[45dvh] bg-white-main'>
+          <RenderListCompras />
+        </div>
+        <div className='w-full flex justify-center pt-5'>
+          <Stack spacing={2}>
+            <Pagination count={totalPages} page={currentPage} onChange={nextPage} />
+          </Stack>
+        </div>
       </div>
     </>
   );

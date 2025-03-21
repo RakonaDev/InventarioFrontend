@@ -2,7 +2,7 @@
 
 "use client";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiAuth } from "../helper/global";
+import { apiAuth } from "../fonts/helper/global";
 import { useAdmin } from "../context/AdminContext";
 import { CategoriaInterface, CategoriaResponse, CategoriasResponse } from "@/interfaces/CategoriaInterface";
 import { toast } from "sonner";
@@ -106,13 +106,12 @@ export function useCategoria() {
   const { mutate: PostCategoria, isPending: LoadingPost } = useMutation<CategoriaResponse, any, CategoriaInterface>({
     mutationFn: postCategorias,
     onSuccess: async (newCategoria) => {
-      console.log(currentPage)
-      console.log(newCategoria)
+
       queryClient.setQueryData<CategoriasResponse>(['categorias', currentPage], (oldCategorias) => {
         if (!oldCategorias) return { categorias: [newCategoria.categorias], currentPage: currentPage, totalPages: 1 };
         console.log(oldCategorias)
         const updatedCategorias = { ...oldCategorias, currentPage: currentPage };
-        console.log(updatedCategorias)
+        
         if (currentPage === updatedCategorias.totalPages) {
           if (updatedCategorias.categorias.length >= 10) {
             updatedCategorias.totalPages++;

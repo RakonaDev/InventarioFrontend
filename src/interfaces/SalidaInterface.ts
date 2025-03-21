@@ -8,3 +8,17 @@ export interface SalidaInterface {
   created_at?: Date
   updated_at?: Date
 }
+
+export interface SalidasResponse {
+  salidas: SalidaInterface[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface SalidasPaginate {
+  currentPage: number
+}
+
+export interface SalidasPaginateActions {
+  setSalidasPaginate: (currentPage: number) => void;
+}

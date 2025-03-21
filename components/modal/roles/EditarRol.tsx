@@ -10,7 +10,7 @@ import { usePaginas } from "../../../hooks/usePaginas";
 import { PaginasInterface } from "@/interfaces/PaginasInterface";
 import { toTitleCase } from "../../../logic/parseToTitle";
 
-export default function EditarRol({ rol }: { rol: RolInterface }) {
+export default function EditarRoles({ rol }: { rol: RolInterface }) {
   const { paginas } = usePaginas()
   const [id] = useState(rol.id);
   const Id_arrays: number[] = []
@@ -18,7 +18,7 @@ export default function EditarRol({ rol }: { rol: RolInterface }) {
     Id_arrays.push(item.id)
   })
   const [selectedValues, setSelectedValues] = useState<number[]>(Id_arrays);
-  const { EditarRol } = useRol();
+  const { EditarRoles } = useRol();
   const { handleBlur, handleChange, handleSubmit, errors, values, touched } =
     useFormik({
       initialValues: {
@@ -26,7 +26,7 @@ export default function EditarRol({ rol }: { rol: RolInterface }) {
       },
       validationSchema: EditarRolSchema,
       onSubmit: async (values) => {
-        EditarRol({
+        EditarRoles({
           id,
           name: values.name,
           paginas: selectedValues

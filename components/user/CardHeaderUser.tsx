@@ -6,7 +6,7 @@ import { useMe } from '../../hooks/useMe'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MdLogout } from "react-icons/md";
 import { useRouter } from 'next/navigation'
-import { apiURL } from '../../helper/global'
+import { apiURL } from '../../fonts/helper/global'
 
 export const CardHeaderUser = () => {
   const { me } = useMe()

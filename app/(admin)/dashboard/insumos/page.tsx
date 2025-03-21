@@ -4,11 +4,11 @@ import { ButtonOpenModal } from "../../../../components/buttons/ButtonOpenModal"
 import { HeadTablePC } from "../../../../components/dashboard/table/HeadTablePC";
 import { AgregarInsumo } from "../../../../components/modal/insumos/AgregarInsumo";
 import { TableTitle } from "../usuarios/page";
-import { ListInsumos } from "../../../../components/dashboard/table/insumos/ListInsumos";
 import { motion } from "framer-motion";
 import { useInsumos } from "../../../../hooks/useInsumos";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { useInsumosStore } from "../../../../store/ProductosStore";
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "Código", className: "lg:col-span-1" },
@@ -20,7 +20,8 @@ const ItemsInsumosTable: TableTitle[] = [
 ];
 
 export default function page() {
-  const { totalPages, nextPage, pageInsumos, insumosData } = useInsumos();
+  const { totalPages, nextPage, insumosData, RenderListInsumos } = useInsumos();
+  const { currentPage } = useInsumosStore()
   console.log(insumosData)
   if (insumosData?.insumos == undefined) return <div>Loading...</div>;
   return (
@@ -42,10 +43,10 @@ export default function page() {
           titlesTable={ItemsInsumosTable}
           className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
         />
-        <ListInsumos insumos={insumosData?.insumos} />
+        <RenderListInsumos />
         <div className="w-full flex justify-center pt-5">
           <Stack spacing={2}>
-            <Pagination count={totalPages} page={pageInsumos} onChange={nextPage} />
+            <Pagination count={totalPages} page={currentPage} onChange={nextPage} />
           </Stack>
         </div>
       </div>

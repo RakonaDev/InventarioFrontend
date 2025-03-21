@@ -5,7 +5,9 @@ import { motion } from "framer-motion";
 import { ButtonOpenModal } from '../../../../components/buttons/ButtonOpenModal';
 import { AgregarSalida } from '../../../../components/modal/salidas/AgregarSalida';
 import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC';
-import ListSalida from '../../../../components/dashboard/table/salidas/ListSalida';
+import { useSalida } from '../../../../hooks/useSalida';
+import { Pagination, Stack } from '@mui/material';
+import { useSalidasStore } from '../../../../store/SalidaStore';
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "ID Salida", className: "min-w-[100px] xl:col-span-2" },
@@ -15,11 +17,13 @@ const ItemsInsumosTable: TableTitle[] = [
 ];
 
 export default function SalidasPage() {
+  const { RenderListSalidas, salidasData, nextPage } = useSalida()
+  const { currentPage } = useSalidasStore()
   return (
     <>
       <div className="w-full mt-10  flex items-center mb-6 justify-between">
         <div className="w-fit flex items-center gap-6">
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-medium"
             initial={{ opacity: 0, x: -60 }}
             animate={{ opacity: 1, x: 0 }}
@@ -35,7 +39,14 @@ export default function SalidasPage() {
           className="mb-6 flex gap-5 xl:grid-cols-12 text-gray-400 border-b pb-5"
           nededActions={false}
         />
-        <ListSalida />
+        <div className='w-full min-h-[45dvh] bg-white-main'>
+          <RenderListSalidas />
+        </div>
+        <div className='w-full flex justify-center pt-5'>
+          <Stack spacing={2}>
+            <Pagination count={salidasData?.totalPages} page={currentPage} onChange={nextPage} />
+          </Stack>
+        </div>
       </div>
     </>
   )

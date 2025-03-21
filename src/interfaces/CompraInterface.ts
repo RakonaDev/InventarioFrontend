@@ -14,6 +14,16 @@ export interface CompraInterface {
   producto?: Insumo
 }
 
+export interface ComprasResponse {
+  compras: CompraInterface[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface CompraResponse {
+  compras: CompraInterface;
+}
+
 export interface ComprasPaginate {
   currentPage: number
 }

@@ -8,7 +8,7 @@ import { SchemaLogin } from "@/schemas/AuthSchemas";
 import { InputForm } from "../../../components/form/InputForm";
 import { Errors } from "../../../components/form/Errors";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { apiURL } from "../../../helper/global";
+import { apiURL } from "../../../fonts/helper/global";
 
 export const FormLogin = ({router}: {router: AppRouterInstance}) => {
   const [loadLogin, setLoadLogin] = useState<boolean>(false);

@@ -1,6 +1,6 @@
 'use client'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiAuth, apiURL } from "../helper/global";
+import { apiAuth, apiURL } from "../fonts/helper/global";
 import { useAdmin } from "../context/AdminContext";
 import { TipoInsumoInterface } from "@/interfaces/TipoInsumoInterface";
 import { toast } from "sonner";
