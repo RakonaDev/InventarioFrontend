@@ -9,7 +9,7 @@ import { useInsumos } from "../../../hooks/useInsumos";
 
 export const AgregarInsumo = () => {
   const { categoriasData } = useCategoria();
-  const { proveedores } = useProveedor()
+  const { proveedoresData } = useProveedor()
   const { PostInsumo } = useInsumos()
   const {
     handleSubmit,
@@ -94,7 +94,7 @@ export const AgregarInsumo = () => {
             onChange={handleChange}
           >
             <option value={0} disabled>Elija el Proveedor</option>
-            {proveedores?.map((proveedor) => (
+            {proveedoresData?.proveedores?.map((proveedor) => (
               <option key={proveedor.id} value={proveedor.id}>
                 {proveedor.name}
               </option>

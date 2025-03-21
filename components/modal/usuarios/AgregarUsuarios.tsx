@@ -16,7 +16,7 @@ export const AgregarUsuarios = () => {
   const [password, setPassword] = useState<string>('')
 
   const { mutate } = useUsers()
-  const { roles } = useRol()
+  const { rolesData } = useRol()
   const { estados } = useEstado()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,7 +202,7 @@ export const AgregarUsuarios = () => {
             >
               <option value={0} disabled>Seleccioné el Rol</option>
               {
-                roles?.map((item) => (
+                rolesData?.roles?.map((item) => (
                   <option value={item.id} key={item.id}>{item.name}</option>
                 ))
               }
