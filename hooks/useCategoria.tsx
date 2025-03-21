@@ -106,13 +106,11 @@ export function useCategoria() {
   const { mutate: PostCategoria, isPending: LoadingPost } = useMutation<CategoriaResponse, any, CategoriaInterface>({
     mutationFn: postCategorias,
     onSuccess: async (newCategoria) => {
-      console.log(currentPage)
-      console.log(newCategoria)
       queryClient.setQueryData<CategoriasResponse>(['categorias', currentPage], (oldCategorias) => {
         if (!oldCategorias) return { categorias: [newCategoria.categorias], currentPage: currentPage, totalPages: 1 };
-        console.log(oldCategorias)
+
         const updatedCategorias = { ...oldCategorias, currentPage: currentPage };
-        console.log(updatedCategorias)
+
         if (currentPage === updatedCategorias.totalPages) {
           if (updatedCategorias.categorias.length >= 10) {
             updatedCategorias.totalPages++;
@@ -122,8 +120,7 @@ export function useCategoria() {
           }
 
           updatedCategorias.categorias.push(newCategoria.categorias);
-          console.log(updatedCategorias.categorias)
-        } 
+        }
         /*
         else if (pageCategorias === 1) {
           updatedCategorias.categorias.push(newCategoria.categorias);
@@ -169,7 +166,7 @@ export function useCategoria() {
   const { mutateAsync: DeleteCategoria, isPending: LoadingDelete } = useMutation<CategoriaResponse, any, number>({
     mutationFn: deleteCategorias,
     onSuccess: async (categoriaDeleted) => {
-      
+
       queryClient.setQueryData<CategoriasResponse>(['categorias', currentPage], (oldCategorias) => {
         if (!oldCategorias) return { categorias: [], currentPage: 1, totalPages: 1 };
 
@@ -193,7 +190,7 @@ export function useCategoria() {
         }
         return updatedCategorias;
       });
-      
+
       ActualizarCategorias()
       toast.success('Categoria Eliminada Correctamente!');
       closeModal();
@@ -370,7 +367,7 @@ export function useCategoria () {
     mutationFn: postCategorias,
     onSuccess: async (newCategoria: CategoriaInterface) => {
       if (!newCategoria) return
-      
+
       await query.setQueryData(['categorias'], (oldCategoria?: CategoriaInterface[]) => {
         if (oldCategoria == null) return [newCategoria];
         toast.success('Agregado Correctamente!')

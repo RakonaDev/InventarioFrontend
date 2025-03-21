@@ -19,3 +19,12 @@ export type InsumoReturn = {
   insumos: Insumo[];
   totalPages: number;
 }
+
+// Zustand
+export interface InsumoPaginate {
+  currentPage: number
+}
+
+export interface InsumoPaginateActions {
+  setInsumoPaginate: (currentPage: number) => void;
+}

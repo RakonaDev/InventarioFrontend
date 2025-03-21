@@ -22,11 +22,11 @@ export interface CategoryPaginate {
   currentPage: number
 }
 
+export interface CategoryPaginateActions {
+  setCategoryPaginate: (currentPage: number) => void;
+}
+
 export interface CategoryPaginateItem {
   currentPage: number;
   categoryItems: CategoriaInterface[];
-}
-
-export interface CategoryPaginateActions {
-  setCategoryPaginate: (currentPage: number) => void;
 }

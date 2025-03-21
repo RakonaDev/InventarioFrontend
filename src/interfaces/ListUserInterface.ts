@@ -17,3 +17,12 @@ export interface ListUserInterface {
   created_at?: Date
   updated_at?: Date
 }
+
+// Zustand
+export interface UserPaginate {
+  currentPage: number
+}
+
+export interface UserPaginateActions {
+  setUserPaginate: (currentPage: number) => void;
+}
