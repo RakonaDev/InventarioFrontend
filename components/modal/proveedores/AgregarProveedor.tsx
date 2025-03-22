@@ -1,11 +1,19 @@
+'use client'
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputForm } from "../../form/InputForm";
 import { Errors } from "../../form/Errors";
-import { useProveedor } from "../../../hooks/useProveedor";
+import { AxiosError } from "axios";
+import { apiAuth } from "../../../fonts/helper/global";
+import { toast } from "sonner";
+import { useAdmin } from "../../../context/AdminContext";
+import { useRouter } from "next/navigation";
+
 
 export default function AgregarProveedor() {
-  const { PostProveedor } = useProveedor()
+  const router = useRouter()
+  const { closeModal } = useAdmin()
+  const [loading, setLoading] = useState(false)
   const {
     handleBlur,
     handleChange,
@@ -23,14 +31,43 @@ export default function AgregarProveedor() {
       ruc: "",
       address: "",
     },
-    onSubmit: (values) => {
-      PostProveedor({
+    onSubmit: async (values) => {
+      if (loading) return
+      setLoading(true)
+      const newProveedor = {
         address: values.address,
         ruc: values.ruc,
         email: values.email,
         name: values.name,
         phone: values.phone
-      })
+      }
+
+      try {
+        const response = await apiAuth.post('/proveedores', newProveedor)
+        
+        if (response.status === 401) {
+          router.push('/login')
+        }
+        if (response.status !== 201) {
+          throw new Error('Error');
+        }
+        if (response.status === 201) {
+          toast.success('Proveedor Creado Correctamente')
+          closeModal()
+          window.location.reload()
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.status === 401) {
+            router.push('/login')
+          }
+        }
+        toast.error('Hubo un error creando el proveedor')
+        console.log(error);
+        throw new Error('Error al crear el proveedor');
+      } finally {
+        setLoading(false)
+      }
     },
   });
 

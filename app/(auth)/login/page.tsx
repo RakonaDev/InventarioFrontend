@@ -8,7 +8,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 const Page: NextPage = ({ }) => {
   const router: AppRouterInstance = useRouter()
   console.log(Date.now(), "FormLogin - Renderizado:", typeof window === 'undefined' ? "Servidor" : "Cliente");
-    console.log(Date.now(), "FormLogin - Router:", router);
+  console.log(Date.now(), "FormLogin - Router:", router);
   return (
     <div className="flex justify-center items-center min-h-screen bg-fondo-main relative z-10">
       <img

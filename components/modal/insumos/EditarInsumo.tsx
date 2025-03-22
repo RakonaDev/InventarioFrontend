@@ -1,18 +1,22 @@
 "use client";
 import { Insumo } from "@/interfaces/InsumosInterface";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { InputForm } from "../../form/InputForm";
-import { useCategoria } from "../../../hooks/useCategoria";
 import { CategoriaInterface } from "@/interfaces/CategoriaInterface";
-import { useProveedor } from "../../../hooks/useProveedor";
 import { ProveedorInterface } from "@/interfaces/ProveedorInterface";
-import { useInsumos } from "../../../hooks/useInsumos";
+import { apiAuth } from "../../../fonts/helper/global";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { useAdmin } from "../../../context/AdminContext";
 
-export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
-  const { categoriasData } = useCategoria();
-  const { proveedoresData } = useProveedor()
-  const { EditInsumo } = useInsumos()
+export const EditarInsumo = ({ insumo, setInsumos }: { insumo: Insumo, setInsumos: React.Dispatch<React.SetStateAction<Insumo[]>> }) => {
+  const router = useRouter()
+  const [proveedores, setProveedores] = useState<ProveedorInterface[]>([])
+  const [categorias, setCategorias] = useState<CategoriaInterface[]>([])
+  const [loading, setLoading] = useState(false)
+  const { closeModal } = useAdmin()
   const {
     handleSubmit,
     handleChange,
@@ -32,8 +36,10 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
       id_categoria: insumo.id_categoria,
       id_proveedor: insumo.id_proveedor,
     },
-    onSubmit: (values) => {
-      EditInsumo({
+    onSubmit: async (values) => {
+      if (loading) return
+      setLoading(true)
+      const editedInsumo = {
         id: insumo.id || 0,
         nombre: values.nombre,
         precio: values.precio,
@@ -41,9 +47,86 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
         descripcion: values.descripcion,
         id_categoria: values.id_categoria,
         id_proveedor: values.id_proveedor,
-      })
+      }
+      try {
+        const response = await apiAuth.post(`/insumos/${editedInsumo.id}`, editedInsumo);
+        if (response.status === 401) {
+          router.push('/login');
+          throw new Error("Unauthorized");
+        }
+        if (response.status !== 200) {
+          throw new Error('error');
+        }
+        if (response.status === 200) {
+          toast.success('Producto Editado Correctamente')
+          setInsumos(prevState => prevState.map((state) => state.id === response.data.insumos.id ? response.data.insumos : state))
+          closeModal()
+        }
+      } catch (error) {
+        console.error(error);
+        if (error instanceof AxiosError) {
+          if (error.status === 401) {
+            router.push('/login')
+          }
+        }
+        toast.error('Hubo un error editando el producto');
+        throw error;
+      } finally {
+        setLoading(false)
+      }
     },
   });
+
+  async function getProveedores() {
+    try {
+      const response = await apiAuth.get(`/proveedores`)
+
+      if (response.status === 401) {
+        router.push('/login')
+      }
+      if (response.status !== 200) {
+        throw new Error('Error al obtener los proveedores');
+      }
+      setProveedores(response.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 401) {
+          router.push('/login')
+        }
+      }
+      toast.error('Hubo un error al recibir los datos')
+      console.log(error);
+      throw new Error('Error al obtener los proveedores');
+    }
+  }
+
+  async function getCategorias() {
+    try {
+      const response = await apiAuth.get(`/categorias`)
+
+      if (response.status === 401) {
+        router.push('/login')
+      }
+      if (response.status !== 200) {
+        throw new Error('Error al obtener las categorias');
+      }
+      setCategorias(response.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 401) {
+          router.push('/login')
+        }
+      }
+      toast.error('Hubo un error al recibir las categorias')
+      console.log(error);
+      throw new Error('Error al obtener las categorias');
+    }
+  }
+
+  useEffect(() => {
+    getProveedores()
+    getCategorias()
+  }, [])
 
   useEffect(() => {
     if (errors && isSubmitting) {
@@ -94,7 +177,7 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
               onChange={handleChange}
             />
           </div>
-        
+
         </div>
       </div>
       <div className="w-full flex flex-col lg:flex-row gap-4">
@@ -110,9 +193,9 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
             className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
           >
             {
-              categoriasData?.categorias?.map((categoria: CategoriaInterface) => {
+              categorias?.map((categoria: CategoriaInterface) => {
                 return (
-                  <option value={categoria.id} key={categoria.id}>{ categoria.nombre }</option>
+                  <option value={categoria.id} key={categoria.id}>{categoria.nombre}</option>
                 )
               })
             }
@@ -131,9 +214,9 @@ export const EditarInsumo = ({ insumo }: { insumo: Insumo }) => {
             className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
           >
             {
-              proveedoresData?.proveedores?.map((proveedor: ProveedorInterface) => {
+              proveedores?.map((proveedor: ProveedorInterface) => {
                 return (
-                  <option value={proveedor.id} key={proveedor.id}>{ proveedor.name }</option>
+                  <option value={proveedor.id} key={proveedor.id}>{proveedor.name}</option>
                 )
               })
             }

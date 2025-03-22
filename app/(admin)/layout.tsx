@@ -3,7 +3,6 @@ import { AdminProvider } from "../../context/AdminContext";
 import { ModalRender } from "./dashboard/@components/ModalRender";
 import { SectionsRender } from "../../components/estructura/HeaderRender";
 import { Me } from "@/interfaces/MyInfoInterface";
-import { config } from "@/config/config";
 import { ReactNode } from "react";
 import { redirect } from "next/navigation"
 import { getServerSideProps } from "@/logic/getServerSideProps";
@@ -18,7 +17,7 @@ export default async function AdminLayout({
     console.log(me)
     return (
       <AdminProvider>
-        <Header />
+        <Header me={me} />
         <section className="w-full relative flex justify-between h-[calc(100dvh-80px)]">
           <SectionsRender me={me} />
           <div className="w-full flex-1 p-8 overflow-y-auto bg-gray-100">

@@ -13,9 +13,9 @@ import EliminarProveedor from "../components/modal/proveedores/EliminarProveedor
 import { VerProveedor } from "../components/modal/proveedores/VerProveedor";
 import EditarProveedor from "../components/modal/proveedores/EditarProveedor";
 
-const fetchProveedor = async (page: number): Promise<ProveedoresResponse> => {
+const fetchProveedor = async () => {
   try {
-    const response = await apiAuth.get(`/proveedores/10/${page}`)
+    const response = await apiAuth.get(`/proveedores`)
 
     if (response.status === 401) {
       window.location.href = '/login'
@@ -101,9 +101,9 @@ export function useProveedor() {
   const { ActualizarInformacionInsumos } = useInsumos()
   const { currentPage, setProveedoresPaginate } = useProveedorStore()
   const query = useQueryClient()
-  const { data: proveedoresData, isError: ErrorProveedor, isLoading: CargandoProveedor, refetch: ActualizarProveedores } = useQuery<ProveedoresResponse>({
-    queryKey: ['proveedores', currentPage],
-    queryFn: () => fetchProveedor(currentPage),
+  const { data: proveedoresData, isError: ErrorProveedor, isLoading: CargandoProveedor, refetch: ActualizarProveedores } = useQuery<ProveedorResponse>({
+    queryKey: ['proveedores'],
+    queryFn: fetchProveedor,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

@@ -1,7 +1,6 @@
 "use client";
 import { RolInterface } from "@/interfaces/RolInterface";
 import React, { useState } from "react";
-import { useRol } from "../../../hooks/useRol";
 import { useFormik } from "formik";
 import { Errors } from "../../form/Errors";
 import { InputForm } from "../../form/InputForm";
@@ -9,16 +8,20 @@ import { EditarRolSchema } from "@/schemas/RolSchemas";
 import { usePaginas } from "../../../hooks/usePaginas";
 import { PaginasInterface } from "@/interfaces/PaginasInterface";
 import { toTitleCase } from "../../../logic/parseToTitle";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { apiAuth } from "../../../fonts/helper/global";
+import { useAdmin } from "../../../context/AdminContext";
 
-export default function EditarRoles({ rol }: { rol: RolInterface }) {
+export default function EditarRoles({ rol, setRoles }: { rol: RolInterface, setRoles: React.Dispatch<React.SetStateAction<RolInterface[]>> }) {
   const { paginas } = usePaginas()
   const [id] = useState(rol.id);
+  const { closeModal } = useAdmin()
   const Id_arrays: number[] = []
   rol.list_paginas?.map((item) => {
     Id_arrays.push(item.id)
   })
   const [selectedValues, setSelectedValues] = useState<number[]>(Id_arrays);
-  const { EditarRoles } = useRol();
   const { handleBlur, handleChange, handleSubmit, errors, values, touched } =
     useFormik({
       initialValues: {
@@ -26,11 +29,35 @@ export default function EditarRoles({ rol }: { rol: RolInterface }) {
       },
       validationSchema: EditarRolSchema,
       onSubmit: async (values) => {
-        EditarRoles({
-          id,
+        const updatedRol = {
+          id: id,
           name: values.name,
           paginas: selectedValues
-        });
+        }
+        try {
+          // const response = await apiAuth.patch('/roles', updatedRol)
+          const response = await apiAuth.post('/roles', updatedRol)
+          if (response.status === 401) {
+            window.location.href = '/login'
+          }
+          if (response.status !== 200) {
+            throw new Error('error')
+          }
+          if (response.status === 200) {
+            toast.success('Rol Actualizado Correctamente')
+            setRoles(prevState => prevState.map((state) => state.id === response.data.roles.id ? response.data.roles : state))
+            closeModal()
+          }
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            if (error.status === 401) {
+              window.location.href = '/login'
+            }
+          }
+          toast.error('Hubo un error actualizando el rol')
+          console.log(error)
+          throw new Error('Error al actualizar el rol');
+        }
       },
     });
 

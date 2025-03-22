@@ -1,5 +1,6 @@
 import { config } from "@/config/config"
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function getServerSideProps(url: string) {
   const cookieStore = await cookies(); 
@@ -15,7 +16,8 @@ export async function getServerSideProps(url: string) {
     
     if (!res.ok) {
       console.log("Algo pasó")
-      window.location.href = '/login'
+      throw new Error('Error');
+      redirect('/login')
       return;
     }
     
@@ -24,7 +26,8 @@ export async function getServerSideProps(url: string) {
     console.log("DATA: ", data);
     return data;
   } catch (error) {
-    window.location.href = '/login'
+    console.log("Error al obtener los roles");
     console.log(error);
+    redirect('/login')
   }
 }

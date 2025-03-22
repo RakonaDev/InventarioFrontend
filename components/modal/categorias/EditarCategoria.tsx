@@ -3,7 +3,6 @@ import { InputForm } from '../../form/InputForm';
 import { useFormik } from 'formik';
 import { CategoriaInterface } from '@/interfaces/CategoriaInterface';
 import { Errors } from '../../form/Errors';
-import { useCategoria } from '../../../hooks/useCategoria';
 import { EditCategorySchema } from '@/schemas/CategoriaSchema';
 import { apiAuth } from '../../../fonts/helper/global';
 import { toast } from 'sonner';

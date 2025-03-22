@@ -2,7 +2,6 @@ import React from 'react'
 import { EliminarProps } from '../roles/EliminarRol'
 import Image from 'next/image';
 import DeletePerson from '../../../public/delete-person.webp'
-import { useCategoria } from '../../../hooks/useCategoria';
 import { useAdmin } from '../../../context/AdminContext';
 import { apiAuth } from '../../../fonts/helper/global';
 import { toast } from 'sonner';

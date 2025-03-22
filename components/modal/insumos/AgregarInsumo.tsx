@@ -1,16 +1,23 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputForm } from "../../form/InputForm";
 import { useFormik } from "formik";
-import { useCategoria } from "../../../hooks/useCategoria";
-import { useProveedor } from "../../../hooks/useProveedor";
 import { Errors } from "../../form/Errors";
-import { useInsumos } from "../../../hooks/useInsumos";
+import { apiAuth } from "../../../fonts/helper/global";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
+import { ProveedorInterface } from "@/interfaces/ProveedorInterface";
+import { CategoriaInterface } from "@/interfaces/CategoriaInterface";
+import { useAdmin } from "../../../context/AdminContext";
 
 export const AgregarInsumo = () => {
-  const { categoriasData } = useCategoria();
-  const { proveedoresData } = useProveedor()
-  const { PostInsumo } = useInsumos()
+  const [proveedores, setProveedores] = useState<ProveedorInterface[]>([])
+  const [categorias, setCategorias] = useState<CategoriaInterface[]>([])
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+  const { closeModal } = useAdmin()
+
   const {
     handleSubmit,
     handleChange,
@@ -33,6 +40,8 @@ export const AgregarInsumo = () => {
       comprobante: null
     },
     onSubmit: async (values) => {
+      if (loading) return
+      setLoading(true)
       const newInsumo = new FormData();
       newInsumo.append("nombre", values.nombre);
       newInsumo.append("descripcion", values.descripcion);
@@ -45,12 +54,40 @@ export const AgregarInsumo = () => {
       }
       newInsumo.append("cantidad", values.cantidad.toString());
       if (values.fecha_creacion) {
-        newInsumo.append("fecha_creacion",String(values.fecha_creacion));
+        newInsumo.append("fecha_creacion", String(values.fecha_creacion));
       }
       if (values.fecha_vencimiento) {
         newInsumo.append("fecha_vencimiento", String(values.fecha_vencimiento));
       }
-      PostInsumo(newInsumo)
+
+      // Funcion al fetch
+      try {
+        const response = await apiAuth.postForm('/insumos', newInsumo);
+        if (response.status === 401) {
+          window.location.href = '/login';
+          throw new Error("Unauthorized");
+        }
+        if (response.status !== 201) {
+          throw new Error('Error');
+        }
+        if (response.status === 201) {
+          toast.success('Producto Añadido Correctamente')
+          router.refresh()
+          window.location.reload()
+          closeModal()
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('Hubo un error añadiendo el producto');
+        if (error instanceof AxiosError) {
+          if (error.status === 401) {
+            router.push('/login')
+          }
+        }
+        throw error;
+      } finally {
+        setLoading(false)
+      }
     }
   });
   useEffect(() => {
@@ -62,6 +99,58 @@ export const AgregarInsumo = () => {
       }
     }
   }, [touched, errors, isSubmitting]);
+
+  async function getProveedores() {
+    try {
+      const response = await apiAuth.get(`/proveedores`)
+
+      if (response.status === 401) {
+        router.push('/login')
+      }
+      if (response.status !== 200) {
+        throw new Error('Error al obtener los proveedores');
+      }
+      setProveedores(response.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 401) {
+          router.push('/login')
+        }
+      }
+      toast.error('Hubo un error al recibir los datos')
+      console.log(error);
+      throw new Error('Error al obtener los proveedores');
+    }
+  }
+
+  async function getCategorias() {
+    try {
+      const response = await apiAuth.get(`/categorias`)
+
+      if (response.status === 401) {
+        router.push('/login')
+      }
+      if (response.status !== 200) {
+        throw new Error('Error al obtener las categorias');
+      }
+      setCategorias(response.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 401) {
+          router.push('/login')
+        }
+      }
+      toast.error('Hubo un error al recibir las categorias')
+      console.log(error);
+      throw new Error('Error al obtener las categorias');
+    }
+  }
+
+  useEffect(() => {
+    getProveedores()
+    getCategorias()
+  }, [])
+
   return (
     <form className="space-y-6 p-4" onSubmit={handleSubmit}>
       <h2 className="text-2xl font-semibold text-center mb-6">
@@ -94,7 +183,7 @@ export const AgregarInsumo = () => {
             onChange={handleChange}
           >
             <option value={0} disabled>Elija el Proveedor</option>
-            {proveedoresData?.proveedores?.map((proveedor) => (
+            {proveedores?.map((proveedor) => (
               <option key={proveedor.id} value={proveedor.id}>
                 {proveedor.name}
               </option>
@@ -146,7 +235,7 @@ export const AgregarInsumo = () => {
             onChange={handleChange}
           >
             <option value={0} disabled>Elija la Categoría</option>
-            {categoriasData?.categorias?.map((categoria) => (
+            {categorias?.map((categoria) => (
               <option key={categoria.id} value={categoria.id}>
                 {categoria.nombre}
               </option>

@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import { Errors } from '../../form/Errors';
 import { InputForm } from '../../form/InputForm';
 import { useFormik } from 'formik';
-import { useProveedor } from '../../../hooks/useProveedor';
 import { ProveedorInterface } from '@/interfaces/ProveedorInterface';
+import { toast } from 'sonner';
+import { AxiosError } from 'axios';
+import { apiAuth } from '../../../fonts/helper/global';
+import { useRouter } from 'next/navigation';
+import { useAdmin } from '../../../context/AdminContext';
 
-export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInterface }) {
-  const { EditarProveedores } = useProveedor()
+export default function EditarProveedor({ proveedor, setProveedores }: { proveedor: ProveedorInterface, setProveedores: React.Dispatch<React.SetStateAction<ProveedorInterface[]>> }) {
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const { closeModal } = useAdmin()
     const {
       handleBlur,
       handleChange,
@@ -23,15 +30,44 @@ export default function EditarProveedor({ proveedor }: { proveedor: ProveedorInt
         ruc: proveedor.ruc,
         address: proveedor.address,
       },
-      onSubmit: (values) => {
-        EditarProveedores({
+      onSubmit: async (values) => {
+        if (loading) return
+        setLoading(true)
+        const updatedProveedor = {
           id: proveedor.id,
           address: values.address,
           ruc: values.ruc,
           email: values.email,
           name: values.name,
           phone: values.phone
-        })
+        }
+        try {
+          // const response = await apiAuth.put(`/proveedores/${updatedProveedor.id}`, updatedProveedor)
+          const response = await apiAuth.post(`/proveedores/${updatedProveedor.id}`, updatedProveedor)
+          if (response.status === 401) {
+            router.push('/login')
+          }
+          if (response.status !== 200) {
+            throw new Error('error')
+          }
+          if (response.status === 200) {
+            toast.success('Proveedor Actualizado Correctamente')
+            setProveedores(prevState => prevState.map((state) => state.id === response.data.proveedores.id ? response.data.proveedores : state))
+            closeModal()
+          }
+          
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            if (error.status === 401) {
+              router.push('/login')
+            }
+          }
+          toast.error('Hubo un error actualizando el proveedor')
+          console.log(error)
+          throw new Error('Error al actualizar el proveedor');
+        } finally {
+          setLoading(false)
+        }
       },
     });
   

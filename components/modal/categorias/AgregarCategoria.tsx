@@ -43,11 +43,13 @@ export default function AgregarCategoria() {
           throw new Error('Error');
         }
         if (response.status === 201) {
+          toast.success(response.data.message)
           window.location.reload()
         } 
       } catch (error) {
         toast.error('Faltan Datos!');
         console.error(error);
+        router.push('/login')
         throw error;
       } finally {
         setLoadingPost(false)

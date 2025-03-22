@@ -4,8 +4,9 @@ import { WrapperContent } from "./WrapperContent";
 import { FaBell } from "react-icons/fa6";
 import { CardHeaderUser } from "../user/CardHeaderUser";
 import { motion } from "framer-motion";
+import { Me } from "@/interfaces/MyInfoInterface";
 
-export const Header = () => {
+export const Header = ({ me }: { me: Me }) => {
 
   return (
     <motion.header
@@ -21,7 +22,7 @@ export const Header = () => {
             <span className="block w-2 h-2 rounded-full bg-primario-main absolute -top-2 -right-1 animate-pulse"></span>
             <FaBell />
           </button>
-          <CardHeaderUser />
+          <CardHeaderUser me={me} />
         </div>
       </WrapperContent>
     </motion.header>

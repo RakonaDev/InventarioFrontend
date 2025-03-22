@@ -1,16 +1,16 @@
 import { useFormik } from "formik"
 import { InputForm } from "../../form/InputForm"
 import { Errors } from "../../form/Errors"
-import { useCompra } from "../../../hooks/useCompra"
 import { PostCompraSchema } from "@/schemas/CompraSchema"
 import { formatearFechaParaInputDate } from "../../../logic/parseDateToInput"
 import { useEffect, useState } from "react"
 import { apiAuth } from "../../../fonts/helper/global"
 import { Insumo } from "@/interfaces/InsumosInterface"
+import { toast } from "sonner"
 
 
 export const AgregarCompra = () => {
-  const { PostCompras } = useCompra()
+  const [loading, setLoading] = useState(false)
   const [productos, setProductos] = useState<Insumo[]>([])
   const [productoSeleccionado, setProductoSeleccionado] = useState<number>(0)
 
@@ -43,7 +43,9 @@ export const AgregarCompra = () => {
       comprobante: null
     },
     validationSchema: PostCompraSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      if (loading) return
+      setLoading(true)
       const newCompra = new FormData();
       newCompra.append("id_producto", Number(productoSeleccionado).toString());
       newCompra.append("cantidad", values.cantidad ? values.cantidad : '');
@@ -56,7 +58,27 @@ export const AgregarCompra = () => {
       if (values.comprobante) {
         newCompra.append('comprobante', values.comprobante as File); // Solo agregamos si imagen no es null
       }
-      PostCompras(newCompra)
+      try {
+        const response = await apiAuth.post('/compras', newCompra)
+        if (response.status === 401) {
+          window.location.href = '/login'
+          throw new Error("Unauthorized");
+        }
+        if (response.status !== 200) {
+          throw new Error('Error');
+        }
+        if (response.status === 200) {
+          toast.success('Compra Creada Correctamente!')
+          window.location.reload()
+        }
+      } catch (error) {
+        toast.error('Hubo un error añadiendo la compra')
+        console.log(error)
+        throw new Error('Error al crear la compra')
+      } finally {
+        setLoading(false)
+      }
+      // PostCompras(newCompra)
     }
   })
 

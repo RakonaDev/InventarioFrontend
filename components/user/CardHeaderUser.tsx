@@ -2,14 +2,13 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { FaSortDown, FaUser } from 'react-icons/fa6'
-import { useMe } from '../../hooks/useMe'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MdLogout } from "react-icons/md";
 import { useRouter } from 'next/navigation'
 import { apiURL } from '../../fonts/helper/global'
+import { Me } from '@/interfaces/MyInfoInterface'
 
-export const CardHeaderUser = () => {
-  const { me } = useMe()
+export const CardHeaderUser = ({ me }: { me: Me }) => {
   const router = useRouter()
   const [userMenu, setUserMenu] = useState(false)
   const menuHandler = () => {

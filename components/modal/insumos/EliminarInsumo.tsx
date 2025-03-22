@@ -3,17 +3,46 @@ import React from 'react'
 import { useAdmin } from '../../../context/AdminContext'
 import { useInsumos } from '../../../hooks/useInsumos'
 import DeletePerson from '../../../public/delete-person.webp'
+import { apiAuth } from '../../../fonts/helper/global'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import { AxiosError } from 'axios'
 
 export default function EliminarInsumo({ id }: { id: number }) {
   const { closeModal } = useAdmin()
   const { DeleteInsumo } = useInsumos()
+  const router = useRouter()
 
   const CancelAction = () => {
     closeModal()
   }
 
-  const EditAction = () => {
+  const EditAction = async () => {
     DeleteInsumo(id)
+    try {
+      const response = await apiAuth.post(`/deleteInsumos/${id}`);
+      if (response.status === 401) {
+        router.push('/login');
+        throw new Error("Unauthorized");
+      }
+      if (response.status !== 200) {
+        throw new Error('error');
+      }
+      if (response.status === 200) {
+        toast.success(response.data.message)
+        closeModal()
+        router.refresh()
+      }
+    } catch (error) {
+      console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.status === 401) {
+          router.push('/login')
+        }
+      }
+      toast.error('Hubo un error eliminando el producto');
+      throw error;
+    }
   }
 
   return (

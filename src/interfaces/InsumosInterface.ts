@@ -22,6 +22,8 @@ export type InsumoReturn = {
 
 export interface InsumosResponse {
   insumos: Insumo[];
+  totalPages: number;
+  currentPage: number;
 }
 
 export interface InsumosPaginate {

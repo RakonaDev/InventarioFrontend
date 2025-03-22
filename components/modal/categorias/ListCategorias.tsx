@@ -8,7 +8,7 @@ import { parseToLocalTime } from "../../../logic/parseToLocalTime";
 import { Dispatch, SetStateAction } from "react";
 
 export default function ListCategorias({ categorias, setCategorias }: { categorias: CategoriaInterface[], setCategorias: Dispatch<SetStateAction<CategoriaInterface[]>> }) {
-  const { closeModal, openModal, setModalContent } = useAdmin();
+  const { openModal, setModalContent } = useAdmin();
   const handeEditarCategoria = (categoria: CategoriaInterface) => {
     setModalContent(<EditarCategoria categoria={categoria} setCategorias={setCategorias} />);
     openModal();
