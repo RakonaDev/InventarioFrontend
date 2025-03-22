@@ -1,5 +1,5 @@
+import { TableTitle } from "@/interfaces/TableTitle";
 import React from "react";
-import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page";
 
 export const HeadTablePC = ({
   className,
