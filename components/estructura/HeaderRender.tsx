@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { LinkDinamic } from "../../logic/LinkDinamic"
 import { HiMenu } from "react-icons/hi"
 import { Me } from "@/interfaces/MyInfoInterface"
 import { Pagina } from "@/interfaces/MyInfoInterface";
+import { LinkDinamic } from "../LinkDinamic";
 
 export function SectionsRender({ me }: { me: Me }) {
   const [openMenu, setOpenMenu] = useState(false)

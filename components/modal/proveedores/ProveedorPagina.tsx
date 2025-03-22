@@ -7,9 +7,9 @@ import { HeadTablePC } from "../../dashboard/table/HeadTablePC";
 import { Pagination, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
 import AgregarProveedor from "./AgregarProveedor";
-import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page";
 import { useState } from "react";
 import ListProveedores from "./ListProveedores";
+import { TableTitle } from "@/interfaces/TableTitle";
 
 const ItemsProveedorTable: TableTitle[] = [
   { nombre: "ID Proveedor", className: "min-w-[100px] xl:col-span-2" },

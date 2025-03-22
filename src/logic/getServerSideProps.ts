@@ -14,11 +14,12 @@ export async function getServerSideProps(url: string) {
       },
     });
     
-    if (!res.ok) {
+    if (res.status === 401) {
       console.log("Algo pasó")
-      throw new Error('Error');
       redirect('/login')
-      return;
+    }
+    if (res.status !== 200) {
+      console.log("Algo pasó")
     }
     
     console.log("aqui renderizo")

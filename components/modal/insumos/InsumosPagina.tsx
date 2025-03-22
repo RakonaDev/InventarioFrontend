@@ -5,11 +5,11 @@ import { ButtonOpenModal } from "../../buttons/ButtonOpenModal"
 import { HeadTablePC } from "../../dashboard/table/HeadTablePC"
 import { Pagination, Stack } from "@mui/material"
 import { Insumo, InsumosResponse } from "@/interfaces/InsumosInterface"
-import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page"
 import { useRouter } from "next/navigation"
 import { AgregarInsumo } from "./AgregarInsumo"
 import { useState } from "react"
 import ListInsumos from "./ListInsumos"
+import { TableTitle } from "@/interfaces/TableTitle"
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "Código", className: "lg:col-span-1" },

@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Errors } from "../../form/Errors";
 import { InputForm } from "../../form/InputForm";
-import { usePaginas } from "../../../hooks/usePaginas";
 import { PaginasInterface } from "@/interfaces/PaginasInterface";
 import { toTitleCase } from "../../../logic/parseToTitle";
 import { AxiosError } from "axios";
@@ -12,7 +11,9 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function AgregarRol() {
-  const { paginas } = usePaginas()
+  
+  const [paginas, setPaginas] = useState<PaginasInterface[]>([])
+
   // logica para guardar los permisos
   const [selectedValues, setSelectedValues] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
@@ -95,6 +96,33 @@ export default function AgregarRol() {
       nombre: "",
     });
   }, [setValues]);
+
+  const getPaginas = async () => {
+    try {
+      const response = await apiAuth.get(`/paginas`)
+
+      if (response.status === 401) {
+        router.push('/login')
+      }
+      if (response.status !== 200) {
+        throw new Error('Error al obtener las paginas');
+      }
+      setPaginas(response.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 401) {
+          router.push('/login')
+        }
+      }
+      toast.error('Hubo un error al recibir las paginas')
+      console.log(error);
+      throw new Error('Error al obtener las paginas');
+    }
+  }
+
+  useEffect(() => {
+    getPaginas()
+  }, [])
 
   return (
     <form className="mx-auto p-6 " onSubmit={handleSubmit}>

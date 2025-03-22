@@ -19,7 +19,7 @@ export interface ListUserInterface {
 }
 
 export interface UsersResponse {
-  insumos: ListUserInterface[];
+  users: ListUserInterface[];
   currentPage: number;
   totalPages: number;
 }

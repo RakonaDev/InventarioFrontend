@@ -1,7 +1,6 @@
 'use client'
 
 import { Pagination, Stack } from "@mui/material";
-import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page";
 import { ButtonOpenModal } from "../../buttons/ButtonOpenModal";
 import { HeadTablePC } from "../../dashboard/table/HeadTablePC";
 import AgregarCategoria from "./AgregarCategoria";
@@ -10,6 +9,7 @@ import { CategoriaInterface, CategoriasResponse } from "@/interfaces/CategoriaIn
 import { useRouter } from "next/navigation";
 import ListCategorias from "./ListCategorias";
 import { useState } from "react";
+import { TableTitle } from "@/interfaces/TableTitle";
 
 const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "ID Categoría", className: "min-w-[100px] xl:col-span-2" },

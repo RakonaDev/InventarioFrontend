@@ -7,8 +7,8 @@ import { HeadTablePC } from "../../dashboard/table/HeadTablePC"
 import { Pagination, Stack } from "@mui/material"
 import { useRouter } from "next/navigation"
 import { AgregarSalida } from "./AgregarSalida"
-import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page"
 import ListaSalidas from "./ListaSalidas"
+import { TableTitle } from "@/interfaces/TableTitle"
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "ID Salida", className: "min-w-[100px] xl:col-span-2" },

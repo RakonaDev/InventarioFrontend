@@ -1,7 +1,6 @@
 'use client'
 import React from "react";
 import { useAdmin } from "../../../context/AdminContext";
-import { useRol } from "../../../hooks/useRol";
 import DeletePerson from '../../../public/delete-person.webp'
 import Image from "next/image";
 import { AxiosError } from "axios";
@@ -15,7 +14,6 @@ export type EliminarProps = {
 
 export default function EliminarRol(props: EliminarProps) {
   const { closeModal } = useAdmin();
-  const { DeleteRol } = useRol();
   const [loading, setLoading] = React.useState(false);
   const router = useRouter()
 
@@ -24,7 +22,6 @@ export default function EliminarRol(props: EliminarProps) {
   };
 
   const EditAction = async () => {
-    DeleteRol(props.id);
     if (loading) return
     setLoading(true)
     try {

@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
 import { useAdmin } from '../../../context/AdminContext'
-import { useInsumos } from '../../../hooks/useInsumos'
 import DeletePerson from '../../../public/delete-person.webp'
 import { apiAuth } from '../../../fonts/helper/global'
 import { toast } from 'sonner'
@@ -10,7 +9,8 @@ import { AxiosError } from 'axios'
 
 export default function EliminarInsumo({ id }: { id: number }) {
   const { closeModal } = useAdmin()
-  const { DeleteInsumo } = useInsumos()
+  const [loading, setLoading] = React.useState(false)
+  
   const router = useRouter()
 
   const CancelAction = () => {
@@ -18,7 +18,8 @@ export default function EliminarInsumo({ id }: { id: number }) {
   }
 
   const EditAction = async () => {
-    DeleteInsumo(id)
+    if (loading) return
+    setLoading(true)
     try {
       const response = await apiAuth.post(`/deleteInsumos/${id}`);
       if (response.status === 401) {
@@ -42,6 +43,8 @@ export default function EliminarInsumo({ id }: { id: number }) {
       }
       toast.error('Hubo un error eliminando el producto');
       throw error;
+    } finally {
+      setLoading(false)
     }
   }
 

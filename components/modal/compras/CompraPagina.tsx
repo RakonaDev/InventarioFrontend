@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { HeadTablePC } from "../../dashboard/table/HeadTablePC";
 import { ButtonOpenModal } from "../../buttons/ButtonOpenModal";
-import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page";
 import { AgregarCompra } from "./AgregarCompra";
 import ListCompras from "./ListCompras";
+import { TableTitle } from "@/interfaces/TableTitle";
 
 const ItemsInsumosTable: TableTitle[] = [
   { nombre: "ID Compra", className: "min-w-[100px] xl:col-span-1" },

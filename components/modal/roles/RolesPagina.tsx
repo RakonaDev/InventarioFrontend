@@ -2,7 +2,6 @@
 
 import { RolesResponse, RolInterface } from "@/interfaces/RolInterface";
 import { useState } from "react";
-import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page";
 import { motion } from "framer-motion";
 import { ButtonOpenModal } from "../../buttons/ButtonOpenModal";
 import AgregarRol from "./AgregarRol";
@@ -10,6 +9,7 @@ import { HeadTablePC } from "../../dashboard/table/HeadTablePC";
 import { Pagination, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
 import ListRoles from "./ListaRoles";
+import { TableTitle } from "@/interfaces/TableTitle";
 
 const ItemsRolesTable: TableTitle[] = [
   { nombre: "ID Rol", className: "min-w-[100px] xl:col-span-2" },

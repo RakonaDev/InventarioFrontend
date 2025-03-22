@@ -1,20 +1,21 @@
 "use client";
 import { RolInterface } from "@/interfaces/RolInterface";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { Errors } from "../../form/Errors";
 import { InputForm } from "../../form/InputForm";
 import { EditarRolSchema } from "@/schemas/RolSchemas";
-import { usePaginas } from "../../../hooks/usePaginas";
 import { PaginasInterface } from "@/interfaces/PaginasInterface";
 import { toTitleCase } from "../../../logic/parseToTitle";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { apiAuth } from "../../../fonts/helper/global";
 import { useAdmin } from "../../../context/AdminContext";
+import { useRouter } from "next/navigation";
 
 export default function EditarRoles({ rol, setRoles }: { rol: RolInterface, setRoles: React.Dispatch<React.SetStateAction<RolInterface[]>> }) {
-  const { paginas } = usePaginas()
+  const router = useRouter()
+  const [paginas, setPaginas] = useState<PaginasInterface[]>([])
   const [id] = useState(rol.id);
   const { closeModal } = useAdmin()
   const Id_arrays: number[] = []
@@ -69,6 +70,34 @@ export default function EditarRoles({ rol, setRoles }: { rol: RolInterface, setR
       isChecked ? [...prev, value] : prev.filter((item) => item !== value)
     );
   };
+
+  const getPaginas = async () => {
+    try {
+      const response = await apiAuth.get(`/paginas`)
+
+      if (response.status === 401) {
+        router.push('/login')
+      }
+      if (response.status !== 200) {
+        throw new Error('Error al obtener las paginas');
+      }
+      setPaginas(response.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 401) {
+          router.push('/login')
+        }
+      }
+      toast.error('Hubo un error al recibir las paginas')
+      console.log(error);
+      throw new Error('Error al obtener las paginas');
+    }
+  }
+
+  useEffect(() => {
+    getPaginas()
+  }, [])
+
   return (
     <form className="mx-auto p-6 " onSubmit={handleSubmit}>
       <h2 className="text-2xl font-semibold text-center mb-6">Editar Rol</h2>

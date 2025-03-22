@@ -4,17 +4,41 @@ import { ListUserInterface } from "@/interfaces/ListUserInterface";
 import { useFormik } from "formik";
 import { EditUserSchema } from "@/schemas/AuthSchemas";
 import { Errors } from "../../form/Errors";
-import { useUsers } from "../../../hooks/useUsers";
-import { useEstado } from "../../../hooks/useEstado";
-import { useRol } from "../../../hooks/useRol";
-import { EstadoInterface } from "@/interfaces/EstadoInterface";
 import { RolInterface } from "@/interfaces/RolInterface";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import { apiAuth } from "../../../fonts/helper/global";
+import { useAdmin } from "../../../context/AdminContext";
 
-export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
+export const EditarUsuario = ({ usuario, setUsuarios }: { usuario: ListUserInterface, setUsuarios: React.Dispatch<React.SetStateAction<ListUserInterface[]>> }) => {
   const [id] = useState(usuario.id)
-  const { EditarUser } = useUsers()
-  const { estados } = useEstado()
-  const { rolesData } = useRol()
+  const { closeModal } = useAdmin()
+  const [roles, setRoles] = useState<RolInterface[]>([])
+
+  const getRoles = async () => {
+    try {
+      const response = await apiAuth.get(`/roles`)
+
+      if (response.status === 401) {
+        window.location.href = '/login'
+      }
+      if (response.status !== 200) {
+        throw new Error('Error al obtener los roles');
+      }
+      setRoles(response.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 401) {
+          window.location.href = '/login'
+        }
+      }
+      toast.error('Hubo un error al recibir los roles')
+      console.log(error);
+      throw new Error('Error al obtener los roles');
+    }
+  }
+
+  const [loading, setLoading] = useState(false)
   const {
     handleSubmit,
     handleChange,
@@ -38,18 +62,49 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
     },
     validationSchema: EditUserSchema,
     onSubmit: async (values) => {
-      EditarUser({
-        age: values.edad,
-        dni: values.dni,
-        email: values.email,
-        id_estado: values.id_estado,
-        id_roles: values.id_roles,
-        last_names: values.apellidos,
-        names: values.nombres,
-        password: values.contrasena,
-        tel: values.celular,
-        id: id
-      })
+      if (loading) return
+      setLoading(true)
+      try {
+        const updatedUser = {
+          age: values.edad,
+          dni: values.dni,
+          email: values.email,
+          id_estado: 1,
+          id_roles: values.id_roles,
+          last_names: values.apellidos,
+          names: values.nombres,
+          password: values.contrasena,
+          tel: values.celular,
+          id: id
+        }
+        // const response = await apiAuth.patch('/user', updatedUser)
+        const response = await apiAuth.post('/user', updatedUser)
+        if (response.status === 401) {
+          window.location.href = '/login'
+        }
+        if (response.status !== 200) {
+          throw new Error('error')
+        }
+        if (response.status === 200) {
+          setLoading(false)
+          toast.success('Usuario Actualizado Correctamente!')
+          setUsuarios(prevState => prevState.map((user: ListUserInterface) =>
+            user.id === updatedUser.id ? response.data.user : user
+          ))
+          closeModal()
+        }
+
+        return response.data
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.status === 401) {
+            window.location.href = '/login'
+          }
+        }
+        console.log(error)
+        toast.error('Hubo un error actualizando el usuario')
+        throw new Error('Error al actualizar el usuario')
+      }
     },
   });
 
@@ -76,6 +131,11 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
       contrasena: ''
     });
   }, [setValues, usuario]);
+
+  useEffect(() => {
+    getRoles()
+  }, [])
+
   return (
     <form className="mx-auto p-6 " onSubmit={handleSubmit}>
       <h2 className="text-2xl font-semibold text-center mb-6">
@@ -186,30 +246,8 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
         </div>
 
         <div className="w-full flex flex-col lg:flex-row gap-4">
-          <div className="w-full lg:w-1/2">
-            <div className="mb-4">
-              <label htmlFor="estado" className="block text-sm text-black-900">
-                Estado
-              </label>
-              <select
-                id="estado"
-                name="id_estado"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.id_estado}
-                className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
-              >
-                {
-                  estados?.map((estado: EstadoInterface) => {
-                    return (
-                      <option value={estado.id} key={estado.id}>{ estado.nombre }</option>
-                    )
-                  })
-                }
-              </select>
-              <Errors errors={errors.id_estado} touched={touched.id_estado} />
-            </div>
-          </div>
+
+
           <div className="w-full lg:w-1/2">
             <div className="mb-4">
               <label htmlFor="rol" className="block text-sm text-black-900">
@@ -224,9 +262,9 @@ export const EditarUsuario = ({ usuario }: { usuario: ListUserInterface }) => {
                 className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
               >
                 {
-                  rolesData?.roles?.map((rol: RolInterface) => {
+                  roles?.map((rol: RolInterface) => {
                     return (
-                      <option value={rol.id} key={rol.id} > { rol.name } </option>
+                      <option value={rol.id} key={rol.id} > {rol.name} </option>
                     )
                   })
                 }

@@ -182,12 +182,12 @@ export const EditarInsumo = ({ insumo, setInsumos }: { insumo: Insumo, setInsumo
       </div>
       <div className="w-full flex flex-col lg:flex-row gap-4">
         <div className="w-full lg:w-1/2">
-          <label htmlFor="categoria" className="block text-sm text-black-900">
+          <label htmlFor="id_categoria" className="block text-sm text-black-900">
             Categoría
           </label>
           <select
-            id="categoria"
-            name="categoria"
+            id="id_categoria"
+            name="id_categoria"
             value={values.id_categoria}
             onChange={handleChange}
             className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
