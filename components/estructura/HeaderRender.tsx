@@ -4,9 +4,7 @@ import { useEffect, useState } from "react"
 import { LinkDinamic } from "../../logic/LinkDinamic"
 import { HiMenu } from "react-icons/hi"
 import { Me } from "@/interfaces/MyInfoInterface"
-import Link from "next/link"
 import { Pagina } from "@/interfaces/MyInfoInterface";
-import { FaArrowRightArrowLeft } from "react-icons/fa6"
 
 export function SectionsRender({ me }: { me: Me }) {
   const [openMenu, setOpenMenu] = useState(false)
@@ -39,17 +37,6 @@ export function SectionsRender({ me }: { me: Me }) {
             return LinkDinamic(pagina.nombre || '')
           })
         }
-        <li>
-          <Link
-            href={"/dashboard/movimientos"}
-            className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
-          >
-            <span className="text-2xl">
-              <FaArrowRightArrowLeft />
-            </span>
-            <p className="text-lg font-bold">Movimientos</p>
-          </Link>
-        </li>
       </ul>
     </div>
   )

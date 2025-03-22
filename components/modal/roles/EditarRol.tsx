@@ -36,7 +36,7 @@ export default function EditarRoles({ rol, setRoles }: { rol: RolInterface, setR
         }
         try {
           // const response = await apiAuth.patch('/roles', updatedRol)
-          const response = await apiAuth.post('/roles', updatedRol)
+          const response = await apiAuth.post(`/roles/${id}`, updatedRol)
           if (response.status === 401) {
             window.location.href = '/login'
           }

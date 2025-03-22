@@ -3,20 +3,25 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Errors } from "../../form/Errors";
 import { InputForm } from "../../form/InputForm";
-import { useRol } from "../../../hooks/useRol";
 import { usePaginas } from "../../../hooks/usePaginas";
 import { PaginasInterface } from "@/interfaces/PaginasInterface";
 import { toTitleCase } from "../../../logic/parseToTitle";
+import { AxiosError } from "axios";
+import { apiAuth } from "../../../fonts/helper/global";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function AgregarRol() {
-  const { PostRol } = useRol()
   const { paginas } = usePaginas()
   // logica para guardar los permisos
   const [selectedValues, setSelectedValues] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter()
+
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value); // Convertir a número
     const isChecked = event.target.checked;
-    
+
     setSelectedValues((prev) =>
       isChecked ? [...prev, value] : prev.filter((item) => item !== value)
     );
@@ -36,10 +41,42 @@ export default function AgregarRol() {
       nombre: "",
     },
     onSubmit: async (values) => {
-      PostRol({
+      if (loading) return
+      setLoading(true)
+      const newRol = {
         name: values.nombre,
         paginas: selectedValues
-      })
+      }
+      try {
+
+        const response = await apiAuth.post('/roles', newRol, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if (response.status === 401) {
+          router.push('/login')
+        }
+        if (response.status !== 200) {
+          throw new Error('error')
+        }
+        if (response.status === 200) {
+          toast.success('Rol Creado Correctamente')
+          window.location.reload()
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.status === 401) {
+            router.push('/login')
+          }
+        }
+        toast.error('Hubo un error creando el rol')
+        console.log(error);
+        throw new Error('Error al crear el rol');
+      } finally {
+        setLoading(false)
+      }
     },
   });
 
@@ -83,7 +120,7 @@ export default function AgregarRol() {
               paginas?.map((pagina: PaginasInterface, index: number) => {
                 return (
                   <div className="flex flex-wrap gap-2" key={index}>
-                    <input type="checkbox" name="seccion" id={pagina.nombre} value={pagina.id} checked={selectedValues.includes(pagina.id)} onChange={handleCheckboxChange} className="w-6"/>
+                    <input type="checkbox" name="seccion" id={pagina.nombre} value={pagina.id} checked={selectedValues.includes(pagina.id)} onChange={handleCheckboxChange} className="w-6" />
                     <label htmlFor={pagina.nombre}>{toTitleCase(pagina.nombre)}</label>
                   </div>
                 )
