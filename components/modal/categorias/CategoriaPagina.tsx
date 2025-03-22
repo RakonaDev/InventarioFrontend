@@ -1,14 +1,15 @@
 'use client'
-import React from 'react'
-import { type TableTitle } from '../usuarios/page';
-import { motion } from 'framer-motion';
-import { ButtonOpenModal } from '../../../../components/buttons/ButtonOpenModal';
-import { HeadTablePC } from '../../../../components/dashboard/table/HeadTablePC';
-// import ListCategorias from '../../../../components/dashboard/table/categorias/ListCategorias';
-import AgregarCategoria from '../../../../components/modal/categorias/AgregarCategoria';
-import { Pagination, Stack } from '@mui/material';
-import { useCategoria } from '../../../../hooks/useCategoria';
-import { useCategoryStore } from '../../../../store/CategoryStore';
+
+import { Pagination, Stack } from "@mui/material";
+import { TableTitle } from "../../../app/(admin)/dashboard/usuarios/page";
+import { ButtonOpenModal } from "../../buttons/ButtonOpenModal";
+import { HeadTablePC } from "../../dashboard/table/HeadTablePC";
+import AgregarCategoria from "./AgregarCategoria";
+import { motion } from "framer-motion"
+import { CategoriaInterface, CategoriasResponse } from "@/interfaces/CategoriaInterface";
+import { useRouter } from "next/navigation";
+import ListCategorias from "./ListCategorias";
+import { useState } from "react";
 
 const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "ID Categoría", className: "min-w-[100px] xl:col-span-2" },
@@ -17,9 +18,13 @@ const ItemsTipoInsumoTable: TableTitle[] = [
   { nombre: "Fecha de Actualización", className: "min-w-[200px] xl:col-span-3" },
 ];
 
-export default function CategoriasPage() {
-  const { nextPage, totalPages, RenderListCategories } = useCategoria()
-  const { currentPage } = useCategoryStore()
+export function CategoriaPagina ({ categoriasData }: { categoriasData: CategoriasResponse }) {
+  const router = useRouter()
+  const [categorias, setCategorias] = useState<CategoriaInterface[]>(categoriasData.categorias)
+  function nextPage(event: React.ChangeEvent<unknown>, value: number) {
+    router.push(`/dashboard/categorias/${value}`)
+  } 
+
   return (
     <>
       <div className="w-full mt-10 flex items-center mb-6 justify-between">
@@ -41,11 +46,11 @@ export default function CategoriasPage() {
         />
 
         <div className='w-full min-h-[45dvh] bg-white-main'>
-          <RenderListCategories />
+          <ListCategorias categorias={categorias} setCategorias={setCategorias} />
         </div>
         <div className='w-full flex justify-center pt-5'>
           <Stack spacing={2}>
-            <Pagination count={totalPages} page={currentPage} onChange={nextPage} />
+            <Pagination count={categoriasData.totalPages} page={categoriasData.currentPage} onChange={nextPage} />
           </Stack>
         </div>
       </div>

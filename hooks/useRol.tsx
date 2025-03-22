@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiAuth } from "../fonts/helper/global";
-import { RolesResponse, RolInterface, RolResponse } from "@/interfaces/RolInterface";
+import { RolCrearInterface, RolesResponse, RolInterface, RolResponse } from "@/interfaces/RolInterface";
 import { useAdmin } from "../context/AdminContext";
 import { toast } from "sonner";
 import { useUsers } from "./useUsers";
@@ -45,7 +45,7 @@ const postRol = async (newRol: RolInterface): Promise<RolResponse> => {
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    return response.data.roles;
+    return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
       if (error.status === 401) {
@@ -65,7 +65,7 @@ const patchRol = async (updatedRol: RolInterface): Promise<RolResponse> => {
     if (response.status === 401) {
       window.location.href = '/login'
     }
-    return response.data.roles
+    return response.data
   } catch (error) {
     if (error instanceof AxiosError) {
       if (error.status === 401) {
@@ -87,7 +87,7 @@ const deleteRol = async (id: number): Promise<RolResponse> => {
       window.location.href = '/login'
     }
 
-    return response.data.roles
+    return response.data
   }
   catch (error) {
     if (error instanceof AxiosError) {
@@ -118,7 +118,7 @@ export function useRol() {
     mutationFn: postRol,
     onSuccess: async (newRol) => {
       if (!newRol) return
-      await query.setQueryData<RolesResponse>(['roles', currentPage], (oldRoles) => {
+      query.setQueryData<RolesResponse>(['roles', currentPage], (oldRoles) => {
         if (oldRoles == null) return {
           roles: [newRol.roles],
           currentPage: currentPage,
@@ -141,6 +141,8 @@ export function useRol() {
         } else if (currentPage === 1) {
           newRoles.roles.push(newRol.roles)
         }
+        console.log(newRoles)
+        return newRoles
       });
       toast.success('Rol Creado Correctamente!')
       closeModal();
@@ -183,6 +185,7 @@ export function useRol() {
         queryKey: ['roles', currentPage]
       })
       closeModal()
+      toast.success('Se logró eliminar correctamente')
       ActualizarInfoUsuarios()
     }
   })

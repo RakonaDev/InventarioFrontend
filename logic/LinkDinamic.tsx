@@ -14,7 +14,7 @@ export function LinkDinamic(name: string) {
     return (
       <li key={name}>
         <Link
-          href={"/dashboard/usuarios"}
+          href={"/dashboard/usuarios/1"}
           className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 hover:text-black-main transition-colors duration-500 text-white-main"
         >
           <span className="text-2xl">
@@ -29,7 +29,7 @@ export function LinkDinamic(name: string) {
     return (
       <li key={name}>
         <Link
-          href={"/dashboard/insumos"}
+          href={"/dashboard/insumos/1"}
           className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
         >
           <span className="text-2xl">
@@ -44,7 +44,7 @@ export function LinkDinamic(name: string) {
     return (
       <li key={name}>
         <Link
-          href={"/dashboard/roles"}
+          href={"/dashboard/roles/1"}
           className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
         >
           <span className="text-2xl">
@@ -59,7 +59,7 @@ export function LinkDinamic(name: string) {
     return (
       <li key={name}>
         <Link
-          href={"/dashboard/categorias"}
+          href={"/dashboard/categorias/1"}
           className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
         >
           <span className="text-2xl">
@@ -74,7 +74,7 @@ export function LinkDinamic(name: string) {
     return (
       <li key={name}>
         <Link
-          href={"/dashboard/proveedores"}
+          href={"/dashboard/proveedores/1"}
           className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
         >
           <span className="text-2xl">
@@ -89,7 +89,7 @@ export function LinkDinamic(name: string) {
     return (
       <li key={name}>
         <Link
-          href={"/dashboard/compras"}
+          href={"/dashboard/compras/1"}
           className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
         >
           <span className="text-2xl">
@@ -104,7 +104,7 @@ export function LinkDinamic(name: string) {
     return (
       <li key={name}>
         <Link
-          href={"/dashboard/salidas"}
+          href={"/dashboard/salidas/1"}
           className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
         >
           <span className="text-2xl">
@@ -119,7 +119,7 @@ export function LinkDinamic(name: string) {
     return (
       <li key={name}>
         <Link
-          href={"/dashboard/movimientos"}
+          href={"/dashboard/movimientos/1"}
           className="w-full flex items-center gap-3 px-12 py-4 hover:bg-gray-600 transition-colors duration-500 text-white-main"
         >
           <span className="text-2xl">

@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { InputForm } from '../../form/InputForm';
 import { useFormik } from 'formik';
 import { CategoriaInterface } from '@/interfaces/CategoriaInterface';
 import { Errors } from '../../form/Errors';
 import { useCategoria } from '../../../hooks/useCategoria';
 import { EditCategorySchema } from '@/schemas/CategoriaSchema';
+import { apiAuth } from '../../../fonts/helper/global';
+import { toast } from 'sonner';
+import { useAdmin } from '../../../context/AdminContext';
 
-export default function EditarCategoria({ categoria }: { categoria: CategoriaInterface }) {
+export default function EditarCategoria({ categoria, setCategorias }: { categoria: CategoriaInterface, setCategorias: Dispatch<SetStateAction<CategoriaInterface[]>> }) {
   const [id] = useState(categoria.id);
-  console.log(categoria)
-  const { EditarCategorias } = useCategoria();
+  const { closeModal } = useAdmin()
   const { handleBlur, handleChange, handleSubmit, errors, values, touched } =
     useFormik({
       initialValues: {
@@ -18,11 +20,38 @@ export default function EditarCategoria({ categoria }: { categoria: CategoriaInt
       },
       validationSchema: EditCategorySchema,
       onSubmit: async (values) => {
+        /*
         EditarCategorias({
           id,
           nombre: values.name,
           descripcion: values.descripcion,
         });
+        */
+        const updatedCategorias = {
+          id,
+          nombre: values.name,
+          descripcion: values.descripcion
+        }
+        try {
+          const response = await apiAuth.post(`/categorias/${updatedCategorias.id}`, updatedCategorias);
+          if (response.status === 401) {
+            window.location.href = '/login';
+            throw new Error("Unauthorized");
+          }
+          if (response.status !== 200) {
+            throw new Error('error');
+          }
+          if (response.status === 200) {
+            closeModal()
+            setCategorias(prevState => prevState.map((state) => state.id === response.data.categorias.id ? response.data.categorias : state))
+            toast.success(response.data.message)
+          }
+          categoria = response.data.categorias          
+        } catch (error) {
+          console.error(error);
+          toast.error('Error al actualizar la categoria');
+          throw error;
+        }
       },
     });
   return (
