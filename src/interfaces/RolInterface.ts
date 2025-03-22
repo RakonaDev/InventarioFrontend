@@ -9,6 +9,13 @@ export interface RolInterface {
   updated_at?: Date
 }
 
+export interface PostRolInterface {
+  name: string
+  paginas: {
+    id: number
+  }[]
+}
+
 export interface RolesResponse {
   roles: RolInterface[];
   currentPage: number;

@@ -36,7 +36,11 @@ const fetchRoles = async (page: number): Promise<RolesResponse> => {
 const postRol = async (newRol: RolInterface): Promise<RolResponse> => {
   try {
 
-    const response = await apiAuth.post('/roles', newRol)
+    const response = await apiAuth.post('/roles', newRol, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
 
     if (response.status === 401) {
       window.location.href = '/login'

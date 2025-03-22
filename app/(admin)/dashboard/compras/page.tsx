@@ -20,7 +20,7 @@ const ItemsInsumosTable: TableTitle[] = [
 ];
 
 export default function ComprasPage() {
-  const { totalPages, nextPage, RenderListCompras } = useCompra()
+  const { nextPage, RenderListCompras, comprasData } = useCompra()
   const { currentPage } = useComprasStore()
   return (
     <>
@@ -47,7 +47,7 @@ export default function ComprasPage() {
         </div>
         <div className='w-full flex justify-center pt-5'>
           <Stack spacing={2}>
-            <Pagination count={totalPages} page={currentPage} onChange={nextPage} />
+            <Pagination count={comprasData?.totalPages} page={currentPage} onChange={nextPage} />
           </Stack>
         </div>
       </div>

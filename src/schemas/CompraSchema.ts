@@ -1,10 +1,6 @@
 import * as Yup from 'yup';
 
 export const PostCompraSchema = Yup.object().shape({
-  id_producto: Yup.string()
-    .required("El código del producto es obligatorio")
-    .min(1, "El código del producto debe tener al menos 1 caracter")
-    .max(50, "El código del producto no puede tener más de 50 caracteres"),
   cantidad: Yup.number()
     .required("La cantidad es obligatoria")
     .positive("La cantidad debe ser un número positivo")

@@ -3,9 +3,30 @@ import { InputForm } from "../../form/InputForm"
 import { Errors } from "../../form/Errors"
 import { useCompra } from "../../../hooks/useCompra"
 import { PostCompraSchema } from "@/schemas/CompraSchema"
+import { formatearFechaParaInputDate } from "../../../logic/parseDateToInput"
+import { useEffect, useState } from "react"
+import { apiAuth } from "../../../fonts/helper/global"
+import { Insumo } from "@/interfaces/InsumosInterface"
+
 
 export const AgregarCompra = () => {
   const { PostCompras } = useCompra()
+  const [productos, setProductos] = useState<Insumo[]>([])
+  const [productoSeleccionado, setProductoSeleccionado] = useState<number>(0)
+
+  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value, name } = e.target
+    if (name === 'id_producto') {
+      setProductoSeleccionado(Number(value))
+    }
+  }
+
+  async function getProductos() {
+    const response = await apiAuth.get('/insumos')
+
+    setProductos(response.data)
+  }
+
   const {
     handleSubmit,
     handleChange,
@@ -16,17 +37,16 @@ export const AgregarCompra = () => {
     values,
   } = useFormik({
     initialValues: {
-      id_producto: '',
       cantidad: '',
-      fecha_creacion: '',
-      fecha_vencimiento: '',
+      fecha_creacion: formatearFechaParaInputDate(new Date().toISOString()),
+      fecha_vencimiento: formatearFechaParaInputDate(new Date().toISOString()),
       comprobante: null
     },
     validationSchema: PostCompraSchema,
     onSubmit: (values) => {
       const newCompra = new FormData();
-      newCompra.append("id_producto", Number(values.id_producto).toString());
-      newCompra.append("cantidad", values.cantidad ? values.cantidad : '' );
+      newCompra.append("id_producto", Number(productoSeleccionado).toString());
+      newCompra.append("cantidad", values.cantidad ? values.cantidad : '');
       if (values.fecha_creacion) {
         newCompra.append("fecha_creacion", String(values.fecha_creacion));
       }
@@ -39,23 +59,34 @@ export const AgregarCompra = () => {
       PostCompras(newCompra)
     }
   })
+
+  useEffect(() => {
+    getProductos()
+  }, [])
+
   return (
     <form className="space-y-6 p-4" onSubmit={handleSubmit}>
       <h1 className="text-2xl font-semibold text-center mb-6">Agregar Compra</h1>
       <div className="w-full space-y-3">
         <section className="w-full flex flex-col lg:flex-row gap-4 ">
           <div className="w-full lg:w-1/2">
-            <InputForm
+            <label htmlFor="id_producto" className="block text-sm text-black-900">
+              Insumo
+            </label>
+            <select
               id="id_producto"
-              label="Codigo del Producto"
               name="id_producto"
-              placeholder="Escribe el codigo del producto"
-              type="text"
-              value={values.id_producto}
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-            <Errors errors={errors.id_producto} touched={touched.id_producto} />
+              className="mt-1 block w-full px-4 py-2.5 border-2 rounded-main shadow-sm focus:outline-none focus:border-secundario-300"
+              value={productoSeleccionado}
+              onChange={handleChangeSelect}
+            >
+              <option value={0} disabled>Seleccione el Insumo</option>
+              {
+                productos?.map((item) => (
+                  <option value={item.id} key={item.id}>{item.nombre}</option>
+                ))
+              }
+            </select>
           </div>
           <div className="w-full lg:w-1/2">
             <InputForm
@@ -79,7 +110,7 @@ export const AgregarCompra = () => {
               name="fecha_creacion"
               label="Fecha de Creación"
               placeholder="Elige la fecha"
-              value={values.fecha_creacion}
+              value={formatearFechaParaInputDate(values.fecha_creacion)}
               onBlur={handleBlur}
               onChange={handleChange}
             />
@@ -91,7 +122,7 @@ export const AgregarCompra = () => {
               name="fecha_vencimiento"
               label="Fecha de vencimiento"
               placeholder="Elige la fecha"
-              value={values.fecha_vencimiento}
+              value={formatearFechaParaInputDate(values.fecha_vencimiento)}
               onBlur={handleBlur}
               onChange={handleChange}
             />
